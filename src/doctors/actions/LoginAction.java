@@ -16,9 +16,8 @@ public class LoginAction extends Action implements IValidatable {
 
 
 	@Override
-	public void execute() throws ServletException, IOException {
+	public String execute() throws ServletException, IOException {
 		// Create the user DAO
-		String errorMessage="";
 		User u=null;
 		
 		try {
@@ -28,23 +27,21 @@ public class LoginAction extends Action implements IValidatable {
 	    	if(u!=null) {
 	    		if(u.getPassword().equals(getStringField("password"))) {
 	    			req.getSession().setAttribute("user", u);
-	    			showPage("/index.jsp", null, null);
-	    			return;
+	    			return "/index.jsp";
 	    		} else {
-	    			errorMessage = errorMessage + "Λάθος στοιχεία! Δοκιμάστε ξανά...<br/>";
+	    			message = message + "Λάθος στοιχεία! Δοκιμάστε ξανά...<br/>";
 	    		}
 	    	} else {
-	    		errorMessage = errorMessage + "Λάθος στοιχεία! Δοκιμάστε ξανά...<br/>";
+	    		message = message + "Λάθος στοιχεία! Δοκιμάστε ξανά...<br/>";
 	    	}
 			
 		} catch (Exception e) {
-			errorMessage = e.getMessage() + "<br/>";
+			message = e.getMessage() + "<br/>";
 		}
 		
-		if(!errorMessage.isEmpty())
-			showPage("/login.jsp", errorMessage, u);
-		
-
+		// if I am here, some error occured, so go back to login.jsp
+		return "/login.jsp";
+	
 	}
 
 	@Override

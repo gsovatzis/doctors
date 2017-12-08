@@ -10,13 +10,13 @@ import doctors.framework.Action;
 public class LogoutAction extends Action {
 
 	@Override
-	public void execute() throws ServletException, IOException {
+	public String execute() throws ServletException, IOException {
 		// Invalidate session
 		
 		// Redirect to index
 		session.invalidate();
 		
-		
+		return "/logout.jsp";	// This is the page where we will be transfered next...
 
 	}
 

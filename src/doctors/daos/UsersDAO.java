@@ -18,10 +18,6 @@ public class UsersDAO extends DBHandler<User> {
 	}
 
 
-	public List<User> getUsers() { //μέθοδος που θα μου επιστρέφει την λίστα με όλους τους users θα την χρειαστώ στις επόμενες μεθόδους μου //
-    	return null;
-    }
-
 
     public User findUser(String username) { //μεθοδος που θα μου επιστρέφει τον user με βάση το username του//
     	
@@ -57,11 +53,8 @@ public class UsersDAO extends DBHandler<User> {
     }
         
 
-    public void authenticateRegistration(String firstname , String lastname , String address , City city , String landline , String mobile , String Fax ,String email ,String password ,String password_2) {
-
-    //Αυτή η μέθοδος θα χρησιμοποιηθει απο την registercontroller και θα ελενγχει αν τα στοιχεια της εγγραφης ειναι εγκυρα σύμφωνα με τις προυποθέσεις των σετερς που ορίσαμε στην κλάση User
-
-    }
+    
+    
 
     //Σκέφτομαι να βάλω μια μέθοδο η οποία θα πραγματοποιεί στην ουσία την ενέργεια επισκόπηση του τρέχοντος ραντεβού μου θα τρέχει ολους τους
     //Users και θα γυρναει τα ραντεβου εκεινου του οποιου το id ταιριαζει με την παραμετρο
@@ -71,6 +64,9 @@ public class UsersDAO extends DBHandler<User> {
 
      }*/
 
+
+
+//Αυτή η μέθοδος θα χρησιμοποιηθει απο την registercontroller και θα ελενγχει αν τα στοιχεια της εγγραφης ειναι εγκυρα σύμφωνα με τις προυποθέσεις των σετερς που ορίσαμε στην κλάση User
 
 	@Override
 	public void Create(User entity) throws SQLException {

@@ -19,6 +19,8 @@ import doctors.exceptions.InvalidFieldException;
 public abstract class Action extends HttpServlet {
 
 	protected String returnUrl="";
+	protected String message="";	// The action message to be returned to the page (it can be an error, or info message)
+	protected Object myEntity="";
 	
 	protected final String dbErrorMsg = "Δεν μπόρεσα να συνδεθώ στη βάση δεδομένων!<br/>";
 	
@@ -27,16 +29,7 @@ public abstract class Action extends HttpServlet {
 	protected HttpSession session;
 	protected ServletContext application;
 	
-	protected boolean actionError = false;	// Flag indicated if action has ended with error!
-	protected String errorMessage = "";		// The action error message
-	
-	protected void connectDb() {
-		
-		// Initialize the error-message and actionError flag before doing anything!
-		if(!errorMessage.equals(dbErrorMsg)) {
-			errorMessage = "";	
-			actionError = false;
-		}
+	protected String connectDb() {
 		
 		// Get connection configuration from web.xml
 		String dbURL = application.getInitParameter("dburl");
@@ -46,14 +39,16 @@ public abstract class Action extends HttpServlet {
 		if(DBManager.getInstance().getConnection()==null) {
 			try {
 				DBManager.getInstance().openConnection(dbURL, dbUser, dbPass);
+				return "";
 			} catch (SQLException ex) {
-				errorMessage = dbErrorMsg;
-				actionError = true;
+				return ex.getMessage();
 			}
 		}
+		
+		return "";
 	}
 		
-	public abstract void execute() throws ServletException, IOException;	// Every application action must implement the execute method!
+	public abstract String execute() throws ServletException, IOException;	// Every application action must implement the execute method!
 	
 	public abstract String validate(HttpServletRequest req);	// Every application action must implement the validate method!
 
@@ -67,12 +62,12 @@ public abstract class Action extends HttpServlet {
 		this.session = req.getSession();
 		this.application = getServletContext();
 		
-		connectDb();			// Connect to the database
+		connectDb();			// Connect to the database -> TODO: If error on connection, redirect to error Page
 		
 		if(this instanceof IAuthorizable) {
 			if(!authorized()) {	// Check if user is authorized (logged-in)
-				String errorMessage = "Δεν είστε συνδεδεμένος. Παρακαλώ κάντε login.";
-				showPage("/login.jsp", errorMessage, null);
+				this.message = "Δεν είστε συνδεδεμένος. Παρακαλώ κάντε login.";
+				showPage("/login.jsp", message, null);
 				return;
 			}
 		}
@@ -84,11 +79,10 @@ public abstract class Action extends HttpServlet {
 				showPage(returnUrl, validationErrors, null);
 				return;
 			} else {
-				execute();		// If no validation errors, execute the action
+				showPage(execute(), null, null);		// If no validation errors, execute the action
 			}
 		} else {
-			execute();	// If no validation required, just execute the specified action
-			
+			showPage(execute(), null, null);	// If no validation required, just execute the specified action
 		}
 				
 	}
