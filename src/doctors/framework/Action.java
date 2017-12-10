@@ -79,10 +79,10 @@ public abstract class Action extends HttpServlet {
 				showPage(returnUrl, validationErrors, null);
 				return;
 			} else {
-				showPage(execute(), null, null);		// If no validation errors, execute the action
+				showPage(execute(), message, null);		// If no validation errors, execute the action
 			}
 		} else {
-			showPage(execute(), null, null);	// If no validation required, just execute the specified action
+			showPage(execute(), message, null);	// If no validation required, just execute the specified action
 		}
 				
 	}

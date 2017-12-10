@@ -26,17 +26,18 @@ public class LoginAction extends Action implements IValidatable {
 			u = ud.findUser(getStringField("email"));
 	    	if(u!=null) {
 	    		if(u.getPassword().equals(getStringField("password"))) {
-	    			req.getSession().setAttribute("user", u);
+	    			// THIS SETS A GLOBAL "user" SESSION VARIABLE FOR ALL PAGES
+	    			req.getSession().setAttribute("user", u);	
 	    			return "/index.jsp";
 	    		} else {
-	    			message = message + "Λάθος στοιχεία! Δοκιμάστε ξανά...<br/>";
+	    			message = "Λάθος στοιχεία! Δοκιμάστε ξανά...";
 	    		}
 	    	} else {
-	    		message = message + "Λάθος στοιχεία! Δοκιμάστε ξανά...<br/>";
+	    		message = "Λάθος στοιχεία! Δοκιμάστε ξανά...";
 	    	}
 			
 		} catch (Exception e) {
-			message = e.getMessage() + "<br/>";
+			message = e.getMessage();
 		}
 		
 		// if I am here, some error occured, so go back to login.jsp
