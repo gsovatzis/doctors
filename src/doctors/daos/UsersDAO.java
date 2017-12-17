@@ -2,6 +2,7 @@ package doctors.daos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import doctors.entities.User;
 import doctors.exceptions.DBManagerException;
@@ -111,7 +112,38 @@ public class UsersDAO extends DBHandler<User> {
 	@Override
 	public List<User> GetAll() throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+		String returnUsersQuery = "SELECT * \r\n" + 
+				"FROM Users AS s\r\n" + 
+				"LEFT JOIN Cities AS d ON s.city_id = d.city_id;";
+		User user = null;
+		List<User> users = new ArrayList<User>();
+		PreparedStatement stmt = null;
+		ResultSet r = null;		
+		try {
+			
+			stmt = conn.prepareStatement(returnUsersQuery);
+			r = stmt.executeQuery();
+			while(r.next()) {
+				
+				user = Populate(r);
+				users.add(user);
+			}
+			
+		}catch(SQLException ex) {
+			
+			ex.printStackTrace();
+			
+		}finally {
+			
+			r.close();
+			stmt.close();
+		
+		}
+		
+		return users;
+		
+		
+		
 	}
 
 
