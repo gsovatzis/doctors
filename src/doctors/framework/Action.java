@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import doctors.framework.DBManager;
+import doctors.entities.City;
 import doctors.entities.User;
 import doctors.exceptions.InvalidFieldException;
 

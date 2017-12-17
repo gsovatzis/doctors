@@ -68,9 +68,42 @@ public class UsersDAO extends DBHandler<User> {
 
 //Αυτή η μέθοδος θα χρησιμοποιηθει απο την registercontroller και θα ελενγχει αν τα στοιχεια της εγγραφης ειναι εγκυρα σύμφωνα με τις προυποθέσεις των σετερς που ορίσαμε στην κλάση User
 
+	/* (non-Javadoc)
+	 * @see doctors.framework.DBHandler#Create(java.lang.Object)
+	 */
 	@Override
-	public void Create(User entity) throws SQLException {
+	public void Create(User entity)  {
 		// TODO Auto-generated method stub
+		String findUserQuery = "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?,?,?);";
+		PreparedStatement stmt = null;
+		try {
+			
+		    stmt = conn.prepareStatement(findUserQuery);
+		//	stmt.setInt(1,entity.getUser_id());
+			stmt.setString(2,entity.getFirst_name());
+			stmt.setString(3,entity.getLast_name());
+			stmt.setString(4,entity.getAdress());
+			stmt.setString(5,entity.getLand_line());
+			stmt.setString(6,entity.getMobile());
+			stmt.setString(7, entity.getFax());
+            stmt.setString(8, entity.getEmail());
+            stmt.setString(9,entity.getPassword());
+            stmt.setString(10,entity.getCity().getCity_id()); //Δεν έβαλα ελενγχο εφοσον ικανοποιειται ο ελενγχος στην βαση ειναι not null//
+            stmt.executeUpdate();
+            
+            stmt.close();
+         
+		}catch(Exception ex) {
+			
+			try {
+				throw new Exception("Something went wrong" + ex.getMessage());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		}
+		
 		
 	}
 
@@ -103,11 +136,14 @@ public class UsersDAO extends DBHandler<User> {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see doctors.framework.DBHandler#Populate(java.sql.ResultSet)
+	 */
 	@Override
 	protected User Populate(ResultSet rst) throws SQLException {
 		User user = new User();
 		try {
-			user.setUser_id(rst.getInt("user_id"));
+			user.setUser_id(rst.getInt("user_id")); 
 			user.setFirst_name(rst.getString("first_name"));
 			user.setLast_name(rst.getString("last_name"));
 			user.setAddress(rst.getString("address"));
@@ -116,6 +152,7 @@ public class UsersDAO extends DBHandler<User> {
 			user.setFax(rst.getString("fax"));
 			user.setEmail(rst.getString("email"));
 			user.setPassword(rst.getString("pass"));
+		
 			
 			// TODO: also populate user's city object
 			

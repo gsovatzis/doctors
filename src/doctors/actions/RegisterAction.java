@@ -15,7 +15,7 @@ import doctors.framework.IValidatable;
 
 public class RegisterAction extends Action implements IValidatable {
 
-	User userToBeRegistered = new User();
+	 private User userToBeRegistered = new User(); //Τον εκανα private επειδη ειναι μεταβλητή στιγμιοτύπου//
 		
 	@Override
 	public String execute() throws ServletException, IOException {
@@ -43,14 +43,25 @@ public class RegisterAction extends Action implements IValidatable {
 	public String validate(HttpServletRequest req) {
 		this.returnUrl = "/register.jsp";
 		
+		
 		// TODO Fill the userToBeRegistered entity from the request parameters.
 		try {
 			userToBeRegistered.setEmail(getStringField("email"));
+			userToBeRegistered.setFirst_name(getStringField("firstname"));
+			userToBeRegistered.setLast_name(getStringField("lastname"));
+			userToBeRegistered.setAddress(getStringField("address"));
+		    userToBeRegistered.setCity(getStringField("city"));
+			userToBeRegistered.setFax(getStringField("fax"));
+			userToBeRegistered.setMobile(getStringField("mobile"));
+			userToBeRegistered.setLandline(getStringField("landline"));
+			userToBeRegistered.setPassword(getStringField("pass1"));
+			//ΠΩΣ ΘΑ ΠΕΤΑΞΩ ΤΟ CITY ΜΕΣΑ ΣΤΟΝ ΣΕΤΕΡ EΦΟΣΟΝ ΕΧΩ ΜΟΝΟ STRINGFIELD ΚΑΙ INTFIELD//
 			
 			// TODO -> fill all other fields
-			
 		} catch (Exception ex) {
+		
 			return ex.getMessage();
+			
 		}
 		
 		// If any exception comes up, return an errors String.
