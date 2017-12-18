@@ -24,12 +24,12 @@
 	</context-param>
 
 	<servlet>
-		<servlet-name>LoginAction</servlet-name>
-		<servlet-class>doctors.actions.LoginAction</servlet-class>
+		<servlet-name>LoginController</servlet-name>
+		<servlet-class>doctors.controllers.LoginController</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>LoginAction</servlet-name>
+		<servlet-name>LoginController</servlet-name>
 		<url-pattern>/Login</url-pattern>
 	</servlet-mapping>
 	

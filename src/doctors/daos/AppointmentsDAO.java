@@ -2,6 +2,7 @@ package doctors.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import doctors.exceptions.DBManagerException;
@@ -12,6 +13,9 @@ import doctors.models.User;
 
 public class AppointmentsDAO extends DBHandler<Appointment> {
 
+	protected final String findAppointmentsForUser = "SELECT appointment_id, user_id, doctor_id, appointment_date_time, medical_examination, user_comments, rating FROM Appointments WHERE user_id=?;";
+	protected final String findAppointmentsForDoctor = "SELECT appointment_id, user_id, doctor_id, appointment_date_time, medical_examination, user_comments, rating FROM Appointments WHERE doctor_id=?;";
+	
 	public AppointmentsDAO() throws DBManagerException {
 		super();
 		// TODO Auto-generated constructor stub
@@ -24,17 +28,17 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 	}
 
 	@Override
-	public List<Appointment> GetAll() throws SQLException {
+	public ArrayList<Appointment> GetAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public List<Appointment> GetAppointmentsForDoctor(int doctor_id) throws SQLException {
+	public ArrayList<Appointment> GetAppointmentsForDoctor(int doctor_id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	public List<Appointment> GetAppointmentsForClient(int user_id) throws SQLException {
+	public ArrayList<Appointment> GetAppointmentsForUser(int user_id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -58,7 +62,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 	}
 
 	@Override
-	protected Appointment Populate(ResultSet rst) throws SQLException {
+	protected Appointment Populate(ResultSet rst, boolean loadForeign) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

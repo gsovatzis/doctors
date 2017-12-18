@@ -2,7 +2,7 @@ package doctors.models;
 
 import doctors.exceptions.InvalidFieldException;
 
-public class Specialty {
+public class Specialty extends Entity {
 
 	private int specialty_id;
 	private String specialty_name;

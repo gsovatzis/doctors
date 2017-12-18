@@ -4,7 +4,7 @@ import doctors.exceptions.InvalidFieldException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class User extends Entity {
 	private int user_id;
 	private String first_name;
 	private String last_name;
@@ -110,7 +110,7 @@ public class User {
 	public void setLandline(String landline) throws InvalidFieldException {
 	   if(landline == null) return;	// We don't care because landline can be nullable in the DB
 
-	   if(landline.length() > 35) throw new InvalidFieldException("Το σταθερό σας θα πρέπει να εέναι μέχρι 35 χαρακτήρες");
+	   if(landline.length() > 35) throw new InvalidFieldException("Το σταθερό σας θα πρέπει να είναι μέχρι 35 χαρακτήρες");
 
 		this.landline = landline;
 	}
@@ -148,11 +148,11 @@ public class User {
 	}
 
 	public void setEmail(String email) throws InvalidFieldException {
-        if(email == null) throw new InvalidFieldException("Δώστε το εμαιλ σας");
+        if(email == null) throw new InvalidFieldException("Δώστε το email σας");
 
-        if(email.length() == 0) throw new InvalidFieldException("Δώστε το εμαιλ σας");
+        if(email.length() == 0) throw new InvalidFieldException("Δώστε το email σας");
 
-        if(email.length() > 30) throw new InvalidFieldException("Tο εμαιλ σας δεν θα πρέπει να ξεπερνάει τους 30 χαρακτήρες");
+        if(email.length() > 30) throw new InvalidFieldException("Tο email σας δεν θα πρέπει να ξεπερνάει τους 30 χαρακτήρες");
 
 		this.email = email;
 
@@ -179,18 +179,19 @@ public class User {
 	}
 
 	public void setCity(City city) throws InvalidFieldException {
-		//Τι ελεγχο να κανω εδω//
 		this.city = city;
 	}
 
    public List<Appointment> getAppointments() {
-
 	   return appointments;
    }
 
-   public void setAppointments(Appointment appointment) {
-
-       appointments.add(appointment);
+   public void setAppointments(List<Appointment> appointments) {
+	   this.appointments = appointments;
+   }
+   
+   public void addAppointment(Appointment appointment) {
+	   appointments.add(appointment);
    }
 
 

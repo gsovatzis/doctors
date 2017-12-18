@@ -14,14 +14,19 @@ import javax.servlet.http.HttpSession;
 
 import doctors.framework.DBManager;
 import doctors.models.City;
+import doctors.models.Entity;
 import doctors.models.User;
 import doctors.exceptions.InvalidFieldException;
 
 public abstract class ActionController extends HttpServlet {
 
+	public static final String USER_SESSION_KEY = "user";
+	public static final String MODEL_REQUEST_KEY = "model";
+	public static final String MESSAGE_REQUEST_KEY = "message";
+	
 	protected String returnUrl="";
 	protected String message="";	// The action message to be returned to the page (it can be an error, or info message)
-	protected Object myEntity="";
+	protected Entity model;
 	
 	protected final String dbErrorMsg = "Δεν μπόρεσα να συνδεθώ στη βάση δεδομένων!<br/>";
 	
@@ -77,20 +82,20 @@ public abstract class ActionController extends HttpServlet {
 		{	
 			String validationErrors = validate(req); // Check if action needs to validate form parameters
 			if(!validationErrors.isEmpty()) {			
-				showPage(returnUrl, validationErrors, null);
+				showPage(returnUrl, validationErrors, model);
 				return;
 			} else {
-				showPage(execute(), message, null);		// If no validation errors, execute the action
+				showPage(execute(), message, model); // If no validation errors, execute the action
 			}
 		} else {
-			showPage(execute(), message, null);	// If no validation required, just execute the specified action
+			showPage(execute(), message, model);	 // If no validation required, just execute the specified action
 		}
 				
 	}
 	
 	// This method just checks if attribute with name user exists for the current session
 	public boolean authorized() throws ServletException {
-		if(session.getAttribute("user")==null)
+		if(session.getAttribute(USER_SESSION_KEY)==null)
 		{
 			return false;
 		}
@@ -134,10 +139,10 @@ public abstract class ActionController extends HttpServlet {
 		return encParameter;
 	}
 	
-	public void showPage(String url, String message, Object entity) throws IOException, ServletException {
-		// This method forwards the request to the specified page, including message and entity!
-		req.setAttribute("message", message);
-		req.setAttribute("entity", entity);
+	public void showPage(String url, String message, Entity model) throws IOException, ServletException {
+		// This method forwards the request to the specified page, including message and model!
+		req.setAttribute(MESSAGE_REQUEST_KEY, message);
+		req.setAttribute(MODEL_REQUEST_KEY, model);
 		
 		RequestDispatcher dispatcher = application.getRequestDispatcher(url);
 		dispatcher.forward(req, resp);

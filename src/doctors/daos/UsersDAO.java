@@ -12,9 +12,10 @@ import doctors.models.User;
 
 public class UsersDAO extends DBHandler<User> {
 
-	protected final String findUserByEmail = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass FROM Users WHERE email=?;";
-	protected final String findUserById = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass FROM Users WHERE user_id=?;";
-		
+	protected final String findUserByEmail = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass, city_id FROM Users WHERE email=?;";
+	protected final String findUserById = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass, city_id FROM Users WHERE user_id=?;";
+	protected final String findAllUsers = "SELECT * FROM Users";
+	
     public UsersDAO() throws DBManagerException {
 		super();
 		// TODO Auto-generated constructor stub
@@ -39,7 +40,7 @@ public class UsersDAO extends DBHandler<User> {
 			// If the result set moves to the next record, then user is found 
 			// -> fill the user object to be returned from the Database
 			if(rst.next()) {
-				user = Populate(rst);
+				user = Populate(rst,true);
 			}
 			
 			// Close query and result set
@@ -91,7 +92,7 @@ public class UsersDAO extends DBHandler<User> {
 			stmt.setString(7, entity.getFax());
             stmt.setString(8, entity.getEmail());
             stmt.setString(9,entity.getPassword());
-            stmt.setString(10,entity.getCity().getCity_id()); //Δεν έβαλα ελενγχο εφοσον ικανοποιειται ο ελενγχος στην βαση ειναι not null//
+            stmt.setInt(10,entity.getCity().getCity_id()); 
             stmt.executeUpdate();
             
             stmt.close();
@@ -112,40 +113,26 @@ public class UsersDAO extends DBHandler<User> {
 
 
 	@Override
-	public List<User> GetAll() throws SQLException {
-		// TODO Auto-generated method stub
-		String returnUsersQuery = "SELECT * \r\n" + 
-				"FROM Users AS s\r\n" + 
-				"LEFT JOIN Cities AS d ON s.city_id = d.city_id;";
-		User user = null;
-		List<User> users = new ArrayList<User>();
+	public ArrayList<User> GetAll() throws SQLException {
+		ArrayList<User> users = new ArrayList<User>();
 		PreparedStatement stmt = null;
 		ResultSet r = null;		
 		try {
 			
-			stmt = conn.prepareStatement(returnUsersQuery);
+			stmt = conn.prepareStatement(findAllUsers);
 			r = stmt.executeQuery();
 			while(r.next()) {
-				
-				user = Populate(r);
+				User user = Populate(r,true);
 				users.add(user);
 			}
-			
 		}catch(SQLException ex) {
-			
 			ex.printStackTrace();
-			
 		}finally {
-			
 			r.close();
 			stmt.close();
-		
 		}
 		
 		return users;
-		
-		
-		
 	}
 
 
@@ -180,7 +167,7 @@ public class UsersDAO extends DBHandler<User> {
 			// If the result set moves to the next record, then user is found 
 			// -> fill the user object to be returned from the Database
 			if(rst.next()) {
-				user = Populate(rst);
+				user = Populate(rst,true);
 			}
 			
 			// Close query and result set
@@ -200,7 +187,7 @@ public class UsersDAO extends DBHandler<User> {
 	 * @see doctors.framework.DBHandler#Populate(java.sql.ResultSet)
 	 */
 	@Override
-	protected User Populate(ResultSet rst) throws SQLException {
+	protected User Populate(ResultSet rst, boolean loadForeign) throws SQLException {
 		User user = new User();
 		try {
 			user.setUser_id(rst.getInt("user_id")); 
@@ -212,10 +199,16 @@ public class UsersDAO extends DBHandler<User> {
 			user.setFax(rst.getString("fax"));
 			user.setEmail(rst.getString("email"));
 			user.setPassword(rst.getString("pass"));
-					
-			// TODO: also populate user's city object
 			
-			// TODO: also populate user's appointments
+			if(loadForeign==true) {
+				// Also populate user's city object
+				CitiesDAO cd = new CitiesDAO();
+				user.setCity(cd.GetById(rst.getInt("city_id")));
+				
+				// Also populate user's appointments
+				AppointmentsDAO ad = new AppointmentsDAO();
+				user.setAppointments(ad.GetAppointmentsForUser(user.getUser_id()));
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();

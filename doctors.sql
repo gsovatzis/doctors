@@ -79,9 +79,19 @@ CREATE TABLE Appointments (
 	FOREIGN KEY(doctor_id) references Doctors(doctor_id)
 );
 
-/* INSERT A SAMPLE CITY -> we need this in order to create a user */
+/* INSERT A COUPLE OF SAMPLE CITIES -> we need this in order to create a user */
 INSERT INTO Cities (city_name)
 VALUES ('Αθήνα');
+
+INSERT INTO Cities (city_name)
+VALUES ('Θεσσαλονίκη');
+
+INSERT INTO Cities (city_name)
+VALUES ('Πάτρα');
+
+INSERT INTO Cities (city_name)
+VALUES ('Ιωάννινα');
+
 
 /* INSERT A SAMPLE USER */
 INSERT INTO Users (address,city_id, email, first_name, last_name, mobile, pass)

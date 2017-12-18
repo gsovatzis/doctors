@@ -3,7 +3,7 @@ package doctors.models;
 import doctors.exceptions.InvalidFieldException;
 import java.util.Date;
 
-public class Working_Hour {
+public class Working_Hour extends Entity {
 
 	private int working_hours_id;
 	private Date work_day;

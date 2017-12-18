@@ -22,15 +22,15 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 	 }
     
 	@Override 
-    public List<Doctor> GetAll() throws SQLException { //Σου επιστρεφει ολη την λιστα με τους γιατρους//
+    public ArrayList<Doctor> GetAll() throws SQLException { //Σου επιστρεφει ολη την λιστα με τους γιατρους//
     	PreparedStatement stmt = null;
 		ResultSet rst = null; 
-		List<Doctor> doctors = new ArrayList<Doctor>();
+		ArrayList<Doctor> doctors = new ArrayList<Doctor>();
 		try {
 			stmt = conn.prepareStatement(returnDoctorsQuery); //γιατι βγαζει ερρορ στο conn;
 			rst = stmt.executeQuery();
 			while(rst.next()) {
-				Doctor doctor = Populate(rst);
+				Doctor doctor = Populate(rst,false);
 				doctors.add(doctor);
 			}
 			
@@ -45,25 +45,7 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 			
   }
 
-/*
-    public appointments findAppointments(String doctor_idd) { //επιστρέφει τα ραντεβού του γιατρού αφου εχει βεβαιωθει οτι το doctor_idd ταιριαζει με το id του γιατρου//
-
-         return appointments;
-    }
-
-    public working_hours findtWorking_hours(String doctor_idd) { //επιστρέφει τις ώρες εργασίες του Γιατρού αφου βεβαιωθει οτι τ
-		return working_hours
-    }
-
-    public specialties findSpecialties(String doctor_idd) { //επιστρέφει τις ειδικότητες του Γιατρού αφού βεβαιωθεί ότι το 
-
-    	return specialties;
-
-    }
-
-*/
-	
-	protected Doctor Populate(ResultSet rst) throws SQLException {
+	protected Doctor Populate(ResultSet rst, boolean loadForeign) throws SQLException {
 		
 		Doctor doctor = new Doctor();
 		try {
@@ -79,19 +61,45 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 			// 3. Διαβάζω τις ώρες εργασίας του γιατρού και τις βάζω στο κατάλληλο object
 			WorkingHoursDAO wd = new WorkingHoursDAO();
 			doctor.setWorking_hours(wd.GetWorkingHoursForDoctor(doctor.getDoctor_id()));
-			
+						
 			// 4. Διαβάζω τις ειδικότητες του γιατρού και τις βάζω στο κατάλληλο object
 			SpecialtiesDAO sd = new SpecialtiesDAO();
-			
-			
-			// 5. Διαβάζω τα ραντεβού του γιατρού και τα βάζω στο κατάλληλο object
-			AppointmentsDAO ad = new AppointmentsDAO();
-			doctor.setAppointments(ad.GetAppointmentsForDoctor(doctor.getDoctor_id()));
+			doctor.setSpecialties(sd.GetSpecialtiesForDoctor(doctor.getDoctor_id()));
+
+			if(loadForeign==true) {
+				// 5. Διαβάζω τα ραντεβού του γιατρού και τα βάζω στο κατάλληλο object
+				AppointmentsDAO ad = new AppointmentsDAO();
+				doctor.setAppointments(ad.GetAppointmentsForDoctor(doctor.getDoctor_id()));
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return doctor;
+	}
+
+	@Override
+	public void Create(Doctor entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Update(Doctor entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Delete(Doctor entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Doctor GetById(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

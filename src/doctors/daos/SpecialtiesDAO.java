@@ -2,6 +2,7 @@ package doctors.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import doctors.exceptions.DBManagerException;
@@ -22,10 +23,16 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 	}
 
 	@Override
-	public List<Specialty> GetAll() throws SQLException {
+	public ArrayList<Specialty> GetAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public ArrayList<Specialty> GetSpecialtiesForDoctor(int doctor_id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	@Override
 	public void Update(Specialty entity) throws SQLException {
@@ -46,7 +53,7 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 	}
 
 	@Override
-	protected Specialty Populate(ResultSet rst) throws SQLException {
+	protected Specialty Populate(ResultSet rst, boolean loadForeign) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

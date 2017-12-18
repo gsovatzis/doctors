@@ -2,6 +2,7 @@ package doctors.daos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import doctors.exceptions.DBManagerException;
@@ -22,12 +23,12 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 	}
 
 	@Override
-	public List<Working_Hour> GetAll() throws SQLException {
+	public ArrayList<Working_Hour> GetAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	public List<Working_Hour> GetWorkingHoursForDoctor(int doctor_id) throws SQLException {
+	public ArrayList<Working_Hour> GetWorkingHoursForDoctor(int doctor_id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -51,7 +52,7 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 	}
 
 	@Override
-	protected Working_Hour Populate(ResultSet rst) throws SQLException {
+	protected Working_Hour Populate(ResultSet rst, boolean loadForeign) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
+import java.util.ArrayList;
 import doctors.exceptions.DBManagerException;
 
-public abstract class DBHandler<Entity> {
+public abstract class DBHandler<Model> {
 
 	protected Connection conn = null;
 	
@@ -21,17 +21,17 @@ public abstract class DBHandler<Entity> {
 			throw new DBManagerException("Δεν μπορώ να συνδεθώ με τη βάση δεδομένων!");
 	}
 	
-	public abstract void Create(Entity entity) throws SQLException;
+	public abstract void Create(Model entity) throws SQLException;
 	
-	public abstract List<Entity> GetAll() throws SQLException;
+	public abstract ArrayList<Model> GetAll() throws SQLException;
 	
-	public abstract void Update(Entity entity) throws SQLException;
+	public abstract void Update(Model entity) throws SQLException;
 
-	public abstract void Delete(Entity entity) throws SQLException;
+	public abstract void Delete(Model entity) throws SQLException;
 	
-	public abstract Entity GetById(int id) throws SQLException;
+	public abstract Model GetById(int id) throws SQLException;
 	
-	protected abstract Entity Populate(ResultSet rst) throws SQLException;
+	protected abstract Model Populate(ResultSet rst, boolean loadForeign) throws SQLException;
 	
 	public int GetLastInsertId() throws SQLException {
 		// This method returns the last inserted id in the database session!

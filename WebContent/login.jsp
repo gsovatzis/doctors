@@ -1,4 +1,5 @@
-<%@page import="doctors.entities.User"%>
+<%@page import="doctors.framework.ActionController"%>
+<%@page import="doctors.models.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -6,11 +7,11 @@
 	String message = "";
 	User user = new User();	
 
-	if(request.getAttribute("message")!=null)
-		message = (String)request.getAttribute("message");
+	if(request.getAttribute(ActionController.MESSAGE_REQUEST_KEY)!=null)
+		message = (String)request.getAttribute(ActionController.MESSAGE_REQUEST_KEY);
 
-	if(request.getAttribute("entity")!=null)
-		user = (User)request.getAttribute("entity");
+	if(request.getAttribute(ActionController.MODEL_REQUEST_KEY)!=null)
+		user = (User)request.getAttribute(ActionController.MODEL_REQUEST_KEY);
 %>   
  
 <!DOCTYPE html>

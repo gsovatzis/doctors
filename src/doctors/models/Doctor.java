@@ -4,7 +4,7 @@ import doctors.exceptions.InvalidFieldException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Doctor {
+public class Doctor extends Entity {
 
 	private int doctor_id;
 

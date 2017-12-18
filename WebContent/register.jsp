@@ -1,5 +1,30 @@
+<%@page import="doctors.models.City"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="doctors.daos.CitiesDAO"%>
+<%@page import="doctors.framework.ActionController"%>
+<%@page import="doctors.models.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%
+	User u = null;
+	
+	int selectedCity = 0;
+
+	if(request.getAttribute(ActionController.MODEL_REQUEST_KEY)!=null) {
+		u=(User)request.getAttribute(ActionController.MODEL_REQUEST_KEY);
+		selectedCity = u.getCity().getCity_id();
+	}
+	
+	String message="";
+	if(request.getAttribute(ActionController.MESSAGE_REQUEST_KEY)!=null) {
+		message=(String)request.getAttribute(ActionController.MESSAGE_REQUEST_KEY);
+	}
+	
+	CitiesDAO cd = new CitiesDAO();
+	ArrayList<City> cities = cd.GetAll();
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -81,7 +106,7 @@
 							<label for="firstname" class="col-sm-3 col-form-label">Όνομα</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" id="firstname" placeholder="Παρακαλώ βάλτε το όνομα σας..." required>
+							<input type="text" class="form-control" id="firstname" placeholder="Παρακαλώ βάλτε το όνομα σας..." required value="<%=u!=null?u.getFirst_name():""%>">
 							<p class="label label-danger">
 								* Απαιτείται
 							</p>
@@ -90,7 +115,7 @@
 							<label for="lastname" class="col-sm-3 col-form-label">Επώνυμο</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" id="lastname" placeholder="Παρακαλώ βάλτε το επώνυμο σας..." required>
+							<input type="text" class="form-control" id="lastname" placeholder="Παρακαλώ βάλτε το επώνυμο σας..." required value="<%=u!=null?u.getLast_name():""%>">
 							<p class="label label-danger">
 								* Απαιτείται
 							</p>
@@ -102,7 +127,7 @@
 							<label for="address" class="col-sm-3 col-form-label">Διεύθυνση</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" id="lastname" placeholder="Παρακαλώ βάλτε το επώνυμο σας..." required>
+							<input type="text" class="form-control" id="lastname" placeholder="Παρακαλώ βάλτε το επώνυμο σας..." required value="<%=u!=null?u.getAdress():""%>">
 							<p class="label label-danger">
 								* Απαιτείται
 							</p>
@@ -112,11 +137,12 @@
 						</div>
 						<div class="col-md-4">
 							<select class="form-control" id="city">
-							  <option value="0">Παρακαλώ επιλέξτε πόλη...</option>
-							  <option value="1">Αθήνα</option>
-							  <option value="2">Θεσσαλονίκη</option>
-							  <option value="3">Πάτρα</option>
-							  <option value="4">Βόλος</option>
+							   <option value="0">Παρακαλώ επιλέξτε πόλη...</option>
+							   <%
+							   	  for(City city : cities) {
+							   %>
+							   		<option <%=selectedCity==city.getCity_id()?"selected":""%> value="<%=city.getCity_id()%>"><%=city.getCity_name()%></option>
+							   <% } %>
 							</select>
 							<p class="label label-danger">
 								* Απαιτείται
@@ -129,13 +155,13 @@
 							<label for="landline" class="col-sm-3 col-form-label">Σταθερό</label>
 						</div>
 						<div class="col-md-4">
-							<input type="tel" class="form-control" id="landline" placeholder="Είσαγετε σταθερό τηλέφωνο...">
+							<input type="tel" class="form-control" id="landline" placeholder="Είσαγετε σταθερό τηλέφωνο..." value="<%=u!=null?u.getLand_line():""%>">
 						</div>
 						<div class="col-md-2">
 							<label for="mobile" class="col-sm-3 col-form-label">Κινητό</label>
 						</div>
 						<div class="col-md-4">
-							<input type="tel" class="form-control" id="mobile" placeholder="Εισάγετε κινητό τηλέφωνο..." required>
+							<input type="tel" class="form-control" id="mobile" placeholder="Εισάγετε κινητό τηλέφωνο..." required value="<%=u!=null?u.getMobile():""%>">
 							<p class="label label-danger">
 								* Απαιτείται
 							</p>
@@ -147,13 +173,13 @@
 							<label for="fax" class="col-sm-3 col-form-label">Αριθμός Fax</label>
 						</div>
 						<div class="col-md-4">
-							<input type="tel" class="form-control" id="fax" placeholder="Είσαγετε αριθμό fax...">
+							<input type="tel" class="form-control" id="fax" placeholder="Είσαγετε αριθμό fax..." value="<%=u!=null?u.getFax():""%>">
 						</div>
 						<div class="col-md-2">
 							<label for="email" class="col-sm-3 col-form-label">Email</label>
 						</div>
 						<div class="col-md-4">
-							<input type="email" class="form-control" id="email" placeholder="Εισάγετε email (θα είναι και το όνομα χρήστη σας)" required>
+							<input type="email" class="form-control" id="email" placeholder="Εισάγετε email (θα είναι και το όνομα χρήστη σας)" required value="<%=u!=null?u.getEmail():""%>">
 							<p class="label label-danger">
 								* Απαιτείται
 							</p>
@@ -180,6 +206,11 @@
 							</p>
 						</div>
 					  </div>
+					  
+					  <!-- VALIDATION ERROR EXIST - SHOW THEM -->
+						<div class="alert alert-danger" role="alert">
+	  						<%=message%>
+						</div>
 					  
 					  <hr/>
 					  

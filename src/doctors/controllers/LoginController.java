@@ -19,6 +19,7 @@ public class LoginController extends ActionController implements IValidatable {
 	public String execute() throws ServletException, IOException {
 		// Create the user DAO
 		User u=null;
+		this.model = u;
 		
 		try {
 			UsersDAO ud = new UsersDAO();
@@ -27,7 +28,7 @@ public class LoginController extends ActionController implements IValidatable {
 	    	if(u!=null) {
 	    		if(u.getPassword().equals(getStringField("password"))) {
 	    			// THIS SETS A GLOBAL "user" SESSION VARIABLE FOR ALL PAGES
-	    			req.getSession().setAttribute("user", u);	
+	    			req.getSession().setAttribute(ActionController.USER_SESSION_KEY, u);	
 	    			return "/index.jsp";
 	    		} else {
 	    			message = "Λάθος στοιχεία! Δοκιμάστε ξανά...";

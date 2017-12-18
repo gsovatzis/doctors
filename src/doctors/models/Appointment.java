@@ -3,7 +3,7 @@ package doctors.models;
 import doctors.exceptions.InvalidFieldException;
 import java.util.Date;
 
-public class Appointment {
+public class Appointment extends Entity {
 
 	private User user;
 	private Doctor doctor;
