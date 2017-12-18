@@ -1,0 +1,59 @@
+package doctors.daos;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import doctors.exceptions.DBManagerException;
+import doctors.framework.DBHandler;
+import doctors.models.Working_Hour;
+
+public class WorkingHoursDAO extends DBHandler<Working_Hour> {
+
+	public WorkingHoursDAO() throws DBManagerException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void Create(Working_Hour entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Working_Hour> GetAll() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<Working_Hour> GetWorkingHoursForDoctor(int doctor_id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void Update(Working_Hour entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Delete(Working_Hour entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Working_Hour GetById(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Working_Hour Populate(ResultSet rst) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

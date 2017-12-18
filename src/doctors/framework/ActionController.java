@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import doctors.framework.DBManager;
-import doctors.entities.City;
-import doctors.entities.User;
+import doctors.models.City;
+import doctors.models.User;
 import doctors.exceptions.InvalidFieldException;
 
-public abstract class Action extends HttpServlet {
+public abstract class ActionController extends HttpServlet {
 
 	protected String returnUrl="";
 	protected String message="";	// The action message to be returned to the page (it can be an error, or info message)

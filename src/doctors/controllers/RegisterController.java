@@ -1,4 +1,4 @@
-package doctors.actions;
+package doctors.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -7,13 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import doctors.daos.UsersDAO;
-import doctors.entities.User;
 import doctors.exceptions.DBManagerException;
 import doctors.exceptions.InvalidFieldException;
-import doctors.framework.Action;
+import doctors.framework.ActionController;
 import doctors.framework.IValidatable;
+import doctors.models.User;
 
-public class RegisterAction extends Action implements IValidatable {
+public class RegisterController extends ActionController implements IValidatable {
 
 	 private User userToBeRegistered = new User(); //Τον εκανα private επειδη ειναι μεταβλητή στιγμιοτύπου//
 		

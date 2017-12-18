@@ -4,15 +4,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import doctors.entities.User;
+
 import doctors.exceptions.DBManagerException;
 import doctors.framework.DBHandler;
-import doctors.entities.City;
+import doctors.models.City;
+import doctors.models.User;
 
 public class UsersDAO extends DBHandler<User> {
 
-	protected final String findUserQuery = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass FROM Users WHERE email=?;";
-	
+	protected final String findUserByEmail = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass FROM Users WHERE email=?;";
+	protected final String findUserById = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass FROM Users WHERE user_id=?;";
+		
     public UsersDAO() throws DBManagerException {
 		super();
 		// TODO Auto-generated constructor stub
@@ -26,7 +28,7 @@ public class UsersDAO extends DBHandler<User> {
 		
 		try {
 			// Prepare query parameters
-			PreparedStatement findUserStmt = conn.prepareStatement(findUserQuery);
+			PreparedStatement findUserStmt = conn.prepareStatement(findUserByEmail);
 			ResultSet rst = null;
 			
 			findUserStmt.setString(1, username);
@@ -163,8 +165,34 @@ public class UsersDAO extends DBHandler<User> {
 
 	@Override
 	public User GetById(int id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		User user = null;	// Initially our return object is null, if no user is found NULL will be returned
+		
+		try {
+			// Prepare query parameters
+			PreparedStatement findUserStmt = conn.prepareStatement(findUserById);
+			ResultSet rst = null;
+			
+			findUserStmt.setInt(1, id);
+			
+			// Execute the query and get result set from database
+			rst = findUserStmt.executeQuery();
+			
+			// If the result set moves to the next record, then user is found 
+			// -> fill the user object to be returned from the Database
+			if(rst.next()) {
+				user = Populate(rst);
+			}
+			
+			// Close query and result set
+			findUserStmt.close();
+			rst.close();
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+		return user;
 	}
 
 
@@ -184,8 +212,7 @@ public class UsersDAO extends DBHandler<User> {
 			user.setFax(rst.getString("fax"));
 			user.setEmail(rst.getString("email"));
 			user.setPassword(rst.getString("pass"));
-		
-			
+					
 			// TODO: also populate user's city object
 			
 			// TODO: also populate user's appointments

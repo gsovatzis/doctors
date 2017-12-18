@@ -1,4 +1,4 @@
-package doctors.entities;
+package doctors.models;
 
 import doctors.exceptions.InvalidFieldException;
 import java.util.Date;

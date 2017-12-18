@@ -1,0 +1,54 @@
+package doctors.daos;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import doctors.exceptions.DBManagerException;
+import doctors.framework.DBHandler;
+import doctors.models.Specialty;
+
+public class SpecialtiesDAO extends DBHandler<Specialty> {
+
+	public SpecialtiesDAO() throws DBManagerException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void Create(Specialty entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Specialty> GetAll() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void Update(Specialty entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Delete(Specialty entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Specialty GetById(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Specialty Populate(ResultSet rst) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,25 +1,67 @@
 package doctors.daos;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
-import doctors.entities.User;
-import doctors.entities.City;
 
-public class AppointmentsDAO {
+import doctors.exceptions.DBManagerException;
+import doctors.framework.DBHandler;
+import doctors.models.Appointment;
+import doctors.models.City;
+import doctors.models.User;
 
-/*
-public List<Appointment> getAppointments { //μέθοδος που θα μας γυρίζει όλα τα ραντεβού εδώ λογικά θα μπει η συνδεση με jdbc ωστε να γυρναει την λιστα με τα ραντεβου μεσω βασης
+public class AppointmentsDAO extends DBHandler<Appointment> {
 
-}
+	public AppointmentsDAO() throws DBManagerException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-public Appointment fingAppointment(String id) { // θα ψαχνει την λιστα με τα ραντεβου και οποιο ταιριαξει το id με το Appointment.getUniqueID() θα το γυρισει
+	@Override
+	public void Create(Appointment entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Appointment> GetAll() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Appointment> GetAppointmentsForDoctor(int doctor_id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public List<Appointment> GetAppointmentsForClient(int user_id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void Update(Appointment entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void Delete(Appointment entity) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Appointment GetById(int id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Appointment Populate(ResultSet rst) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
-}
-
-public void authenticateAppointment(Date appointment_date_time , String medical_examination ) {
-
- //Αν τα στοιχεία είναι έγκυρα θα κλέινει το ραντεβού//
-}
-
-*/
 }

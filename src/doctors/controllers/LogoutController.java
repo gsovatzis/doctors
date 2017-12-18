@@ -1,13 +1,13 @@
-package doctors.actions;
+package doctors.controllers;
 
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import doctors.framework.Action;
+import doctors.framework.ActionController;
 
-public class LogoutAction extends Action {
+public class LogoutController extends ActionController {
 
 	@Override
 	public String execute() throws ServletException, IOException {

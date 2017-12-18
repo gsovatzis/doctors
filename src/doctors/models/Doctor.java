@@ -1,4 +1,4 @@
-package doctors.entities;
+package doctors.models;
 
 import doctors.exceptions.InvalidFieldException;
 import java.util.ArrayList;
@@ -29,11 +29,22 @@ public class Doctor {
 	}
 
 	public List<Appointment> getAppointments() {
-
 	    return appointments;
     }
 
-    public void addAppointment(Appointment appointment) {
+    public void setSpecialties(List<Specialty> specialties) {
+		this.specialties = specialties;
+	}
+
+	public void setWorking_hours(List<Working_Hour> working_hours) {
+		this.working_hours = working_hours;
+	}
+
+	public void setAppointments(List<Appointment> appointments) {
+		this.appointments = appointments;
+	}
+
+	public void addAppointment(Appointment appointment) {
 
 		this.appointments.add(appointment);
     }

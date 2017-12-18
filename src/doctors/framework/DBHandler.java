@@ -59,5 +59,6 @@ public abstract class DBHandler<Entity> {
 		return result;
 
 	}
+
 	
 }

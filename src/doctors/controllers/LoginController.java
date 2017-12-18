@@ -1,4 +1,4 @@
-package doctors.actions;
+package doctors.controllers;
 
 import java.io.IOException;
 
@@ -6,13 +6,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import doctors.daos.UsersDAO;
-import doctors.entities.User;
 import doctors.exceptions.DBManagerException;
 import doctors.exceptions.InvalidFieldException;
-import doctors.framework.Action;
+import doctors.framework.ActionController;
 import doctors.framework.IValidatable;
+import doctors.models.User;
 
-public class LoginAction extends Action implements IValidatable {
+public class LoginController extends ActionController implements IValidatable {
 
 
 	@Override
