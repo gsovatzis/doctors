@@ -7,6 +7,7 @@ import java.util.List;
 
 import doctors.exceptions.DBManagerException;
 import doctors.framework.DBHandler;
+import doctors.framework.DBManager;
 import doctors.models.City;
 import doctors.models.User;
 
@@ -15,13 +16,11 @@ public class UsersDAO extends DBHandler<User> {
 	protected final String findUserByEmail = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass, city_id FROM Users WHERE email=?;";
 	protected final String findUserById = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass, city_id FROM Users WHERE user_id=?;";
 	protected final String findAllUsers = "SELECT * FROM Users";
+	protected final String createUserQuery = "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?,?,?);";
 	
     public UsersDAO() throws DBManagerException {
-		super();
-		// TODO Auto-generated constructor stub
+    	super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
-
-
 
     public User findUser(String username) { //μεθοδος που θα μου επιστρέφει τον user με βάση το username του//
     	
@@ -57,33 +56,18 @@ public class UsersDAO extends DBHandler<User> {
     }
         
 
-    
-    
-
-    //Σκέφτομαι να βάλω μια μέθοδο η οποία θα πραγματοποιεί στην ουσία την ενέργεια επισκόπηση του τρέχοντος ραντεβού μου θα τρέχει ολους τους
-    //Users και θα γυρναει τα ραντεβου εκεινου του οποιου το id ταιριαζει με την παραμετρο
-     /*public appointments FindtheAppointmentList(String user_idd) {
-
-         return appointments;
-
-     }*/
-
-
-
-//Αυτή η μέθοδος θα χρησιμοποιηθει απο την registercontroller και θα ελενγχει αν τα στοιχεια της εγγραφης ειναι εγκυρα σύμφωνα με τις προυποθέσεις των σετερς που ορίσαμε στην κλάση User
+    //Αυτή η μέθοδος θα χρησιμοποιηθει απο την registercontroller και θα ελενγχει αν τα στοιχεια της εγγραφης ειναι εγκυρα σύμφωνα με τις προυποθέσεις των σετερς που ορίσαμε στην κλάση User
 
 	/* (non-Javadoc)
 	 * @see doctors.framework.DBHandler#Create(java.lang.Object)
 	 */
 	@Override
-	public void Create(User entity)  {
-		// TODO Auto-generated method stub
-		String findUserQuery = "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?,?,?);";
+	public void Create(User entity) throws SQLException  {
+	
 		PreparedStatement stmt = null;
 		try {
-			
-		    stmt = conn.prepareStatement(findUserQuery);
-		//	stmt.setInt(1,entity.getUser_id());
+		    stmt = conn.prepareStatement(createUserQuery);
+		//	stmt.setInt(1,entity.getUser_id()); --> We don't need to insert user_id: IT IS AUTO-GENERATED
 			stmt.setString(2,entity.getFirst_name());
 			stmt.setString(3,entity.getLast_name());
 			stmt.setString(4,entity.getAdress());
@@ -94,21 +78,11 @@ public class UsersDAO extends DBHandler<User> {
             stmt.setString(9,entity.getPassword());
             stmt.setInt(10,entity.getCity().getCity_id()); 
             stmt.executeUpdate();
-            
-            stmt.close();
-         
-		}catch(Exception ex) {
-			
-			try {
-				throw new Exception("Something went wrong" + ex.getMessage());
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			stmt.close();
 		}
-		
-		
 	}
 
 
@@ -118,7 +92,6 @@ public class UsersDAO extends DBHandler<User> {
 		PreparedStatement stmt = null;
 		ResultSet r = null;		
 		try {
-			
 			stmt = conn.prepareStatement(findAllUsers);
 			r = stmt.executeQuery();
 			while(r.next()) {
@@ -153,12 +126,12 @@ public class UsersDAO extends DBHandler<User> {
 	@Override
 	public User GetById(int id) throws SQLException {
 		User user = null;	// Initially our return object is null, if no user is found NULL will be returned
+		PreparedStatement findUserStmt = null;
+		ResultSet rst = null;
 		
 		try {
 			// Prepare query parameters
-			PreparedStatement findUserStmt = conn.prepareStatement(findUserById);
-			ResultSet rst = null;
-			
+			findUserStmt = conn.prepareStatement(findUserById);
 			findUserStmt.setInt(1, id);
 			
 			// Execute the query and get result set from database
@@ -170,14 +143,13 @@ public class UsersDAO extends DBHandler<User> {
 				user = Populate(rst,true);
 			}
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
 			// Close query and result set
 			findUserStmt.close();
 			rst.close();
-		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		}
 
 		return user;
 	}

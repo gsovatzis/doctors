@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import doctors.exceptions.DBManagerException;
 import doctors.framework.DBHandler;
+import doctors.framework.DBManager;
 import doctors.models.City;
 import doctors.models.User;
 
@@ -17,8 +18,7 @@ public class CitiesDAO extends DBHandler<City> {
 	protected final String findAllCities = "SELECT * FROM Cities";
 	
 	public CitiesDAO() throws DBManagerException {
-		super();
-		// TODO Auto-generated constructor stub
+		super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
 
 	@Override

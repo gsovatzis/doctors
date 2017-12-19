@@ -1,6 +1,9 @@
 package doctors.framework;
 
 import javax.servlet.http.HttpSessionListener;
+
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpSessionEvent;
 
 public class SessionCounter implements HttpSessionListener {
@@ -15,7 +18,7 @@ public class SessionCounter implements HttpSessionListener {
   public void sessionDestroyed(HttpSessionEvent se) {
 	  System.out.println("destroyed session id:" + se.getSession().getId());
 	  if(activeSessions > 0)
-      activeSessions--;
+		  activeSessions--;
   }
 
   public static int getActiveSessions() {

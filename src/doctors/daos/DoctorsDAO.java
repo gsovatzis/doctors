@@ -7,6 +7,7 @@ import java.util.List;
 
 import doctors.exceptions.DBManagerException;
 import doctors.framework.DBHandler;
+import doctors.framework.DBManager;
 import doctors.models.Doctor;
 import doctors.models.User;
 
@@ -17,8 +18,7 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 											  + "INNER JOIN USERS ON DOCTORS.user_id = USERS.user_id ";
 	
 	 public DoctorsDAO() throws DBManagerException {
-			super();
-			// TODO Auto-generated constructor stub
+		 super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
 	 }
     
 	@Override 

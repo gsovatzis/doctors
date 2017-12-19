@@ -7,13 +7,13 @@ import java.util.List;
 
 import doctors.exceptions.DBManagerException;
 import doctors.framework.DBHandler;
+import doctors.framework.DBManager;
 import doctors.models.Specialty;
 
 public class SpecialtiesDAO extends DBHandler<Specialty> {
 
 	public SpecialtiesDAO() throws DBManagerException {
-		super();
-		// TODO Auto-generated constructor stub
+		super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
 
 	@Override

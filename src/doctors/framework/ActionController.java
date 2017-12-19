@@ -42,13 +42,23 @@ public abstract class ActionController extends HttpServlet {
 		String dbUser = application.getInitParameter("dbuser");
 		String dbPass = application.getInitParameter("dbpass");
 		
-		if(DBManager.getInstance().getConnection()==null) {
+		if(DBManager.getConnection()==null) {
 			try {
-				DBManager.getInstance().openConnection(dbURL, dbUser, dbPass);
+				DBManager.openConnection(dbURL, dbUser, dbPass);
 				return "";
 			} catch (SQLException ex) {
 				return ex.getMessage();
 			}
+		}
+		
+		return "";
+	}
+	
+	protected String disconnectDb() {
+		try {
+			DBManager.closeConnection();
+		} catch (SQLException e) {
+			return e.getMessage();
 		}
 		
 		return "";
@@ -68,7 +78,7 @@ public abstract class ActionController extends HttpServlet {
 		this.session = req.getSession();
 		this.application = getServletContext();
 		
-		connectDb();			// Connect to the database -> TODO: If error on connection, redirect to error Page
+		connectDb();	// Connect to the database -> TODO: If error on connection, redirect to error Page
 		
 		if(this instanceof IAuthorizable) {
 			if(!authorized()) {	// Check if user is authorized (logged-in)
@@ -90,6 +100,8 @@ public abstract class ActionController extends HttpServlet {
 		} else {
 			showPage(execute(), message, model);	 // If no validation required, just execute the specified action
 		}
+		
+		disconnectDb();	// Disconnect from the database -> TODO: If error on connection, redirect to error Page
 				
 	}
 	

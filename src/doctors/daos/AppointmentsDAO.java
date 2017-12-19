@@ -7,6 +7,7 @@ import java.util.List;
 
 import doctors.exceptions.DBManagerException;
 import doctors.framework.DBHandler;
+import doctors.framework.DBManager;
 import doctors.models.Appointment;
 import doctors.models.City;
 import doctors.models.User;
@@ -17,8 +18,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 	protected final String findAppointmentsForDoctor = "SELECT appointment_id, user_id, doctor_id, appointment_date_time, medical_examination, user_comments, rating FROM Appointments WHERE doctor_id=?;";
 	
 	public AppointmentsDAO() throws DBManagerException {
-		super();
-		// TODO Auto-generated constructor stub
+		super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
 
 	@Override

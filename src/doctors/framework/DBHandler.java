@@ -13,12 +13,9 @@ public abstract class DBHandler<Model> {
 	
 	private final String lastInsertIdQuery = "SELECT LAST_INSERT_ID() AS LastInsId";
 	
-	public DBHandler() throws DBManagerException {
-		// Get the DB connection on initialization
-		conn = DBManager.getInstance().getConnection();		// SINGLETON PATTERN
-		
-		if(conn==null) 
-			throw new DBManagerException("Δεν μπορώ να συνδεθώ με τη βάση δεδομένων!");
+	public DBHandler(Connection conn) throws DBManagerException {
+		// Inject the DB connection on initialization
+		this.conn = conn;
 	}
 	
 	public abstract void Create(Model entity) throws SQLException;

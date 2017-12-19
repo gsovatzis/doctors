@@ -7,13 +7,13 @@ import java.util.List;
 
 import doctors.exceptions.DBManagerException;
 import doctors.framework.DBHandler;
+import doctors.framework.DBManager;
 import doctors.models.Working_Hour;
 
 public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 
 	public WorkingHoursDAO() throws DBManagerException {
-		super();
-		// TODO Auto-generated constructor stub
+		super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
 
 	@Override

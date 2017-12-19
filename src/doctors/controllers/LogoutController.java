@@ -16,7 +16,7 @@ public class LogoutController extends ActionController {
 		// Redirect to index
 		session.invalidate();
 		
-		return "/logout.jsp";	// This is the page where we will be transfered next...
+		return "/index.jsp";	// This is the page where we will be transfered after logout
 
 	}
 
