@@ -6,25 +6,20 @@ import java.sql.SQLException;
 
 public class DBManager {
 
-	// private static DBManager instance = null;
+	private static DBManager instance = null;
 	
-	private static Connection conn = null;
-	
-	
-	//	private DBManager() {
-	//		
-	//	}
+	private Connection conn = null;
 
 	// SINGLETON PATTERN
-	//	public static DBManager getInstance() {
-	//		if (instance==null) {
-	//			instance = new DBManager();			
-	//		}
-	//		
-	//		return instance;
-	//	}
+	public static DBManager getInstance() {
+		if (instance==null) {
+			instance = new DBManager();			
+		}
+		
+		return instance;
+	}
 	
-	public static void openConnection(String DBURL, String userName, String Password) throws SQLException {
+	public void openConnection(String DBURL, String userName, String Password) throws SQLException {
 		try {
 		      // for JDBC driver to connect to mysql, the .newInstance() method
 		      // can be ommited
@@ -45,7 +40,7 @@ public class DBManager {
 		
 	}
 	
-	public static void closeConnection() throws SQLException {
+	public void closeConnection() throws SQLException {
 		if (conn != null) {
 			try {
 				conn.close();
@@ -57,7 +52,7 @@ public class DBManager {
 		}
 	}
 	
-	public static Connection getConnection() {
+	public Connection getConnection() {
 		return conn;
 	}
 	

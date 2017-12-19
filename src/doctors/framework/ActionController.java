@@ -3,6 +3,7 @@ package doctors.framework;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -23,10 +24,12 @@ public abstract class ActionController extends HttpServlet {
 	public static final String USER_SESSION_KEY = "user";
 	public static final String MODEL_REQUEST_KEY = "model";
 	public static final String MESSAGE_REQUEST_KEY = "message";
+	public static final String ENTITY_HASMAP_KEY = "entity";
+	public static final String CITIES_ARRAY_LIST = "cities";
 	
 	protected String returnUrl="";
 	protected String message="";	// The action message to be returned to the page (it can be an error, or info message)
-	protected Entity model;
+	protected HashMap<String, Object> model = new HashMap<String, Object>();
 	
 	protected final String dbErrorMsg = "Δεν μπόρεσα να συνδεθώ στη βάση δεδομένων!<br/>";
 	
@@ -37,14 +40,15 @@ public abstract class ActionController extends HttpServlet {
 	
 	protected String connectDb() {
 		
-		// Get connection configuration from web.xml
-		String dbURL = application.getInitParameter("dburl");
-		String dbUser = application.getInitParameter("dbuser");
-		String dbPass = application.getInitParameter("dbpass");
-		
-		if(DBManager.getConnection()==null) {
+		if(DBManager.getInstance().getConnection()==null) {
 			try {
-				DBManager.openConnection(dbURL, dbUser, dbPass);
+				
+				// Get connection configuration from web.xml
+				String dbURL = application.getInitParameter("dburl");
+				String dbUser = application.getInitParameter("dbuser");
+				String dbPass = application.getInitParameter("dbpass");
+				
+				DBManager.getInstance().openConnection(dbURL, dbUser, dbPass);
 				return "";
 			} catch (SQLException ex) {
 				return ex.getMessage();
@@ -54,16 +58,7 @@ public abstract class ActionController extends HttpServlet {
 		return "";
 	}
 	
-	protected String disconnectDb() {
-		try {
-			DBManager.closeConnection();
-		} catch (SQLException e) {
-			return e.getMessage();
-		}
-		
-		return "";
-	}
-		
+	
 	public abstract String execute() throws ServletException, IOException;	// Every application action must implement the execute method!
 	
 	public abstract String validate(HttpServletRequest req);	// Every application action must implement the validate method!
@@ -96,12 +91,12 @@ public abstract class ActionController extends HttpServlet {
 				return;
 			} else {
 				showPage(execute(), message, model); // If no validation errors, execute the action
+				return;
 			}
 		} else {
-			showPage(execute(), message, model);	 // If no validation required, just execute the specified action
+			showPage(execute(), message, model);	 // If no validation is required, just execute the specified action
 		}
 		
-		disconnectDb();	// Disconnect from the database -> TODO: If error on connection, redirect to error Page
 				
 	}
 	
@@ -151,7 +146,7 @@ public abstract class ActionController extends HttpServlet {
 		return encParameter;
 	}
 	
-	public void showPage(String url, String message, Entity model) throws IOException, ServletException {
+	public void showPage(String url, String message, HashMap<String, Object> model) throws IOException, ServletException {
 		// This method forwards the request to the specified page, including message and model!
 		req.setAttribute(MESSAGE_REQUEST_KEY, message);
 		req.setAttribute(MODEL_REQUEST_KEY, model);

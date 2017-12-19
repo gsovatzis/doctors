@@ -16,6 +16,7 @@ import doctors.models.User;
 
 public class RegisterController extends ActionController implements IValidatable {
 
+	User userToBeRegistered=null;
 		
 	@Override
 	public String execute() throws ServletException, IOException {
@@ -23,12 +24,11 @@ public class RegisterController extends ActionController implements IValidatable
 		
 		try {
 			UsersDAO ud = new UsersDAO();
-			ud.Create((User)model);
-		} catch (DBManagerException e) {
-			// If DBManagerException, show register.jsp including the error
+			ud.Create(userToBeRegistered);
+		} catch (SQLException ex) {
+			// If any exception, show register.jsp including the error
 			
-			// TODO: Put message logic to register.jsp (see login.jsp to understand)
-			this.message = e.getMessage();
+			this.message = ex.getMessage();
 			return "/register.jsp";
 		} 
 		
@@ -38,12 +38,13 @@ public class RegisterController extends ActionController implements IValidatable
 	@Override
 	public String validate(HttpServletRequest req) {
 		this.returnUrl = "/register.jsp";
-				
-		// TODO Fill the userToBeRegistered entity from the request parameters.
+		
+		String errorMsg = "";
+		
+		// Fill the userToBeRegistered entity from the request parameters.
 		try {
-			User userToBeRegistered = new User();
-			this.model=userToBeRegistered;
-			
+			userToBeRegistered = new User();
+						
 			userToBeRegistered.setEmail(getStringField("email"));
 			userToBeRegistered.setFirst_name(getStringField("firstname"));
 			userToBeRegistered.setLast_name(getStringField("lastname"));
@@ -64,12 +65,15 @@ public class RegisterController extends ActionController implements IValidatable
 			}
 			
 		} catch (Exception ex) {
-			return ex.getMessage();
+			// If any exception comes up, return an error String.
+			errorMsg = ex.getMessage();
+		} finally {
+			// Whatever happens, store the user to be registered in the model hashmap to be passed
+			// with the next request
+			this.model.put(ENTITY_HASMAP_KEY, userToBeRegistered);
 		}
-		
-		// If any exception comes up, return an errors String.
-		
-		return "";	// Always return an empty string (NOT NULL)
+				
+		return errorMsg;	// Always return an empty string (NOT NULL)
 	}
 
 }

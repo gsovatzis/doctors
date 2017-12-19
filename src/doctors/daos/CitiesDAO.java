@@ -18,7 +18,7 @@ public class CitiesDAO extends DBHandler<City> {
 	protected final String findAllCities = "SELECT * FROM Cities";
 	
 	public CitiesDAO() throws DBManagerException {
-		super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
+		super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
 
 	@Override

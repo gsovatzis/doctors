@@ -1,28 +1,24 @@
 <%@page import="doctors.models.City"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="doctors.daos.CitiesDAO"%>
 <%@page import="doctors.framework.ActionController"%>
 <%@page import="doctors.models.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@include file="header.jsp" %>
 <%
 	User u = null;
-	
 	int selectedCity = 0;
 
-	if(request.getAttribute(ActionController.MODEL_REQUEST_KEY)!=null) {
-		u=(User)request.getAttribute(ActionController.MODEL_REQUEST_KEY);
+	if(model.containsKey(ActionController.ENTITY_HASMAP_KEY)) {
+		u=(User)model.get(ActionController.ENTITY_HASMAP_KEY);
 		selectedCity = u.getCity().getCity_id();
 	}
 	
-	String message="";
-	if(request.getAttribute(ActionController.MESSAGE_REQUEST_KEY)!=null) {
-		message=(String)request.getAttribute(ActionController.MESSAGE_REQUEST_KEY);
+	ArrayList<City> cities = new ArrayList<City>();
+	if(model.containsKey(ActionController.CITIES_ARRAY_LIST)) {
+		cities=(ArrayList<City>)model.get(ActionController.CITIES_ARRAY_LIST);
 	}
 	
-	CitiesDAO cd = new CitiesDAO();
-	ArrayList<City> cities = cd.GetAll();
 %>
 
 <!DOCTYPE html>

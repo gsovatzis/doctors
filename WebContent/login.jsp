@@ -2,16 +2,12 @@
 <%@page import="doctors.models.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@include file="header.jsp" %>
 <%
-	String message = "";
 	User user = new User();	
 
-	if(request.getAttribute(ActionController.MESSAGE_REQUEST_KEY)!=null)
-		message = (String)request.getAttribute(ActionController.MESSAGE_REQUEST_KEY);
-
-	if(request.getAttribute(ActionController.MODEL_REQUEST_KEY)!=null)
-		user = (User)request.getAttribute(ActionController.MODEL_REQUEST_KEY);
+	if(model.containsKey(ActionController.ENTITY_HASMAP_KEY))
+		user = (User)model.get(ActionController.ENTITY_HASMAP_KEY);
 %>   
  
 <!DOCTYPE html>

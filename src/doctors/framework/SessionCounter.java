@@ -19,6 +19,14 @@ public class SessionCounter implements HttpSessionListener {
 	  System.out.println("destroyed session id:" + se.getSession().getId());
 	  if(activeSessions > 0)
 		  activeSessions--;
+	  else {
+		try {
+			DBManager.getInstance().closeConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	  }
   }
 
   public static int getActiveSessions() {

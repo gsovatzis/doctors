@@ -18,7 +18,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 	protected final String findAppointmentsForDoctor = "SELECT appointment_id, user_id, doctor_id, appointment_date_time, medical_examination, user_comments, rating FROM Appointments WHERE doctor_id=?;";
 	
 	public AppointmentsDAO() throws DBManagerException {
-		super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
+		super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
 
 	@Override

@@ -13,7 +13,7 @@ import doctors.models.Working_Hour;
 public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 
 	public WorkingHoursDAO() throws DBManagerException {
-		super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
+		super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
 
 	@Override

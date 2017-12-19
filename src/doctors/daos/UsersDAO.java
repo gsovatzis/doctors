@@ -18,11 +18,11 @@ public class UsersDAO extends DBHandler<User> {
 	protected final String findAllUsers = "SELECT * FROM Users";
 	protected final String createUserQuery = "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?,?,?);";
 	
-    public UsersDAO() throws DBManagerException {
-    	super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
+    public UsersDAO() {
+    	super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
 
-    public User findUser(String username) { //μεθοδος που θα μου επιστρέφει τον user με βάση το username του//
+    public User findUser(String username) throws SQLException { //μεθοδος που θα μου επιστρέφει τον user με βάση το username του//
     	
     	User user = null;	// Initially our return object is null, if no user is found NULL will be returned
 		
@@ -46,9 +46,8 @@ public class UsersDAO extends DBHandler<User> {
 			findUserStmt.close();
 			rst.close();
 		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (SQLException ex) {
+			throw ex;
 		} 
 
 		return user;
@@ -79,7 +78,7 @@ public class UsersDAO extends DBHandler<User> {
             stmt.setInt(10,entity.getCity().getCity_id()); 
             stmt.executeUpdate();
 		} catch(SQLException ex) {
-			ex.printStackTrace();
+			throw ex;
 		} finally {
 			stmt.close();
 		}
@@ -99,7 +98,7 @@ public class UsersDAO extends DBHandler<User> {
 				users.add(user);
 			}
 		}catch(SQLException ex) {
-			ex.printStackTrace();
+			throw ex;
 		}finally {
 			r.close();
 			stmt.close();
@@ -143,8 +142,8 @@ public class UsersDAO extends DBHandler<User> {
 				user = Populate(rst,true);
 			}
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException ex) {
+			throw ex;
 		} finally {
 			// Close query and result set
 			findUserStmt.close();
@@ -182,8 +181,8 @@ public class UsersDAO extends DBHandler<User> {
 				user.setAppointments(ad.GetAppointmentsForUser(user.getUser_id()));
 			}
 			
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			throw new SQLException(ex.toString());
 		}
 		return user;
 	}

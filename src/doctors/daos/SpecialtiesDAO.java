@@ -13,7 +13,7 @@ import doctors.models.Specialty;
 public class SpecialtiesDAO extends DBHandler<Specialty> {
 
 	public SpecialtiesDAO() throws DBManagerException {
-		super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
+		super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
 
 	@Override

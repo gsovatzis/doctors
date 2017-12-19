@@ -18,7 +18,7 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 											  + "INNER JOIN USERS ON DOCTORS.user_id = USERS.user_id ";
 	
 	 public DoctorsDAO() throws DBManagerException {
-		 super(DBManager.getConnection());	// Inject the Connection dependency to the DAO on initialization
+		 super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
 	 }
     
 	@Override 

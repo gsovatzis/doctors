@@ -13,7 +13,7 @@ public abstract class DBHandler<Model> {
 	
 	private final String lastInsertIdQuery = "SELECT LAST_INSERT_ID() AS LastInsId";
 	
-	public DBHandler(Connection conn) throws DBManagerException {
+	public DBHandler(Connection conn) {
 		// Inject the DB connection on initialization
 		this.conn = conn;
 	}
