@@ -16,7 +16,7 @@ public class UsersDAO extends DBHandler<User> {
 	protected final String findUserByEmail = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass, city_id FROM Users WHERE email=?;";
 	protected final String findUserById = "SELECT user_id, first_name, last_name, address, landline, mobile, fax, email, pass, city_id FROM Users WHERE user_id=?;";
 	protected final String findAllUsers = "SELECT * FROM Users";
-	protected final String createUserQuery = "INSERT INTO Users VALUES (?,?,?,?,?,?,?,?,?,?);";
+	protected final String createUserQuery = "INSERT INTO Users (first_name,last_name,address,landline,mobile,fax,email,pass,city_id) VALUES (?,?,?,?,?,?,?,?,?);";
 	
     public UsersDAO() {
     	super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
@@ -67,15 +67,15 @@ public class UsersDAO extends DBHandler<User> {
 		try {
 		    stmt = conn.prepareStatement(createUserQuery);
 		//	stmt.setInt(1,entity.getUser_id()); --> We don't need to insert user_id: IT IS AUTO-GENERATED
-			stmt.setString(2,entity.getFirst_name());
-			stmt.setString(3,entity.getLast_name());
-			stmt.setString(4,entity.getAdress());
-			stmt.setString(5,entity.getLand_line());
-			stmt.setString(6,entity.getMobile());
-			stmt.setString(7, entity.getFax());
-            stmt.setString(8, entity.getEmail());
-            stmt.setString(9,entity.getPassword());
-            stmt.setInt(10,entity.getCity().getCity_id()); 
+			stmt.setString(1,entity.getFirst_name());
+			stmt.setString(2,entity.getLast_name());
+			stmt.setString(3,entity.getAddress());
+			stmt.setString(4,entity.getLand_line());
+			stmt.setString(5,entity.getMobile());
+			stmt.setString(6, entity.getFax());
+            stmt.setString(7, entity.getEmail());
+            stmt.setString(8,entity.getPassword());
+            stmt.setInt(9,entity.getCity().getCity_id()); 
             stmt.executeUpdate();
 		} catch(SQLException ex) {
 			throw ex;

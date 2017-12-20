@@ -110,7 +110,7 @@
 						<div class="col-md-4">
 							<input type="text" class="form-control" id="address" name="address" 
 							placeholder="Παρακαλώ βάλτε τη διεύθυνση σας..." 
-							required value="<%=u!=null?u.getAdress():""%>">
+							required value="<%=u!=null?u.getAddress():""%>">
 							<p class="label label-danger">
 								* Απαιτείται
 							</p>

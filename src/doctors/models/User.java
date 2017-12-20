@@ -86,7 +86,7 @@ public class User extends Entity {
 		this.last_name = last_name;
 	}
 
-	public String getAdress() {
+	public String getAddress() {
 
 		return address;
 	}
