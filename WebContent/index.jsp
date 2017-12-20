@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@include file="header.jsp" %>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -26,37 +29,9 @@
 	</head>
 
 	<body>
-
 		<!-- Fixed navbar -->
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span> <span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					
-				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li class="active"><a href="index.jsp">Αρχική</a></li>
-						<li><a href="register.jsp">Εγγραφή</a></li>					
-						<li><a href="login.jsp">Είσοδος</a></li>					
-					</ul>		
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>&nbsp;Χρήστης 1 <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-			                  <li><a href="logout.jsp"><i class="glyphicon glyphicon-log-out"></i>&nbsp;Έξοδος</a></li>
-			                </ul>
-		                </li>
-					</ul>
-				</div>
-				<!--/.nav-collapse -->
-			</div>
-		</nav>
-
+		<%@include file="navbar.jsp" %>
+		
 		<div class="container theme-showcase" role="main">
 
 			<!-- Main jumbotron for a primary marketing message or call to action -->
@@ -188,15 +163,7 @@
 		<!-- /container -->
 
 		<!-- footer -->
-		<footer class="navbar-inverse">
-			<div class="container">
-				<div class="row">
-					<div class="col-xs-12">
-						<p class="text-center">&copy; Copyright 2017 by ismgroup74</p>
-					</div>
-				</div>
-			</div>
-		</footer>
+		<%@include file="footer.jsp" %>
 		<!-- End footer -->
 		
 		<!-- =================== Place all javascript at the end of the document so the pages load faster =================== -->
@@ -206,3 +173,4 @@
 		<script	src="js/bootstrap.min.js"></script>
 	</body>
 </html>
+		

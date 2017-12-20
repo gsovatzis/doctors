@@ -16,20 +16,19 @@ import doctors.models.User;
 
 public class RegisterController extends ActionController implements IValidatable {
 
-	User userToBeRegistered=null;
+	User userToBeRegistered=null;	// THE MODEL TO BE USED FOR VALIDATION AND PAGE PASSING
 		
 	@Override
 	public String execute() throws ServletException, IOException {
-		// TODO Take the userToBeRegistered object and write that to the DB, using the UsersDAO.Create method
+		// Take the userToBeRegistered object and write that to the DB, using the UsersDAO.Create method
 		
 		try {
 			UsersDAO ud = new UsersDAO();
 			ud.Create(userToBeRegistered);
 		} catch (SQLException ex) {
 			// If any exception, show register.jsp including the error
-			
 			this.message = ex.getMessage();
-			return "/register.jsp";
+			return "/GotoRegister";
 		} 
 		
 		return "/index.jsp";	// If everything goes OK, go to index.jsp page
@@ -37,7 +36,7 @@ public class RegisterController extends ActionController implements IValidatable
 
 	@Override
 	public String validate(HttpServletRequest req) {
-		this.returnUrl = "/register.jsp";
+		this.returnUrl = "/GotoRegister";
 		
 		String errorMsg = "";
 		
@@ -70,7 +69,7 @@ public class RegisterController extends ActionController implements IValidatable
 		} finally {
 			// Whatever happens, store the user to be registered in the model hashmap to be passed
 			// with the next request
-			this.model.put(ENTITY_HASMAP_KEY, userToBeRegistered);
+			this.model.put(ENTITY_HASHMAP_KEY, userToBeRegistered);
 		}
 				
 		return errorMsg;	// Always return an empty string (NOT NULL)

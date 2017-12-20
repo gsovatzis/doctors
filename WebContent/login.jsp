@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%@page import="doctors.framework.ActionController"%>
 <%@page import="doctors.models.User"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -9,7 +10,8 @@
 	if(model.containsKey(ActionController.ENTITY_HASMAP_KEY))
 		user = (User)model.get(ActionController.ENTITY_HASMAP_KEY);
 %>   
- 
+
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>

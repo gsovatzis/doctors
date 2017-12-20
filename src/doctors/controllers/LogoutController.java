@@ -22,8 +22,10 @@ public class LogoutController extends ActionController {
 
 	@Override
 	public String validate(HttpServletRequest req) {
-		// Since logout action is not validatable, this method will never be called
-		return null;
+		// Since logout doesn't implement IValidatable and no need to validate something 
+		// -> THIS WILL NEVER BE CALLED
+		return "";
 	}
+
 
 }

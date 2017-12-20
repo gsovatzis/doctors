@@ -33,6 +33,36 @@
 		<url-pattern>/Login</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>LogoutController</servlet-name>
+		<servlet-class>doctors.controllers.LogoutController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>LogoutController</servlet-name>
+		<url-pattern>/Logout</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RegisterController</servlet-name>
+		<servlet-class>doctors.controllers.RegisterController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>RegisterController</servlet-name>
+		<url-pattern>/Register</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GotoRegisterController</servlet-name>
+		<servlet-class>doctors.controllers.GotoRegisterController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>GotoRegisterController</servlet-name>
+		<url-pattern>/GotoRegister</url-pattern>
+	</servlet-mapping>
+	
 	<listener>
   		<listener-class>
    			doctors.framework.SessionCounter
@@ -42,7 +72,5 @@
 	<session-config>
   		<session-timeout>1</session-timeout>
 	</session-config>
-
-	
 
 </web-app>

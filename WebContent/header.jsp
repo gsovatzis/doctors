@@ -2,7 +2,7 @@
 <%@page import="doctors.framework.ActionController"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@page errorPage="error.jsp" %>
 <%
 
 	// IMPORTANT: This page should be included on all JSP pages
@@ -23,3 +23,4 @@
 		model = (HashMap<String, Object>)request.getAttribute(ActionController.MODEL_REQUEST_KEY);
 	
 %>
+

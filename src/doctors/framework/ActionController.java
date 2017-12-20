@@ -21,17 +21,22 @@ import doctors.exceptions.InvalidFieldException;
 
 public abstract class ActionController extends HttpServlet {
 
+	// Key to retrieve current user from session
 	public static final String USER_SESSION_KEY = "user";
+	
+	// Model hashmap and message to be transferred with the request
 	public static final String MODEL_REQUEST_KEY = "model";
 	public static final String MESSAGE_REQUEST_KEY = "message";
-	public static final String ENTITY_HASMAP_KEY = "entity";
+	
+	// Entities to be transferred with the request (inside the model hashmap -> those are the hashmap keys)
+	public static final String ENTITY_HASHMAP_KEY = "entity";
 	public static final String CITIES_ARRAY_LIST = "cities";
 	
 	protected String returnUrl="";
 	protected String message="";	// The action message to be returned to the page (it can be an error, or info message)
 	protected HashMap<String, Object> model = new HashMap<String, Object>();
 	
-	protected final String dbErrorMsg = "Δεν μπόρεσα να συνδεθώ στη βάση δεδομένων!<br/>";
+	
 	
 	protected HttpServletRequest req;
 	protected HttpServletResponse resp;
@@ -61,17 +66,28 @@ public abstract class ActionController extends HttpServlet {
 	
 	public abstract String execute() throws ServletException, IOException;	// Every application action must implement the execute method!
 	
-	public abstract String validate(HttpServletRequest req);	// Every application action must implement the validate method!
-
+	public abstract String validate(HttpServletRequest req); // Every application action must implement the validate method!
+	
+	protected void reloadRequestValues() {
+		if(req.getAttribute(MESSAGE_REQUEST_KEY)!=null) {
+			message =(String) req.getAttribute(MESSAGE_REQUEST_KEY);
+		}
+		
+		if(req.getAttribute(MODEL_REQUEST_KEY)!=null) {
+			model = (HashMap<String, Object>) req.getAttribute(MODEL_REQUEST_KEY);
+		}
+	}
+	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		//super.service(req, resp);
 		
 		this.req = req;
 		this.resp = resp;
 		this.session = req.getSession();
 		this.application = getServletContext();
+		
+		reloadRequestValues();	// If we come from a previous action, chain the message and model
 		
 		connectDb();	// Connect to the database -> TODO: If error on connection, redirect to error Page
 		

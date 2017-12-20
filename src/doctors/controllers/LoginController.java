@@ -58,7 +58,7 @@ public class LoginController extends ActionController implements IValidatable {
 			entity.setPassword(getStringField("password"));
 			
 			// We put the model to be returned to the page in case of error...
-			this.model.put(ActionController.ENTITY_HASMAP_KEY, entity);
+			this.model.put(ActionController.ENTITY_HASHMAP_KEY, entity);
 			
 		} catch(Exception ex) {
 			return ex.getMessage();
