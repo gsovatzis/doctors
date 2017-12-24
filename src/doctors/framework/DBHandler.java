@@ -26,7 +26,11 @@ public abstract class DBHandler<Model> {
 
 	public abstract void Delete(Model entity) throws SQLException;
 	
+	// By using this method, we ALWAYS load an entity from the DB, including foreign entities
 	public abstract Model GetById(int id) throws SQLException;
+	
+	// By using this method, we decide if we want to load foreign entities or not
+	public abstract Model GetById(int id, boolean loadForeign) throws SQLException;
 	
 	protected abstract Model Populate(ResultSet rst, boolean loadForeign) throws SQLException;
 	

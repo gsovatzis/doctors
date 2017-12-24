@@ -90,8 +90,13 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 		
 	}
 
-	@Override
+	@Override 
 	public Working_Hour GetById(int id) throws SQLException {
+		return this.GetById(id, true);
+	}
+	
+	@Override
+	public Working_Hour GetById(int id, boolean loadForeign) throws SQLException {
 		Working_Hour working_hour = null;
 		PreparedStatement stmt = null;
 		ResultSet rst = null;
@@ -101,7 +106,7 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 			rst = stmt.executeQuery();
 			if(rst.next()) {
 				
-				working_hour = Populate(rst,true);
+				working_hour = Populate(rst,loadForeign);
 				
 			}
 		}catch(SQLException ex) {
@@ -121,10 +126,10 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 		try {
 			working_hour = new Working_Hour(rst.getInt("working_hours_id"),rst.getDate("working_day"),rst.getString("from_hour"),rst.getString("to_hour"));
 		} catch (InvalidFieldException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		

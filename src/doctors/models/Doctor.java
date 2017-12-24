@@ -2,7 +2,6 @@ package doctors.models;
 
 import doctors.exceptions.InvalidFieldException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Doctor extends Entity {
 
@@ -12,15 +11,15 @@ public class Doctor extends Entity {
 	private User user;
 
 	// This property relates a DOCTOR with one or more SPECIALTIES (that's why we use an arraylist)
-	private List<Specialty> specialties = new ArrayList<Specialty>();
+	private ArrayList<Specialty> specialties = new ArrayList<Specialty>();
 
 	// This property relates a DOCTOR with one or more WORKING HOURS (that's why we use an arraylist)
-	private List<Working_Hour> working_hours = new ArrayList<Working_Hour>();
+	private ArrayList<Working_Hour> working_hours = new ArrayList<Working_Hour>();
 
 	//This property relates a DOCTOR with one or more APPOINTMENTS (that's why we use an arraylist)
-	private List<Appointment> appointments = new ArrayList<Appointment>();
+	private ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 
-	public List<Specialty> getSpecialties() {
+	public ArrayList<Specialty> getSpecialties() {
 		return specialties;
 	}
 
@@ -28,19 +27,19 @@ public class Doctor extends Entity {
 		this.specialties.add(specialty);
 	}
 
-	public List<Appointment> getAppointments() {
+	public ArrayList<Appointment> getAppointments() {
 	    return appointments;
     }
 
-    public void setSpecialties(List<Specialty> specialties) {
+    public void setSpecialties(ArrayList<Specialty> specialties) {
 		this.specialties = specialties;
 	}
 
-	public void setWorking_hours(List<Working_Hour> working_hours) {
+	public void setWorking_hours(ArrayList<Working_Hour> working_hours) {
 		this.working_hours = working_hours;
 	}
 
-	public void setAppointments(List<Appointment> appointments) {
+	public void setAppointments(ArrayList<Appointment> appointments) {
 		this.appointments = appointments;
 	}
 
@@ -78,7 +77,7 @@ public class Doctor extends Entity {
 		this.user = user;
 	}
 
-	public List<Working_Hour> getWorking_hours() {
+	public ArrayList<Working_Hour> getWorking_hours() {
 		return working_hours;
 	}
 

@@ -9,8 +9,8 @@
 	User u = null;
 	int selectedCity = 0;
 
-	if(model.containsKey(ActionController.ENTITY_HASMAP_KEY)) {
-		u=(User)model.get(ActionController.ENTITY_HASMAP_KEY);
+	if(model.containsKey(ActionController.ENTITY_HASHMAP_KEY)) {
+		u=(User)model.get(ActionController.ENTITY_HASHMAP_KEY);
 		selectedCity = u.getCity().getCity_id();
 	}
 	

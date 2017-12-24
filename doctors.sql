@@ -92,8 +92,17 @@ VALUES ('Πάτρα');
 INSERT INTO Cities (city_name)
 VALUES ('Ιωάννινα');
 
+INSERT INTO Cities (city_name)
+VALUES ('Πειραιάς');
 
-/* INSERT A SAMPLE USER */
+/* INSERT SOME SAMPLE SPECIALTIES */
+INSERT INTO specialties (specialty_name) VALUES ('Καρδιολόγος');
+INSERT INTO specialties (specialty_name) VALUES ('Παθολόγος');
+INSERT INTO specialties (specialty_name) VALUES ('Ουρολόγος');
+INSERT INTO specialties (specialty_name) VALUES ('Παιδίατρος');
+
+
+/* INSERT A SAMPLE USER (CUSTOMER) */
 INSERT INTO Users (address,city_id, email, first_name, last_name, mobile, pass)
 VALUES ('Σπύρου Πάτση 59', 
 		(SELECT city_id FROM Cities WHERE city_name='Αθήνα'),
@@ -102,5 +111,45 @@ VALUES ('Σπύρου Πάτση 59',
 		'ΣΟΒΑΤΖΗΣ',
 		'6934887117',
 		'1234');
+
+/* INSERT SOME SAMPLE DOCTORS */
+INSERT INTO Users (address,city_id, email, first_name, last_name, mobile, pass)
+VALUES ('Ροδόπης 1', 
+		(SELECT city_id FROM Cities WHERE city_name='Αθήνα'),
+		'dpetrakhs@hotmail.com',
+		'Δημήτρης',
+		'Πετράκης',
+		'6939904744',
+		'1234');
+
+INSERT INTO Users (address,city_id, email, first_name, last_name, mobile, pass)
+VALUES ('Τσαμαδού 25', 
+		(SELECT city_id FROM Cities WHERE city_name='Πειραιάς'),
+		'vpanagopoulos@gmail.com',
+		'Βασίλης',
+		'Παναγόπουλος',
+		'6940899086',
+		'1234');
+
+/* MAKE THE USERS AS DOCTORS BY RELATING RECORDS INTO DOCTORS TABLE */
+INSERT INTO Doctors (user_id)
+VALUES ((SELECT user_id FROM users WHERE email='dpetrakhs@hotmail.com'));
+
+INSERT INTO Doctors (user_id)
+VALUES ((SELECT user_id FROM users WHERE email='vpanagopoulos@gmail.com'));
+
+INSERT INTO Doctors_Specialties (doctor_id, specialty_id)
+VALUES (
+		(SELECT doctor_id FROM doctors INNER JOIN users ON doctors.user_id=users.user_id WHERE users.email='dpetrakhs@hotmail.com'),
+		(SELECT specialty_id FROM specialties WHERE specialty_name='Καρδιολόγος')
+	);
+
+INSERT INTO Doctors_Specialties (doctor_id, specialty_id)
+VALUES (
+		(SELECT doctor_id FROM doctors INNER JOIN users ON doctors.user_id=users.user_id WHERE users.email='vpanagopoulos@gmail.com'),
+		(SELECT specialty_id FROM specialties WHERE specialty_name='Παθολόγος')
+	);
+
+
 
 		

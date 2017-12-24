@@ -1,11 +1,14 @@
 package doctors.models;
 
+import java.util.ArrayList;
+
 import doctors.exceptions.InvalidFieldException;
 
 public class Specialty extends Entity {
 
 	private int specialty_id;
 	private String specialty_name;
+	private ArrayList<Doctor> relatedDoctors = new ArrayList<Doctor>();
 
 	public Specialty(int specialty_id, String specialty_name) throws InvalidFieldException {
 		this.setSpecialty_id(specialty_id);
@@ -40,6 +43,14 @@ public class Specialty extends Entity {
 
 		this.specialty_name = specialty_name;
     }
+
+	public ArrayList<Doctor> getRelatedDoctors() {
+		return relatedDoctors;
+	}
+
+	public void setRelatedDoctors(ArrayList<Doctor> relatedDoctors) {
+		this.relatedDoctors = relatedDoctors;
+	}
 
 }
 

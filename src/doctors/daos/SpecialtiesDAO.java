@@ -89,6 +89,11 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 
 	@Override
 	public Specialty GetById(int id) throws SQLException {
+		return this.GetById(id, true);
+	}
+	
+	@Override
+	public Specialty GetById(int id, boolean loadForeign) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -102,6 +107,9 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 		}catch(SQLException ex) {
 			
 			throw new SQLException(ex.toString());
+		} catch (InvalidFieldException e) {
+			
+			e.printStackTrace();
 		} 
 		
 		

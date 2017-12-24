@@ -61,7 +61,8 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 			// 3. Διαβάζω τις ώρες εργασίας του γιατρού και τις βάζω στο κατάλληλο object
 			WorkingHoursDAO wd = new WorkingHoursDAO();
 			doctor.setWorking_hours(wd.GetWorkingHoursForDoctor(doctor.getDoctor_id()));
-						
+			
+			// TODO: Να αποφασίσω αν αυτό χρειάζεται να μπει στο loadForeign
 			// 4. Διαβάζω τις ειδικότητες του γιατρού και τις βάζω στο κατάλληλο object
 			SpecialtiesDAO sd = new SpecialtiesDAO();
 			doctor.setSpecialties(sd.GetSpecialtiesForDoctor(doctor.getDoctor_id()));
@@ -98,9 +99,16 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 
 	@Override
 	public Doctor GetById(int id) throws SQLException {
+		return this.GetById(id, true);
+	}
+	
+	@Override
+	public Doctor GetById(int id, boolean loadForeign) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
 	
 
 	

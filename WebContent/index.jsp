@@ -1,7 +1,24 @@
+<%@page import="doctors.models.Specialty"%>
+<%@page import="doctors.models.City"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
 <%@include file="header.jsp" %>
+
+<%
+
+	ArrayList<Specialty> specialties = new ArrayList<Specialty>();
+	if(model.containsKey(ActionController.CITIES_ARRAY_LIST)) {
+		specialties=(ArrayList<Specialty>)model.get(ActionController.SPECIALTIES_ARRAY_LIST);
+	}
+
+	ArrayList<City> cities = new ArrayList<City>();
+	if(model.containsKey(ActionController.CITIES_ARRAY_LIST)) {
+		cities=(ArrayList<City>)model.get(ActionController.CITIES_ARRAY_LIST);
+	}
+
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -73,19 +90,21 @@
 							<div class="col-md-3">
 								<select class="form-control" id="specialty">
 								  <option value="0">Επιλέξτε ειδικότητα...</option>
-								  <option value="1">Καρδιολόγος</option>
-								  <option value="2">Παθολόγος</option>
-								  <option value="3">Ουρολόγος</option>
-								  <option value="4">Παιδίατρος</option>
+								  <%
+								  	for(Specialty specialty : specialties) {
+								  %>
+								  		<option value=<%=specialty.getSpecialty_id()%>><%=specialty.getSpecialty_name()%></option>
+								  <% } %>
 								</select>
 							</div>
 							<div class="col-md-2">
 								<select class="form-control" id="city">
-								  <option value="0">Επιλέξτε πόλη...</option>
-								  <option value="1">Αθήνα</option>
-								  <option value="2">Θεσσαλονίκη</option>
-								  <option value="3">Πάτρα</option>
-								  <option value="4">Βόλος</option>
+								  <option value="0">Παρακαλώ επιλέξτε πόλη...</option>
+								   <%
+								   	  for(City city : cities) {
+								   %>
+								   		<option value="<%=city.getCity_id()%>"><%=city.getCity_name()%></option>
+								   <% } %>
 								</select>
 							</div>
 							<div class="col-md-2">

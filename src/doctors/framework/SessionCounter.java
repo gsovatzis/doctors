@@ -23,7 +23,7 @@ public class SessionCounter implements HttpSessionListener {
 		try {
 			DBManager.getInstance().closeConnection();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	  }

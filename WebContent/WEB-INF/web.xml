@@ -5,12 +5,12 @@
 	id="WebApp_ID" version="2.5">
 	<display-name>doctors</display-name>
 	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>Index</welcome-file>
 	</welcome-file-list>
 
 	<context-param>
 		<param-name>dburl</param-name>
-		<param-value>jdbc:mysql://localhost:3306/doctors</param-value>
+		<param-value>jdbc:mysql://localhost:3306/doctors?useUnicode=yes&amp;characterEncoding=UTF-8</param-value>
 	</context-param>
 
 	<context-param>
@@ -22,6 +22,16 @@
 		<param-name>dbpass</param-name>
 		<param-value>jim</param-value>
 	</context-param>
+
+	<servlet>
+		<servlet-name>IndexController</servlet-name>
+		<servlet-class>doctors.controllers.IndexController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>IndexController</servlet-name>
+		<url-pattern>/Index</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>LoginController</servlet-name>

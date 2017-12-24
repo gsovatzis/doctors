@@ -18,7 +18,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 
 	protected final String findAppointmentsForUser = "SELECT appointment_id, user_id, doctor_id, appointment_date_time, medical_examination, user_comments, rating FROM Appointments WHERE user_id=?;";
 	protected final String findAppointmentsForDoctor = "SELECT appointment_id, user_id, doctor_id, appointment_date_time, medical_examination, user_comments, rating FROM Appointments WHERE doctor_id=?;";
-	protected final String createAppointment = "INSERT INTO Appointments VALUES (?,?,?,?,?,?,?)";
+	protected final String createAppointment = "INSERT INTO Appointments VALUES (?,?,?,?,?,?)";
 	protected final String getAllAppointments = "SELECT * FROM Appointments";
 	protected final String getById = "SELECT appointment_id,user_id,doctor_id,appointment_date_time,medical_examination,user_comments,rating FROM Appointments WHERE appointment_id = ?;";
 	
@@ -30,23 +30,18 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 	public void Create(Appointment entity) throws SQLException {
 		PreparedStatement stmt = null;
 		try {
-			
 			stmt = conn.prepareStatement(createAppointment);
-			stmt.setInt(1,entity.getAppointment_id());
-			stmt.setInt(2,entity.getUser().getUser_id());
-			stmt.setInt(3, entity.getDoctor().getDoctor_id());
-			stmt.setDate(4,entity.getAppointment_date_time());
-			stmt.setString(5,entity.getMedical_examination());
-			stmt.setString(6, entity.getUser_comments());
-			stmt.setInt(7,entity.getRatings());
+			stmt.setInt(1,entity.getUser().getUser_id());
+			stmt.setInt(2, entity.getDoctor().getDoctor_id());
+			stmt.setDate(3, new java.sql.Date(entity.getAppointment_date_time().getTime()));
+			stmt.setString(4,entity.getMedical_examination());
+			stmt.setString(5, entity.getUser_comments());
+			stmt.setInt(6,entity.getRatings());
 			stmt.executeUpdate();
-			
 		}catch(SQLException ex) {
-			
 			throw ex;
 		
 		}finally {
-			
 			stmt.close();
 		}
 		
@@ -54,12 +49,10 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 
 	@Override
 	public ArrayList<Appointment> GetAll() throws SQLException {
-		
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 		PreparedStatement stmt = null;
 		ResultSet rst = null;
 		try {
-			
 			stmt = conn.prepareStatement(getAllAppointments);
 			rst = stmt.executeQuery();
 	
@@ -98,7 +91,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 			rst = smt.executeQuery();
 			while(rst.next()) {
 				Appointment u = new Appointment();
-				u = Populate(rst,true);
+				u = Populate(rst,false);
 				Appointments.add(u);
 				
 			}
@@ -130,6 +123,11 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 
 	@Override
 	public Appointment GetById(int id) throws SQLException {
+		return this.GetById(id, true);
+	}
+	
+	@Override
+	public Appointment GetById(int id, boolean loadForeign) throws SQLException {
 		PreparedStatement stmt = null;
 		ResultSet rst = null;
 		Appointment appointment = null;
@@ -139,7 +137,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 			rst = stmt.executeQuery();
 			if(rst.next()) {
 				
-				appointment = Populate(rst,true);
+				appointment = Populate(rst,loadForeign);
 				
 				
 		   }
@@ -171,14 +169,13 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
             if(loadForeign == true) {
                    //Also populate appointment's User object 
                    UsersDAO ud = new UsersDAO();
-                   appointment.setUser(ud.GetById(rst.getInt("user_id")));
+                   appointment.setUser(ud.GetById(rst.getInt("user_id"),false));
                    
                    //Also populate appointment's Doctor object
                    DoctorsDAO dd = new DoctorsDAO();
-                   appointment.setDoctor(dd.GetById(rst.getInt("doctor_id")));
+                   appointment.setDoctor(dd.GetById(rst.getInt("doctor_id"),false));
+            }
             
-            
-          }
        }catch(Exception ex) {
     	   
     	  throw new SQLException(ex.toString());

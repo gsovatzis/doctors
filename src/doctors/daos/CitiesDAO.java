@@ -51,7 +51,6 @@ public class CitiesDAO extends DBHandler<City> {
 			rst.close();
 		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 
@@ -69,9 +68,14 @@ public class CitiesDAO extends DBHandler<City> {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public City GetById(int id) throws SQLException {
+		return this.GetById(id, true);
+	}
+
+	@Override
+	public City GetById(int id, boolean loadForeign) throws SQLException {
 		City city = null;	// Initially our return object is null, if no city is found NULL will be returned
 		
 		try {
@@ -87,7 +91,7 @@ public class CitiesDAO extends DBHandler<City> {
 			// If the result set moves to the next record, then city is found 
 			// -> fill the city object to be returned from the Database
 			if(rst.next()) {
-				city = Populate(rst, false);
+				city = Populate(rst, loadForeign);
 			}
 			
 			// Close query and result set
@@ -95,7 +99,7 @@ public class CitiesDAO extends DBHandler<City> {
 			rst.close();
 		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} 
 

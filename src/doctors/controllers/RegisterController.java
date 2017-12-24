@@ -31,7 +31,7 @@ public class RegisterController extends ActionController implements IValidatable
 			return "/GotoRegister";
 		} 
 		
-		return "/index.jsp";	// If everything goes OK, go to index.jsp page
+		return "/Index";	// If everything goes OK, go to index.jsp page
 	}
 
 	@Override

@@ -7,8 +7,8 @@
 <%
 	User user = new User();	
 
-	if(model.containsKey(ActionController.ENTITY_HASMAP_KEY))
-		user = (User)model.get(ActionController.ENTITY_HASMAP_KEY);
+	if(model.containsKey(ActionController.ENTITY_HASHMAP_KEY))
+		user = (User)model.get(ActionController.ENTITY_HASHMAP_KEY);
 %>   
 
 

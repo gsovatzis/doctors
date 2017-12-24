@@ -31,12 +31,11 @@ public abstract class ActionController extends HttpServlet {
 	// Entities to be transferred with the request (inside the model hashmap -> those are the hashmap keys)
 	public static final String ENTITY_HASHMAP_KEY = "entity";
 	public static final String CITIES_ARRAY_LIST = "cities";
+	public static final String SPECIALTIES_ARRAY_LIST = "specialties";
 	
 	protected String returnUrl="";
 	protected String message="";	// The action message to be returned to the page (it can be an error, or info message)
 	protected HashMap<String, Object> model = new HashMap<String, Object>();
-	
-	
 	
 	protected HttpServletRequest req;
 	protected HttpServletResponse resp;

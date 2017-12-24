@@ -121,9 +121,14 @@ public class UsersDAO extends DBHandler<User> {
 		
 	}
 
-
 	@Override
 	public User GetById(int id) throws SQLException {
+		// This method calls GetById -> with true by default on loadForeign
+		return this.GetById(id, true);
+	}
+
+	@Override
+	public User GetById(int id, boolean loadForeign) throws SQLException {
 		User user = null;	// Initially our return object is null, if no user is found NULL will be returned
 		PreparedStatement findUserStmt = null;
 		ResultSet rst = null;
@@ -139,7 +144,7 @@ public class UsersDAO extends DBHandler<User> {
 			// If the result set moves to the next record, then user is found 
 			// -> fill the user object to be returned from the Database
 			if(rst.next()) {
-				user = Populate(rst,true);
+				user = Populate(rst, loadForeign);
 			}
 			
 		} catch (SQLException ex) {
