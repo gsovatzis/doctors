@@ -7,6 +7,8 @@ public class Doctor extends Entity {
 
 	private int doctor_id;
 
+	private double rating;
+	
 	// This property relates a DOCTOR with a USER (HAS-A) --> COMPOSITION
 	private User user;
 
@@ -83,6 +85,14 @@ public class Doctor extends Entity {
 
 	public void addWorking_hour(Working_Hour working_hour) {
 		this.working_hours.add(working_hour);
+	}
+
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
 	}
 
 

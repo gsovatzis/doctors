@@ -17,10 +17,33 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 	protected final String returnDoctorsQuery = "SELECT doctor_id, user_id FROM DOCTORS "
 											  + "INNER JOIN USERS ON DOCTORS.user_id = USERS.user_id ";
 	
+	protected final String getDoctorRatingQuery = "SELECT AVG(rating) AS avg_rating FROM appointments WHERE doctor_id=?";
+	
+	protected final String searchDoctorsQuery = "";
+	
 	 public DoctorsDAO() throws DBManagerException {
 		 super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
 	 }
+	 
+	 public ArrayList<Doctor> SearchDoctors(String fullName, int specialtyId, int cityId, int minRating) throws SQLException {
+		 ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+		 
+		 /*  ΠΡΟΣΟΧΗ με LIKE το Fullname για τις κολώνες first_name και last_name
+		  *  μετά το populate, την ώρα που θα γεμίζεις το arraylist doctors, θα κοιτάς
+		  *  αν η ιδιότητα doctor.getRating είναι μεγαλύτερη ή ίση από το minRating που έχω δώσει
+		  *  σαν παράμετρο της μεθόδου => αν δεν είναι δεν το κάνεις add στα αποτελέσματα
+		  */
+		 
+		 return doctors;
+	 }
     
+	 private double GetRatingForDoctor(int doctorId) throws SQLException {
+		 // TODO: Write code that returns the Average rating for the specific doctor id
+		 //       taking into account all of his appointments
+		 
+		 return 0;
+	 }
+	 
 	@Override 
     public ArrayList<Doctor> GetAll() throws SQLException { //Σου επιστρεφει ολη την λιστα με τους γιατρους//
     	PreparedStatement stmt = null;

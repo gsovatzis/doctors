@@ -73,6 +73,17 @@
 		<url-pattern>/GotoRegister</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>SearchDoctorsController</servlet-name>
+		<servlet-class>doctors.controllers.SearchDoctorsController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>SearchDoctorsController</servlet-name>
+		<url-pattern>/SearchDoctors</url-pattern>
+	</servlet-mapping>
+	
+	
 	<listener>
   		<listener-class>
    			doctors.framework.SessionCounter
