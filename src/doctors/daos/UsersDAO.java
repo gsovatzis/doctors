@@ -39,7 +39,7 @@ public class UsersDAO extends DBHandler<User> {
 			// If the result set moves to the next record, then user is found 
 			// -> fill the user object to be returned from the Database
 			if(rst.next()) {
-				user = Populate(rst,true);
+				user = Populate(rst,false);
 			}
 			
 			// Close query and result set

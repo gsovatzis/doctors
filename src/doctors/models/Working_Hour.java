@@ -9,7 +9,7 @@ public class Working_Hour extends Entity {
 	private Date work_day;
 	private String from_hour;
 	private String to_hour;
-
+    //Στην βαση το χουμε βαλει να συνδεεται με doctor και εδω οχι τι παιζει ??//
 	public Working_Hour(int working_hours_id, Date work_day, String from_hour, String to_hour) throws InvalidFieldException {
 
 		this.setWorking_hours_id(working_hours_id);

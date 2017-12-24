@@ -97,21 +97,21 @@ public class Appointment extends Entity {
         this.rating = rating;
 	}
 
-//	public User getUser() {
-//		return user;
-//	}
+	public User getUser() {
+		return user;
+	}
 
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-//	public Doctor getDoctor() {
-//		return doctor;
-//	}
+	public Doctor getDoctor() {
+		return doctor;
+	}
 
-//	public void setDoctor(Doctor doctor) {
-//		this.doctor = doctor;
-//	}
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
 
 
 
