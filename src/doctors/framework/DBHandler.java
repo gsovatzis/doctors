@@ -34,6 +34,17 @@ public abstract class DBHandler<Model> {
 	
 	protected abstract Model Populate(ResultSet rst, boolean loadForeign) throws SQLException;
 	
+	public String addWhereOrAnd(String sqlQuery) {
+		
+		if(sqlQuery!=null || !sqlQuery.isEmpty()) {
+			if(sqlQuery.toLowerCase().contains("where"))
+				sqlQuery = sqlQuery + " AND ";
+			else
+				sqlQuery = sqlQuery + " WHERE ";
+		}
+		
+		return sqlQuery;
+	}
 	public int GetLastInsertId() throws SQLException {
 		// This method returns the last inserted id in the database session!
 		int result = 0;

@@ -131,7 +131,7 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 			if(loadForeign = true) {
 			      try {
 					DoctorsDAO dd = new DoctorsDAO();
-				    specialty.setRelatedDoctors(dd.getDoctorsbySpecialtyid()); //Πρεπει να φτιαξουμε μια μεθοδος στο doctordaos που θσα γυρναει doctors με βαση το specialty_id//
+				    specialty.setRelatedDoctors(dd.GetDoctorsForSpecialty(specialty.getSpecialty_id())); //Πρεπει να φτιαξουμε μια μεθοδος στο doctordaos που θσα γυρναει doctors με βαση το specialty_id//
 				} catch (DBManagerException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

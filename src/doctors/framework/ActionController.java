@@ -32,6 +32,11 @@ public abstract class ActionController extends HttpServlet {
 	public static final String ENTITY_HASHMAP_KEY = "entity";
 	public static final String CITIES_ARRAY_LIST = "cities";
 	public static final String SPECIALTIES_ARRAY_LIST = "specialties";
+	public static final String SEARCH_RESULTS_ARRAY_LIST = "searchResults";
+	public static final String DOCTORNAME = "doctorname";
+	public static final String SPECIALTY = "specialty";
+	public static final String CITY = "city";
+	public static final String RATING = "rating";
 	
 	protected String returnUrl="";
 	protected String message="";	// The action message to be returned to the page (it can be an error, or info message)

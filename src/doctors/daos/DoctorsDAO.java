@@ -21,31 +21,35 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 	
 	protected final String getDoctorRatingQuery = "SELECT AVG(rating) AS avg_rating FROM appointments WHERE doctor_id=?";
 	
-	protected final String searchDoctorsQueryforAllconditions = "SELECT doctor_id,user_id FROM DOCTORS"
-			                                                  + "INNER JOIN USERS ON DOCTORS.user_id = USERS.user_id"
-			                                                  + "WHERE fullname";
-	
-	
-	SELECT CONCAT(first_name," ", last_name) AS fullName FROM `users` 
-	WHERE CONCAT(first_name," ", last_name) LIKE '%ΣΟΒ%'
-	
-	 public DoctorsDAO() throws DBManagerException {
-		 super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
-	 }
-	 
-	 public ArrayList<Doctor> SearchDoctors(String fullName, int specialtyId, int cityId, int minRating) throws SQLException {
+	protected String searchDoctorsQuery = "SELECT doctor_id, user_id FROM doctors "
+                                              + "INNER JOIN users ON doctors.user_id = users.user_id"
+                                          	  + "INNER JOIN doctors_specialties ON doctors.doctor_id = doctors_specialties.doctor_id";
+                                   
+                                                 
+	public ArrayList<Doctor> SearchDoctors(String fullName, int specialtyId, int cityId, int minRating) throws SQLException {
 		 ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+		 
 		 PreparedStatement stmt = null;
 		 ResultSet rst = null;
+		 
 		 try {
 			 
+			 if(fullName!=null || !fullName.isEmpty())
+				 searchDoctorsQuery = addWhereOrAnd(searchDoctorsQuery) + " CONCAT(users.first_name,\" \", users.last_name) LIKE ?";
+			 
+			 if(specialtyId > 0)
+				 searchDoctorsQuery = addWhereOrAnd(searchDoctorsQuery) + " doctors_specialties.specialty_id=?";
+			 
+			 if(cityId > 0)
+				 searchDoctorsQuery = addWhereOrAnd(searchDoctorsQuery) + " users.city_id=?";
+			 
 			 stmt = conn.prepareStatement(searchDoctorsQuery);
-			 stmt.setString(1,fullName);
 			 
-		 }catch(SQLException ex) {
+			 
+		 } catch(SQLException ex) {
 			 throw ex;
-			 
 		 }
+		 
 		 
 		 /*  ΠΡΟΣΟΧΗ με LIKE το Fullname για τις κολώνες first_name και last_name
 		  *  μετά το populate, την ώρα που θα γεμίζεις το arraylist doctors, θα κοιτάς
@@ -55,6 +59,22 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 		 
 		 return doctors;
 	 }
+	
+	
+	/*
+	SELECT CONCAT(first_name," ", last_name) AS fullName FROM `users` 
+	WHERE CONCAT(first_name," ", last_name) LIKE '%ΣΟΒ%' */
+	
+	 public DoctorsDAO() throws DBManagerException {
+		 super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
+	 }
+	 
+	 public ArrayList<Doctor> GetDoctorsForSpecialty(int specialtyId) throws SQLException {
+		 // TODO: Implement this method to return doctors related to a specialty
+		 return null;
+	 }
+	 
+	 
     
 	 private double GetRatingForDoctor(int doctorId) throws SQLException {
 		 // TODO: Write code that returns the Average rating for the specific doctor id

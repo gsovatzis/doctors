@@ -17,7 +17,24 @@
 	if(model.containsKey(ActionController.CITIES_ARRAY_LIST)) {
 		cities=(ArrayList<City>)model.get(ActionController.CITIES_ARRAY_LIST);
 	}
-
+	
+	String doctorname = "";
+	int selectedCity=0, selectedRating=0, selectedSpecialty=0;
+	if(model.containsKey(ActionController.DOCTORNAME)) {
+		doctorname=(String)model.get(ActionController.DOCTORNAME);
+	}
+	
+	if(model.containsKey(ActionController.CITY)) {
+		selectedCity=(Integer)model.get(ActionController.CITY);
+	}
+	
+	if(model.containsKey(ActionController.RATING)) {
+		selectedRating=(Integer)model.get(ActionController.RATING);
+	}
+	
+	if(model.containsKey(ActionController.SPECIALTY)) {
+		selectedSpecialty=(Integer)model.get(ActionController.SPECIALTY);
+	}
 %>
 
 <!DOCTYPE html>
@@ -75,7 +92,7 @@
 			
 				<div class="col-md-12">
 				
-					<form action="#" method="post">
+					<form action="SearchDoctors" method="post">
 						  <div class="form-group row">
 							<div class="col-md-4"><label for="doctorname" class="col-form-label">Όνομα ή επώνυμο γιατρού</label></div>
 							<div class="col-md-3"><label for="specialty" class="col-form-label">Ειδικότητα γιατρού</label></div>
@@ -85,35 +102,42 @@
 						  </div>
 						  <div class="form-group row">
 							<div class="col-md-4">
-								<input type="text" class="form-control" id="doctorname" placeholder="Αναζήτηση για ονοματεπώνυμο...">
+								<input type="text" class="form-control" id="doctorname" name="doctorname" 
+								value="<%=doctorname!=null?doctorname:""%>"
+								placeholder="Αναζήτηση για ονοματεπώνυμο...">
 							</div>
 							<div class="col-md-3">
-								<select class="form-control" id="specialty">
+								<select class="form-control" id="specialty" name="specialty">
 								  <option value="0">Επιλέξτε ειδικότητα...</option>
 								  <%
 								  	for(Specialty specialty : specialties) {
 								  %>
-								  		<option value=<%=specialty.getSpecialty_id()%>><%=specialty.getSpecialty_name()%></option>
+								  		<option <%=selectedSpecialty==specialty.getSpecialty_id()?"selected":"" %> 
+								  			value=<%=specialty.getSpecialty_id()%>>
+								  			<%=specialty.getSpecialty_name()%>
+							  			</option>
 								  <% } %>
 								</select>
 							</div>
 							<div class="col-md-2">
-								<select class="form-control" id="city">
+								<select class="form-control" id="city" name="city">
 								  <option value="0">Παρακαλώ επιλέξτε πόλη...</option>
 								   <%
 								   	  for(City city : cities) {
 								   %>
-								   		<option value="<%=city.getCity_id()%>"><%=city.getCity_name()%></option>
+								   		<option <%=selectedCity==city.getCity_id()?"selected":"" %> 
+								   			value="<%=city.getCity_id()%>">
+								   			<%=city.getCity_name()%>
+						   				</option>
 								   <% } %>
 								</select>
 							</div>
 							<div class="col-md-2">
-								<select class="form-control" id="rating">
+								<select class="form-control" id="rating" name="rating">
 								  <option value="0">Βαθμολογία...</option>
-								  <option value="1">&gt; 1</option>
-								  <option value="2">&gt; 2</option>
-								  <option value="3">&gt; 3</option>
-								  <option value="4">&gt; 4</option>
+								  <% for(int i=1;i<5;i++) { %>
+								  	<option <%=selectedRating==i?"selected":"" %> value="<%=i%>">&gt; <%=i%></option>
+								  <% } %>
 								</select>
 							</div>
 							<div class="col-md-1 text-right">
