@@ -16,7 +16,9 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 
 	private final String createSpecialty = "INSERT INTO Specialties VALUES (?,?);";
 	private final String getAll = "SELECT * FROM Specialties";
-	
+	private final String getSpecialtiesForDoctor = "SELECT specialty_id,specialty_name,doctor_id FROM Specialties"
+			                                     + "INNER JOIN Doctors_Specialties ON Specialties.specialty_id = Doctors_Specialties.specialty_id"
+	                                             + "WHERE doctor_id = ?";
 	public SpecialtiesDAO() throws DBManagerException {
 		super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
@@ -69,9 +71,31 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 		return specialties;
 	}
 	
-	public ArrayList<Specialty> GetSpecialtiesForDoctor(int doctor_id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Specialty> GetSpecialtiesForDoctor(int doctor_id,boolean Loadforeign) throws SQLException {
+		ArrayList<Specialty> specialties = new ArrayList<Specialty>();
+		PreparedStatement stmt = null;
+		ResultSet rst = null;
+		Specialty specialty = null;
+		try {
+			
+			stmt = conn.prepareStatement(getSpecialtiesForDoctor);
+			stmt.setInt(1,doctor_id);
+			rst = stmt.executeQuery();
+			while(rst.next()) {
+				
+				specialty = Populate(rst,Loadforeign);
+				specialties.add(specialty);
+				
+		    }
+		}catch(SQLException ex) {
+			
+			throw ex;
+		}finally {
+			
+			rst.close();
+			stmt.close();
+		}
+		return specialties;
 	}
 
 
@@ -104,6 +128,18 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 		try {
 			specialty.setSpecialty_id(rst.getInt("specialty_id"));
 			specialty.setSpecialty_name(rst.getString("specialty_name"));
+			if(loadForeign = true) {
+			      try {
+					DoctorsDAO dd = new DoctorsDAO();
+				    specialty.setRelatedDoctors(dd.getDoctorsbySpecialtyid()); //Πρεπει να φτιαξουμε μια μεθοδος στο doctordaos που θσα γυρναει doctors με βαση το specialty_id//
+				} catch (DBManagerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
+			}
+			
+			
 		}catch(SQLException ex) {
 			
 			throw new SQLException(ex.toString());

@@ -17,9 +17,17 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 	protected final String returnDoctorsQuery = "SELECT doctor_id, user_id FROM DOCTORS "
 											  + "INNER JOIN USERS ON DOCTORS.user_id = USERS.user_id ";
 	
+//	protected final String getSpecialtiesforDoctor = "SELECT * FROM Doctors_Specialties WHERE doctor_id = ?"; //
+	
 	protected final String getDoctorRatingQuery = "SELECT AVG(rating) AS avg_rating FROM appointments WHERE doctor_id=?";
 	
-	protected final String searchDoctorsQuery = "";
+	protected final String searchDoctorsQueryforAllconditions = "SELECT doctor_id,user_id FROM DOCTORS"
+			                                                  + "INNER JOIN USERS ON DOCTORS.user_id = USERS.user_id"
+			                                                  + "WHERE fullname";
+	
+	
+	SELECT CONCAT(first_name," ", last_name) AS fullName FROM `users` 
+	WHERE CONCAT(first_name," ", last_name) LIKE '%ΣΟΒ%'
 	
 	 public DoctorsDAO() throws DBManagerException {
 		 super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
@@ -27,6 +35,17 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 	 
 	 public ArrayList<Doctor> SearchDoctors(String fullName, int specialtyId, int cityId, int minRating) throws SQLException {
 		 ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+		 PreparedStatement stmt = null;
+		 ResultSet rst = null;
+		 try {
+			 
+			 stmt = conn.prepareStatement(searchDoctorsQuery);
+			 stmt.setString(1,fullName);
+			 
+		 }catch(SQLException ex) {
+			 throw ex;
+			 
+		 }
 		 
 		 /*  ΠΡΟΣΟΧΗ με LIKE το Fullname για τις κολώνες first_name και last_name
 		  *  μετά το populate, την ώρα που θα γεμίζεις το arraylist doctors, θα κοιτάς
@@ -88,7 +107,7 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 			// TODO: Να αποφασίσω αν αυτό χρειάζεται να μπει στο loadForeign
 			// 4. Διαβάζω τις ειδικότητες του γιατρού και τις βάζω στο κατάλληλο object
 			SpecialtiesDAO sd = new SpecialtiesDAO();
-			doctor.setSpecialties(sd.GetSpecialtiesForDoctor(doctor.getDoctor_id()));
+			doctor.setSpecialties(sd.GetSpecialtiesForDoctor(doctor.getDoctor_id(),false));
 
 			if(loadForeign==true) {
 				// 5. Διαβάζω τα ραντεβού του γιατρού και τα βάζω στο κατάλληλο object

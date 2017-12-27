@@ -18,8 +18,10 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 	private String createWorking_hour = "INSERT INTO Working_hours(working_hours_id,work_day,from_hour,to_hour,doctor_id) VALUES(?,?,?,?,?);";
     private String getAllWorking_hours ="SELECT * FROM Working_hours";
     private String getById ="SELECT * FROM working_hours WHERE working_hours_id = ?";
+    private String getWorkingHoursforDoctor = "SELECT * FROM Working_hours WHERE doctor_id = ?"; 
+	
     
-	public WorkingHoursDAO() throws DBManagerException {
+    public WorkingHoursDAO() throws DBManagerException {
 		super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}
 
@@ -74,8 +76,30 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 	}
 	
 	public ArrayList<Working_Hour> GetWorkingHoursForDoctor(int doctor_id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	    ArrayList<Working_Hour> working_hours = new ArrayList<Working_Hour>();
+	    PreparedStatement stmt = null;
+	    ResultSet rst = null;
+	    Working_Hour working_hour = null;
+	    try {
+	    	stmt = conn.prepareStatement("getWorkingHoursforDoctor");
+	        stmt.setInt(1, doctor_id);
+	        rst = stmt.executeQuery();
+	        while(rst.next()) {
+	        	
+	        	working_hour = Populate(rst,true);
+	        	working_hours.add(working_hour);
+	        }
+	    	
+	   }catch(SQLException ex) {
+		   
+		   throw ex;
+		   
+	   }finally {
+		   
+		   rst.close();
+		   stmt.close();
+	   }
+		return working_hours;
 	}
 
 	@Override

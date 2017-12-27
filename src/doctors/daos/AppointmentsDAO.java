@@ -76,8 +76,27 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 	}
 
 	public ArrayList<Appointment> GetAppointmentsForDoctor(int doctor_id) throws SQLException {
-		// TODO Auto-generated method stub //Στην ουσια το ιδιο με το getAppointmentForUser δεν ειναι;//
-		return null;
+		ArrayList<Appointment> Appointments = new ArrayList<Appointment>();
+		PreparedStatement smt = null;
+		ResultSet rst = null;
+		Appointment appointment = null;
+		try {
+			
+			smt = conn.prepareStatement(findAppointmentsForDoctor);
+			smt.setInt(1, doctor_id);
+			rst = smt.executeQuery();
+			while(rst.next()) {
+				appointment = Populate(rst,false);
+				Appointments.add(appointment);
+			}
+		}catch(SQLException ex) {
+			
+			throw ex;
+		}finally {
+			rst.close();
+			smt.close();
+		}
+		return Appointments;
 	}
 	
 	public ArrayList<Appointment> GetAppointmentsForUser(int user_id) throws SQLException {
