@@ -4,8 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
 import doctors.exceptions.DBManagerException;
 import doctors.exceptions.InvalidFieldException;
 import doctors.framework.DBHandler;
@@ -16,9 +14,9 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 
 	private final String createSpecialty = "INSERT INTO Specialties VALUES (?,?);";
 	private final String getAll = "SELECT * FROM Specialties";
-	private final String getSpecialtiesForDoctor = "SELECT specialty_id,specialty_name,doctor_id FROM Specialties"
-			                                     + "INNER JOIN Doctors_Specialties ON Specialties.specialty_id = Doctors_Specialties.specialty_id"
-	                                             + "WHERE doctor_id = ?";
+	private final String getSpecialtiesForDoctor = "SELECT Specialties.specialty_id, Specialties.specialty_name, Doctors_Specialties.doctor_id FROM Specialties"
+			                                     + " INNER JOIN Doctors_Specialties ON Specialties.specialty_id = Doctors_Specialties.specialty_id"
+	                                             + " WHERE Doctors_Specialties.doctor_id = ?";
 	public SpecialtiesDAO() throws DBManagerException {
 		super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
 	}

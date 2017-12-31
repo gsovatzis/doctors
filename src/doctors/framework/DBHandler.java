@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import doctors.exceptions.DBManagerException;
 
 public abstract class DBHandler<Model> {
 
@@ -36,7 +35,7 @@ public abstract class DBHandler<Model> {
 	
 	public String addWhereOrAnd(String sqlQuery) {
 		
-		if(sqlQuery!=null || !sqlQuery.isEmpty()) {
+		if(sqlQuery!=null) {
 			if(sqlQuery.toLowerCase().contains("where"))
 				sqlQuery = sqlQuery + " AND ";
 			else

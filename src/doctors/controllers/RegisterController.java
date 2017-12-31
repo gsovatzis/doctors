@@ -5,10 +5,7 @@ import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-
 import doctors.daos.UsersDAO;
-import doctors.exceptions.DBManagerException;
-import doctors.exceptions.InvalidFieldException;
 import doctors.framework.ActionController;
 import doctors.framework.IValidatable;
 import doctors.models.City;

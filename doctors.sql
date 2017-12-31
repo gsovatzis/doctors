@@ -55,9 +55,9 @@ DROP TABLE IF EXISTS Working_hours;
 
 CREATE TABLE Working_hours (
 	working_hours_id int(11) NOT NULL AUTO_INCREMENT,
-	work_day DATE,
-	from_hour VARCHAR(11),
-	to_hour VARCHAR(11),
+	work_day int(11) NOT NULL,
+	from_hour int(11) NOT NULL,
+	to_hour int(11) NOT NULL,
 	doctor_id int(11) NOT NULL,
 	PRIMARY KEY(working_hours_id),
 	FOREIGN KEY(doctor_id) references Doctors(doctor_id)

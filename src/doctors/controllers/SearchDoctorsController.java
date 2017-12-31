@@ -55,7 +55,6 @@ public class SearchDoctorsController extends ActionController {
 		this.model.put(ActionController.SPECIALTY, specialty);
 		this.model.put(ActionController.RATING, rating);
 		
-		
 		return "/Index";
 	}
     //Nothing to validate so is empty//

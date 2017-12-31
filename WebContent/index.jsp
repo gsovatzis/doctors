@@ -1,3 +1,5 @@
+<%@page import="doctors.models.Working_Hour"%>
+<%@page import="doctors.models.Doctor"%>
 <%@page import="doctors.models.Specialty"%>
 <%@page import="doctors.models.City"%>
 <%@page import="java.util.ArrayList"%>
@@ -18,6 +20,11 @@
 		cities=(ArrayList<City>)model.get(ActionController.CITIES_ARRAY_LIST);
 	}
 	
+	ArrayList<Doctor> searchResults = new ArrayList<Doctor>();
+	if(model.containsKey(ActionController.SEARCH_RESULTS_ARRAY_LIST)) {
+		searchResults=(ArrayList<Doctor>) model.get(ActionController.SEARCH_RESULTS_ARRAY_LIST);
+	}
+	
 	String doctorname = "";
 	int selectedCity=0, selectedRating=0, selectedSpecialty=0;
 	if(model.containsKey(ActionController.DOCTORNAME)) {
@@ -35,6 +42,8 @@
 	if(model.containsKey(ActionController.SPECIALTY)) {
 		selectedSpecialty=(Integer)model.get(ActionController.SPECIALTY);
 	}
+	
+	
 %>
 
 <!DOCTYPE html>
@@ -154,50 +163,57 @@
 				<h4>Αποτελέσματα αναζήτησης</h4>
 			</div>
 			<form action="appointment.jsp" method="post">
-				<div class="row">
-					<div class="col-md-1">
-						<img src="images/member1.png" class="img-thumbnail" alt="Member">
-					</div>
-					<div class="col-md-5 text-left inline">
-						<a href="profile.jsp"><h3>Δημήτρης Πετράκης</a>&nbsp;<small>Καρδιολόγος, Παθολόγος</small></h3> 
-						<p><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Ροδόπης 1, Αθήνα</p> 
-					</div>
-					<div class="col-md-2 text-left inline">
-						<span class="glyphicon glyphicon-time"></span> Δευτέρα - Παρασκευή 12:00 - 20:00
-					</div>
-					<div class="col-md-2 text-left inline">
-						<span class="glyphicon glyphicon-star"></span>&nbsp;
-						<span class="glyphicon glyphicon-star"></span>&nbsp;
-						<span class="glyphicon glyphicon-star"></span>&nbsp;
-						<span class="glyphicon glyphicon-star"></span>&nbsp;
-					</div>
-					<div class="col-md-2">
-						<button type="submit" class="btn btn-warning">Κλείστε ραντεβού</button>
-					</div>
-				</div>
-				<br/>
+				<% if(searchResults.size()==0) { %>
 				
-				<div class="row">
-					<div class="col-md-1">
-						<img src="images/member1.png" class="img-thumbnail" alt="Member">
+					<div class="row">
+						<div class="col-md-12 text-center">
+							Δεν βρέθηκαν γιατροί με τα κριτήρια αναζήτησης που δώσατε. Παρακαλώ δοκιμάστε ξανά!
+						</div>
 					</div>
-					<div class="col-md-5 text-left inline">
-						<a href="#"><h3>Βασίλης Παναγόπουλος</a>&nbsp;<small>Παιδίατρος</small></h3> 
-						<p><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Τσαμαδού 25, Πειραιάς</p> 
-					</div>
-					<div class="col-md-2 text-left inline">
-						<span class="glyphicon glyphicon-time"></span> Δευτέρα - Παρασκευή 17:00 - 21:00
-					</div>
-					<div class="col-md-2 text-left inline">
-						<span class="glyphicon glyphicon-star"></span>&nbsp;
-						<span class="glyphicon glyphicon-star"></span>&nbsp;
-						<span class="glyphicon glyphicon-star"></span>&nbsp;
-					</div>
-					<div class="col-md-2">
-						<button type="submit" class="btn btn-warning">Κλείστε ραντεβού</button>
-					</div>
-				</div>
-				<br/>
+					<br/>
+				
+				<% } else { %>
+				
+					<% for(Doctor doctor : searchResults) { %>
+						
+						<div class="row">
+							<div class="col-md-1">
+								<img src="images/member1.png" class="img-thumbnail" alt="Member">
+							</div>
+							<div class="col-md-4 text-left inline">
+								<a href="GetDoctor?doctorid=<%=doctor.getDoctor_id()%>"><h3><%=doctor.getUser().getFirst_name()%>&nbsp;<%=doctor.getUser().getLast_name()%></a>
+									<br/>
+									<small>
+										<% for (Specialty specialty : doctor.getSpecialties()) { %>
+											<%=specialty.getSpecialty_name() %>&nbsp;
+										<% } %>
+									</small>
+								</h3> 
+								<p><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;<%=doctor.getUser().getAddress() %>,&nbsp;<%=doctor.getUser().getCity().getCity_name()%></p> 
+							</div>
+							<div class="col-md-3 text-left inline">
+								<% for(Working_Hour wh : doctor.getWorking_hours()) { %>
+									<span class="glyphicon glyphicon-time"></span>&nbsp;<%=wh.getWorkDayName(wh.getWork_day())%>:&nbsp;<%=wh.getWorkingHour(wh.getFrom_hour()) %>&nbsp;-&nbsp;<%=wh.getWorkingHour(wh.getTo_hour()) %><br/>
+								<% } %>
+							</div>
+							<div class="col-md-2 text-left inline">
+								<% if(doctor.getRating()==0) { %>
+									Ο γιατρός δεν έχει ακόμη αξιολογηθεί!
+								<% } else { 
+									for(int i=1;i<=Math.round(doctor.getRating());i++) {
+								%>
+									<span class="glyphicon glyphicon-star"></span>&nbsp;
+									<% } %>
+								<% } %>
+							</div>
+							<div class="col-md-2">
+								<button type="submit" class="btn btn-warning">Κλείστε ραντεβού</button>
+							</div>
+						</div>
+						<br/>
+				
+					<% } %>
+				<% } %>
 				
 			</form>
 			

@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import doctors.framework.DBManager;
-import doctors.models.City;
-import doctors.models.Entity;
-import doctors.models.User;
 import doctors.exceptions.InvalidFieldException;
 
 public abstract class ActionController extends HttpServlet {

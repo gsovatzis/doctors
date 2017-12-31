@@ -83,6 +83,15 @@
 		<url-pattern>/SearchDoctors</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>GetDoctorController</servlet-name>
+		<servlet-class>doctors.controllers.GetDoctorController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>GetDoctorController</servlet-name>
+		<url-pattern>/GetDoctor</url-pattern>
+	</servlet-mapping>
 	
 	<listener>
   		<listener-class>

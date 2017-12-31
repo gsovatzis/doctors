@@ -1,12 +1,9 @@
 package doctors.daos;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-
 import doctors.exceptions.DBManagerException;
 import doctors.exceptions.InvalidFieldException;
 import doctors.framework.DBHandler;
@@ -31,9 +28,9 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 		try {
 			stmt = conn.prepareStatement(createWorking_hour);
 			stmt.setInt(1,entity.getWorking_hours_id());
-			stmt.setDate(2,(Date) entity.getWork_day());
-			stmt.setString(3,entity.getFrom_hour());
-			stmt.setString(4,entity.getTo_hour());
+			stmt.setInt(2,entity.getWork_day());
+			stmt.setInt(3,entity.getFrom_hour());
+			stmt.setInt(4,entity.getTo_hour());
 			stmt.executeUpdate();
 		}catch(SQLException ex) {
 			throw ex;
@@ -81,7 +78,7 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 	    ResultSet rst = null;
 	    Working_Hour working_hour = null;
 	    try {
-	    	stmt = conn.prepareStatement("getWorkingHoursforDoctor");
+	    	stmt = conn.prepareStatement(getWorkingHoursforDoctor);
 	        stmt.setInt(1, doctor_id);
 	        rst = stmt.executeQuery();
 	        while(rst.next()) {
@@ -148,7 +145,7 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 	protected Working_Hour Populate(ResultSet rst, boolean loadForeign)  {
 		Working_Hour working_hour = null;
 		try {
-			working_hour = new Working_Hour(rst.getInt("working_hours_id"),rst.getDate("working_day"),rst.getString("from_hour"),rst.getString("to_hour"));
+			working_hour = new Working_Hour(rst.getInt("working_hours_id"),rst.getInt("work_day"),rst.getInt("from_hour"),rst.getInt("to_hour"));
 		} catch (InvalidFieldException e) {
 			
 			e.printStackTrace();
