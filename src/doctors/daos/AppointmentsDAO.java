@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+
 import doctors.exceptions.DBManagerException;
 import doctors.framework.DBHandler;
 import doctors.framework.DBManager;
@@ -13,7 +15,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 
 	protected final String findAppointmentsForUser = "SELECT appointment_id, user_id, doctor_id, appointment_date_time, medical_examination, user_comments, rating FROM Appointments WHERE user_id=?;";
 	protected final String findAppointmentsForDoctor = "SELECT appointment_id, user_id, doctor_id, appointment_date_time, medical_examination, user_comments, rating FROM Appointments WHERE doctor_id=?;";
-	protected final String createAppointment = "INSERT INTO Appointments VALUES (?,?,?,?,?,?)";
+	protected final String createAppointment = "INSERT INTO Appointments (user_id, doctor_id, appointment_date_time, medical_examination, user_comments, rating) VALUES (?,?,?,?,?,?)";
 	protected final String getAllAppointments = "SELECT * FROM Appointments";
 	protected final String getById = "SELECT appointment_id,user_id,doctor_id,appointment_date_time,medical_examination,user_comments,rating FROM Appointments WHERE appointment_id = ?;";
 	
@@ -175,7 +177,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 		Appointment appointment = new Appointment();
 		try {
 			appointment.setAppointment_id(rst.getInt("Appointment_id"));
-			appointment.setAppointment_date_time(rst.getDate("appointment_date_time"));
+			appointment.setAppointment_date_time(new Date(rst.getDate("appointment_date_time").getTime()));
 			appointment.setMedical_examination(rst.getString("medical_examination"));
             appointment.setUser_comments(rst.getString("user_comments"));
             appointment.setRating(rst.getInt("rating"));

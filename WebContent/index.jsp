@@ -11,7 +11,7 @@
 <%
 
 	ArrayList<Specialty> specialties = new ArrayList<Specialty>();
-	if(model.containsKey(ActionController.CITIES_ARRAY_LIST)) {
+	if(model.containsKey(ActionController.SPECIALTIES_ARRAY_LIST)) {
 		specialties=(ArrayList<Specialty>)model.get(ActionController.SPECIALTIES_ARRAY_LIST);
 	}
 
@@ -162,7 +162,7 @@
 			<div class="page-header">
 				<h4>Αποτελέσματα αναζήτησης</h4>
 			</div>
-			<form action="appointment.jsp" method="post">
+			
 				<% if(searchResults.size()==0) { %>
 				
 					<div class="row">
@@ -174,49 +174,51 @@
 				
 				<% } else { %>
 				
-					<% for(Doctor doctor : searchResults) { %>
-						
-						<div class="row">
-							<div class="col-md-1">
-								<img src="images/member1.png" class="img-thumbnail" alt="Member">
-							</div>
-							<div class="col-md-4 text-left inline">
-								<a href="GetDoctor?doctorid=<%=doctor.getDoctor_id()%>"><h3><%=doctor.getUser().getFirst_name()%>&nbsp;<%=doctor.getUser().getLast_name()%></a>
-									<br/>
-									<small>
-										<% for (Specialty specialty : doctor.getSpecialties()) { %>
-											<%=specialty.getSpecialty_name() %>&nbsp;
-										<% } %>
-									</small>
-								</h3> 
-								<p><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;<%=doctor.getUser().getAddress() %>,&nbsp;<%=doctor.getUser().getCity().getCity_name()%></p> 
-							</div>
-							<div class="col-md-3 text-left inline">
-								<% for(Working_Hour wh : doctor.getWorking_hours()) { %>
-									<span class="glyphicon glyphicon-time"></span>&nbsp;<%=wh.getWorkDayName(wh.getWork_day())%>:&nbsp;<%=wh.getWorkingHour(wh.getFrom_hour()) %>&nbsp;-&nbsp;<%=wh.getWorkingHour(wh.getTo_hour()) %><br/>
-								<% } %>
-							</div>
-							<div class="col-md-2 text-left inline">
-								<% if(doctor.getRating()==0) { %>
-									Ο γιατρός δεν έχει ακόμη αξιολογηθεί!
-								<% } else { 
-									for(int i=1;i<=Math.round(doctor.getRating());i++) {
-								%>
-									<span class="glyphicon glyphicon-star"></span>&nbsp;
-									<% } %>
-								<% } %>
-							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-warning">Κλείστε ραντεβού</button>
-							</div>
+				<% for(Doctor doctor : searchResults) { %>
+					
+					<div class="row">
+						<div class="col-md-1">
+							<img src="images/member1.png" class="img-thumbnail" alt="Member">
 						</div>
-						<br/>
-				
-					<% } %>
-				<% } %>
-				
-			</form>
+						<div class="col-md-4 text-left inline">
+							<a href="GetDoctor?doctorid=<%=doctor.getDoctor_id()%>"><h3><%=doctor.getUser().getFirst_name()%>&nbsp;<%=doctor.getUser().getLast_name()%></a>
+								<br/>
+								<small>
+									<% for (Specialty specialty : doctor.getSpecialties()) { %>
+										<%=specialty.getSpecialty_name() %>&nbsp;
+									<% } %>
+								</small>
+							</h3> 
+							<p><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;<%=doctor.getUser().getAddress() %>,&nbsp;<%=doctor.getUser().getCity().getCity_name()%></p> 
+						</div>
+						<div class="col-md-3 text-left inline">
+							<% for(Working_Hour wh : doctor.getWorking_hours()) { %>
+								<span class="glyphicon glyphicon-time"></span>&nbsp;<%=wh.getWorkDayName(wh.getWork_day())%>:&nbsp;<%=wh.getWorkingHour(wh.getFrom_hour()) %>&nbsp;-&nbsp;<%=wh.getWorkingHour(wh.getTo_hour()) %><br/>
+							<% } %>
+						</div>
+						<div class="col-md-2 text-left inline">
+							<% if(doctor.getRating()==0) { %>
+								Ο γιατρός δεν έχει ακόμη αξιολογηθεί!
+							<% } else { 
+								for(int i=1;i<=Math.round(doctor.getRating());i++) {
+							%>
+								<span class="glyphicon glyphicon-star"></span>&nbsp;
+								<% } %>
+							<% } %>
+						</div>
+						<div class="col-md-2">
+							<a href="GetAppointment?doctorid=<%=doctor.getDoctor_id()%>" class="btn btn-warning">Κλείστε ραντεβού</a>
+						</div>
+					</div>
+					<br/>
 			
+				<% } %>
+			<% } %>
+				
+			
+			<% if(!message.isEmpty()) { %>		
+				<div class="alert alert-warning text-center" role="alert"><%=message%></div>
+			<% } %>
 			
 		</div>
 		<!-- /container -->

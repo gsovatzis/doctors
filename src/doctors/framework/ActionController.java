@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import doctors.framework.DBManager;
+import doctors.models.User;
 import doctors.exceptions.InvalidFieldException;
 
 public abstract class ActionController extends HttpServlet {
@@ -127,6 +128,14 @@ public abstract class ActionController extends HttpServlet {
 		return true;
 	};  
 	
+	public User getCurrentUser() throws ServletException {
+		if(session.getAttribute(USER_SESSION_KEY)==null)
+		{
+			return null;
+		}
+		
+		return (User)session.getAttribute(USER_SESSION_KEY);
+	}
 	
 	public int getIntField(String requestParameter) throws InvalidFieldException {
 		// Check if field exists on request
@@ -167,6 +176,8 @@ public abstract class ActionController extends HttpServlet {
 		// This method forwards the request to the specified page, including message and model!
 		req.setAttribute(MESSAGE_REQUEST_KEY, message);
 		req.setAttribute(MODEL_REQUEST_KEY, model);
+		
+		this.message = null;	// Clean message on current controller
 		
 		RequestDispatcher dispatcher = application.getRequestDispatcher(url);
 		dispatcher.forward(req, resp);

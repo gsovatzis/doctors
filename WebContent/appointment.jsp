@@ -1,5 +1,18 @@
+<%@page import="doctors.models.Working_Hour"%>
+<%@page import="doctors.models.Specialty"%>
+<%@page import="doctors.models.Doctor"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@include file="header.jsp" %>
+
+<% 
+    	Doctor doctor = new Doctor();
+    	if(model.containsKey(ActionController.ENTITY_HASHMAP_KEY)) {
+    		doctor = (Doctor)model.get(ActionController.ENTITY_HASHMAP_KEY);
+    	}
+    
+    %>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -29,46 +42,27 @@
 	<body>
 
 		<!-- Fixed navbar -->
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span> <span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					
-				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="index.jsp">Αρχική</a></li>
-						<li><a href="register.jsp">Εγγραφή</a></li>					
-						<li><a href="login.jsp">Είσοδος</a></li>					
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>&nbsp;Χρήστης 1 <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-			                  <li><a href="logout.jsp"><i class="glyphicon glyphicon-log-out"></i>&nbsp;Έξοδος</a></li>
-			                </ul>
-		                </li>
-					</ul>	
-				</div>
-				<!--/.nav-collapse -->
-			</div>
-		</nav>
+		<%@include file="navbar.jsp" %>
 
 		<div class="container theme-showcase" role="main">
 
 			<!-- Main jumbotron for a primary marketing message or call to action -->
 			<div class="jumbotron row">
 				<div class="col-md-6">
-					<h2>Δημήτρης Πετράκης</h2>
-					<h4>Καρδιολόγος, Παθολόγος</h4>
+					<h2><%=doctor.getUser().getFirst_name()!=null?doctor.getUser().getFirst_name():""%>&nbsp;<%=doctor.getUser().getLast_name()!=null?doctor.getUser().getLast_name():""%></h2>
+					<h4>
+						<ul>
+						<% for (Specialty specialty : doctor.getSpecialties()) { %>
+							<li><%=specialty.getSpecialty_name() %></li>
+						<% } %>
+						</ul>
+					</h4>
 					
 					<br/>
 					<p>
-						<span class="glyphicon glyphicon-time"></span> Δευτέρα - Παρασκευή 12:00 - 20:00
+						<% for(Working_Hour wh : doctor.getWorking_hours()) { %>
+							<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;<%=wh.getWorkDayName(wh.getWork_day())%>:&nbsp;<%=wh.getWorkingHour(wh.getFrom_hour()) %>&nbsp;-&nbsp;<%=wh.getWorkingHour(wh.getTo_hour()) %><br/>
+						<% } %>
 					</p>
 					
 				</div>
@@ -90,13 +84,14 @@
 			
 				<div class="col-md-12">
 				
-					<form action="#" method="post">
+					<form action="BookAppointment" method="post">
+					  <input type="hidden" name="doctorid" value="<%=doctor.getDoctor_id()%>" >
 					  <div class="form-group row">
 						<div class="col-md-2">
 							<label for="examination" class="col-form-label">Τι εξέταση θέλετε;</label>
 						</div>
 						<div class="col-md-10">
-							<input type="text" class="form-control" id="examination" placeholder="Παρακαλώ περιγράψτε το είδος της εξέτασης που θέλετε να κάνετε..." required>
+							<input type="text" class="form-control" id="examination" name="examination" placeholder="Παρακαλώ περιγράψτε το είδος της εξέτασης που θέλετε να κάνετε..." required>
 							<p class="label label-danger">
 								* Απαιτείται
 							</p>
@@ -107,7 +102,7 @@
 							<label for="date" class="col-form-label">Ημερομηνία ραντεβού:</label>
 						</div>
 						<div class="col-md-4">
-							<input type="text" class="form-control" id="date" placeholder="ΗΗ/ΜΜ/ΕΕΕΕ" required>
+							<input type="text" class="form-control" id="date" name="date" placeholder="ΗΗ/ΜΜ/ΕΕΕΕ" required>
 							<p class="label label-danger">
 								* Απαιτείται
 							</p>
@@ -116,7 +111,7 @@
 							<label for="time" class="col-form-label">Ώρα ραντεβού:</label>
 						</div>
 						<div class="col-md-3">
-							<select class="form-control" id="time">
+							<select class="form-control" id="time" name="time">
 								  <option value="-1">Επιλέξτε ώρα...</option>
 								  <option value="6">06:00</option>
 								  <option value="7">07:00</option>
@@ -150,7 +145,11 @@
 					  <hr/>
 					  
 					  <div class="form-group row">
-						<div class="col-md-8"></div>
+						<div class="col-md-8">
+							<% if(!message.isEmpty()) { %>		
+								<div class="alert alert-danger text-center" role="alert"><%=message%></div>
+							<% } %>
+						</div>
 						<div class="col-md-4">
 							<div class="form-check form-check-inline">
 							  <button type="submit" class="btn btn-success">Κλείσιμο ραντεβού</button>

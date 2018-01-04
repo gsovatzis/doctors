@@ -226,8 +226,27 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 	
 	@Override
 	public Doctor GetById(int id, boolean loadForeign) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Doctor doctor = null;
+		PreparedStatement stmt = null;
+		ResultSet rst = null;
+		try {
+			stmt = conn.prepareStatement(getDoctorById);
+			stmt.setInt(1,id);
+			rst = stmt.executeQuery();
+			if(rst.next()) {
+				
+				doctor = Populate(rst,loadForeign);
+			}
+			
+			
+		}catch(SQLException ex) {
+			
+			throw  ex;
+		}finally {
+			rst.close();
+			stmt.close();
+		}
+		return doctor;
 	}
 	
 	

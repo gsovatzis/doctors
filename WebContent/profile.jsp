@@ -1,6 +1,14 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="doctors.models.Appointment"%>
+<%@page import="doctors.models.Specialty"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import ="doctors.models.Doctor" %>    
+<%@ page import ="doctors.models.Doctor" %>
+<%@ page import ="doctors.models.Working_Hour" %> 
+
+<%@include file="header.jsp" %>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -10,8 +18,13 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<meta name="description" content="Exercise Template 2017-2018">
 	<meta name="author" content="jdoe@example.com">
-    <%Doctor doctor = new Doctor(); %>
-    <%Working_hour wh =new Working_hour() %>
+    <% 
+    	Doctor doctor = new Doctor();
+    	if(model.containsKey(ActionController.ENTITY_HASHMAP_KEY)) {
+    		doctor = (Doctor)model.get(ActionController.ENTITY_HASHMAP_KEY);
+    	}
+    
+    %>
 	<title>Προφίλ γιατρού</title>
 
 	<!-- Bootstrap core CSS -->
@@ -30,69 +43,48 @@
 	<body>
 
 		<!-- Fixed navbar -->
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span> <span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					
-				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav">
-						<li><a href="index.jsp">Αρχική</a></li>
-						<li><a href="register.jsp">Εγγραφή</a></li>					
-						<li><a href="login.jsp">Είσοδος</a></li>					
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>&nbsp;Χρήστης 1 <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-			                  <li><a href="logout.jsp"><i class="glyphicon glyphicon-log-out"></i>&nbsp;Έξοδος</a></li>
-			                </ul>
-		                </li>
-					</ul>
-				</div>
-				<!--/.nav-collapse -->
-			</div>
-		</nav>
+		<%@include file="navbar.jsp" %>
 
 		<div class="container theme-showcase" role="main">
 
 			<!-- Main jumbotron for a primary marketing message or call to action -->
 			<div class="jumbotron row">
 				<div class="col-md-6">
-					<h2><%=doctor!=null?doctor.getUser().getFirst_name():""%></h2>&nbsp;<h2><%=doctor!=null?doctor.getUser().getLast_name():""%></h2>
-					<h4><% for (Specialty specialty : doctor.getSpecialties()) { %>
-											<%=specialty.getSpecialty_name() %>&nbsp;
-										<% } %></h4>
-					
+					<h2><%=doctor.getUser().getFirst_name()!=null?doctor.getUser().getFirst_name():""%>&nbsp;<%=doctor.getUser().getLast_name()!=null?doctor.getUser().getLast_name():""%></h2>
+					<h4>
+						<ul>
+						<% for (Specialty specialty : doctor.getSpecialties()) { %>
+							<li><%=specialty.getSpecialty_name() %></li>
+						<% } %>
+						</ul>
+					</h4>
+					<hr/>
 					<p>
 						<span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;
-						<h6><%=doctor!=null?doctor.getUser().getAddress():""%></h6> //εγω εβαλα το html tag//
+						<%=doctor!=null?doctor.getUser().getAddress():""%>
 					</p>
+					<hr/>
 					<p>
 						
 						<% for(Working_Hour wh : doctor.getWorking_hours()) { %>
 									<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;<%=wh.getWorkDayName(wh.getWork_day())%>:&nbsp;<%=wh.getWorkingHour(wh.getFrom_hour()) %>&nbsp;-&nbsp;<%=wh.getWorkingHour(wh.getTo_hour()) %><br/>
 								<% } %>
 					</p>
+					<hr/>
 					<p>
 						<span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp;
-						<% doctor.getUser().getLand_line(); %>
+						<%=doctor.getUser().getLand_line()!=null?doctor.getUser().getLand_line():"-" %>
 					<p>
 						<span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;
-						<% doctor.getUser().getmobile(); %>
+						<%=doctor.getUser().getMobile()!=null?doctor.getUser().getMobile():"-" %>
 					</p>
 					<p>
 						<span class="glyphicon glyphicon-print"></span>&nbsp;&nbsp;
-						21012345678
+						<%=doctor.getUser().getFax()!=null?doctor.getUser().getFax():"-" %>
 					</p>
 					<p>
 						<span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;
-						<a href="mailto:jim.petrakhs@hotmail.com"><%=doctor!=null?doctor.getUser().getEmail():"" %></a>
+						<a href="mailto:<%=doctor.getUser().getEmail()!=null?doctor.getUser().getEmail():"" %>"><%=doctor.getUser().getEmail()!=null?doctor.getUser().getEmail():"" %></a>
 					</p>
 				</div>
 				<div class="col-md-6">
@@ -106,71 +98,67 @@
 
 			<!-- Page Title -->
 			<div class="page-header">
-				<h4><% for (Appointment appointment : doctor.getAppointments()) { %>
-											<%=appointment.getUser_Comments() %>&nbsp;
-											<%=appointment.getRating() %>
-										<% } %></h4>
+				<h4></h4>
 					
 				
 			</div>
 			
 			<div class="row">
 			
-				<div class="col-md-12">
+			<% if(doctor.getAppointments().size()==0) { %>
+				<div class="col-md-12 text-center">
+					Δεν βρεθηκαν σχόλια για το γιατρό!!!
+				
+			<% } else { %>
+				
 					<!-- START COMMENTS -->
 					<div class="row">
 						<div class="col-md-6">
 							<h4>Σχόλιο</h4>
 						</div>
 						<div class="col-md-3">
-							<h4>Ημερομηνία υποβολής</h4> //πως θα δειξω την ημερομηνια υποβολης του σχολιου
+							<h4>Ημερομηνία υποβολής</h4>
 						</div>
 						<div class="col-md-3">
 							<h4>Βαθμολογία</h4>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-6">
-							Πολύ καλός γιατρός, εξυπηρετικότατος
-						</div>
-						<div class="col-md-3">
-							30/08/2017 - 12:22
-						</div>
-						<div class="col-md-3">
-							<span class="glyphicon glyphicon-star"></span>&nbsp;
-							<span class="glyphicon glyphicon-star"></span>&nbsp;
-							<span class="glyphicon glyphicon-star"></span>&nbsp;
-							<span class="glyphicon glyphicon-star"></span>&nbsp;
-						</div>
-					</div>
-					<br/>
-					<div class="row">
-						<div class="col-md-6">
-							Δεν έκανε σωστή διάγνωση
-						</div>
-						<div class="col-md-3">
-							5/9/2017 - 17:52
-						</div>
-						<div class="col-md-3">
-							<span class="glyphicon glyphicon-star"></span>&nbsp;
-							<span class="glyphicon glyphicon-star"></span>&nbsp;
-						</div>
-					</div>
-					
-					
-					<!-- END COMMENTS -->
-				
-					<hr/>
-					<form action="appointment.jsp" method="post">
-					  <div class="form-group row">
-						<div class="col-md-9"></div>
-						<div class="col-md-3">
-							<div class="form-check form-check-inline">
-							  <button type="submit" class="btn btn-warning">Κλείσιμο ραντεβού</button>
+					<% for (Appointment appointment : doctor.getAppointments()) { %>
+						<div class="row">
+							<div class="col-md-6">
+								<%=appointment.getUser_comments()!=null?appointment.getUser_comments():"Δεν έγινε σχόλιο για αυτό το ραντεβού..." %>
+							</div>
+							<div class="col-md-3">
+								<% DateFormat df = new SimpleDateFormat("EEEE, dd/MM/yyyy, hh:mm");
+									String appointmentDate = df.format(appointment.getAppointment_date_time());
+								%>
+								<%=appointmentDate %>
+							</div>
+							<div class="col-md-3">
+								<% for(int i=1;i<=appointment.getRatings();i++) { %>
+									<span class="glyphicon glyphicon-star"></span>&nbsp;
+								<% } %>
 							</div>
 						</div>
-					  </div>
-					</form>
+					<br/>
+					<% } %>
+					
+					<!-- END COMMENTS -->
+			<% } %>
+				
+					
+				
+					<hr/>
+					
+				  <div class="row">
+					<div class="col-md-9"></div>
+					<div class="col-md-3">
+						<div class="form-check form-check-inline">
+						  <a href="GetAppointment?doctorid=<%=doctor.getDoctor_id()%>" class="btn btn-warning">Κλείσιμο ραντεβού</a>
+						</div>
+					</div>
+				  </div>
+				<br/>
 				</div>
 			
 			</div>

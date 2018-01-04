@@ -93,6 +93,26 @@
 		<url-pattern>/GetDoctor</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>GetAppointmentController</servlet-name>
+		<servlet-class>doctors.controllers.GetAppointmentController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>GetAppointmentController</servlet-name>
+		<url-pattern>/GetAppointment</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>BookAppointmentController</servlet-name>
+		<servlet-class>doctors.controllers.BookAppointmentController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>BookAppointmentController</servlet-name>
+		<url-pattern>/BookAppointment</url-pattern>
+	</servlet-mapping>
+	
 	<listener>
   		<listener-class>
    			doctors.framework.SessionCounter
@@ -100,7 +120,7 @@
 	</listener>
 	
 	<session-config>
-  		<session-timeout>1</session-timeout>
+  		<session-timeout>10</session-timeout>
 	</session-config>
 
 </web-app>
