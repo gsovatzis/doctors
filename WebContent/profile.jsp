@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import ="doctors.models.Doctor" %>    
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -9,7 +10,8 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	<meta name="description" content="Exercise Template 2017-2018">
 	<meta name="author" content="jdoe@example.com">
-
+    <%Doctor doctor = new Doctor(); %>
+    <%Working_hour wh =new Working_hour() %>
 	<title>Προφίλ γιατρού</title>
 
 	<!-- Bootstrap core CSS -->
@@ -62,23 +64,27 @@
 			<!-- Main jumbotron for a primary marketing message or call to action -->
 			<div class="jumbotron row">
 				<div class="col-md-6">
-					<h2>Δημήτρης Πετράκης</h2>
-					<h4>Καρδιολόγος, Παθολόγος</h4>
+					<h2><%=doctor!=null?doctor.getUser().getFirst_name():""%></h2>&nbsp;<h2><%=doctor!=null?doctor.getUser().getLast_name():""%></h2>
+					<h4><% for (Specialty specialty : doctor.getSpecialties()) { %>
+											<%=specialty.getSpecialty_name() %>&nbsp;
+										<% } %></h4>
 					
 					<p>
 						<span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;
-						Ροδόπης 1, Αθήνα
+						<h6><%=doctor!=null?doctor.getUser().getAddress():""%></h6> //εγω εβαλα το html tag//
 					</p>
 					<p>
-						<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;
-						Δευτέρα - Παρασκευή 12:00 - 20:00
+						
+						<% for(Working_Hour wh : doctor.getWorking_hours()) { %>
+									<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;<%=wh.getWorkDayName(wh.getWork_day())%>:&nbsp;<%=wh.getWorkingHour(wh.getFrom_hour()) %>&nbsp;-&nbsp;<%=wh.getWorkingHour(wh.getTo_hour()) %><br/>
+								<% } %>
 					</p>
 					<p>
 						<span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp;
-						21012345678
+						<% doctor.getUser().getLand_line(); %>
 					<p>
 						<span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;
-						6977123456
+						<% doctor.getUser().getmobile(); %>
 					</p>
 					<p>
 						<span class="glyphicon glyphicon-print"></span>&nbsp;&nbsp;
@@ -86,7 +92,7 @@
 					</p>
 					<p>
 						<span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;
-						<a href="mailto:jim.petrakhs@hotmail.com">jim.petrakhs@hotmail.com</a>
+						<a href="mailto:jim.petrakhs@hotmail.com"><%=doctor!=null?doctor.getUser().getEmail():"" %></a>
 					</p>
 				</div>
 				<div class="col-md-6">
@@ -100,7 +106,12 @@
 
 			<!-- Page Title -->
 			<div class="page-header">
-				<h2>Σχόλια για το γιατρό</h4>
+				<h4><% for (Appointment appointment : doctor.getAppointments()) { %>
+											<%=appointment.getUser_Comments() %>&nbsp;
+											<%=appointment.getRating() %>
+										<% } %></h4>
+					
+				
 			</div>
 			
 			<div class="row">
@@ -112,7 +123,7 @@
 							<h4>Σχόλιο</h4>
 						</div>
 						<div class="col-md-3">
-							<h4>Ημερομηνία υποβολής</h4>
+							<h4>Ημερομηνία υποβολής</h4> //πως θα δειξω την ημερομηνια υποβολης του σχολιου
 						</div>
 						<div class="col-md-3">
 							<h4>Βαθμολογία</h4>
