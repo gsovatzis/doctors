@@ -113,6 +113,26 @@
 		<url-pattern>/BookAppointment</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>GotoRateAppointments</servlet-name>
+		<servlet-class>doctors.controllers.GotoRateAppointmentsController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>GotoRateAppointments</servlet-name>
+		<url-pattern>/GotoRateAppointments</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RateAppointment</servlet-name>
+		<servlet-class>doctors.controllers.RateAppointmentController</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>RateAppointment</servlet-name>
+		<url-pattern>/RateAppointment</url-pattern>
+	</servlet-mapping>
+	
 	<listener>
   		<listener-class>
    			doctors.framework.SessionCounter

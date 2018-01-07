@@ -27,7 +27,10 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="index.jsp">Αρχική</a></li>
 				<li><a href="GotoRegister">Εγγραφή</a></li>					
-				<li><a href="login.jsp">Είσοδος</a></li>					
+				<li><a href="login.jsp">Είσοδος</a></li>
+				<% if(loggedInUser!=null) { %>	
+				<li><a href="GotoRateAppointments">Αξιολόγηση των ραντεβού μου</a></li>
+				<% } %>					
 			</ul>
 			<% if(loggedInUser!=null) { %>		
 				<ul class="nav navbar-nav navbar-right">

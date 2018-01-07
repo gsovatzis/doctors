@@ -179,7 +179,11 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 			appointment.setAppointment_id(rst.getInt("Appointment_id"));
 			appointment.setAppointment_date_time(new Date(rst.getDate("appointment_date_time").getTime()));
 			appointment.setMedical_examination(rst.getString("medical_examination"));
-            appointment.setUser_comments(rst.getString("user_comments"));
+            
+			// Όταν έχουμε ένα νέο ραντεβού που δεν έχει βαθμολογηθεί ακόμη, τα σχόλια είναι NULL
+			if(rst.getString("user_comments")!=null)
+            		appointment.setUser_comments(rst.getString("user_comments"));
+            
             appointment.setRating(rst.getInt("rating"));
             
             if(loadForeign == true) {
