@@ -19,13 +19,19 @@
 	<meta name="description" content="Exercise Template 2017-2018">
 	<meta name="author" content="jdoe@example.com">
     <% 
-    	Doctor doctor = new Doctor();
+    	//Doctor doctor = new Doctor();
+    	//if(model.containsKey(ActionController.ENTITY_HASHMAP_KEY)) {
+    	//	doctor = (Doctor)model.get(ActionController.ENTITY_HASHMAP_KEY);
+    	//}
+    	
+    	User u = new User();
     	if(model.containsKey(ActionController.ENTITY_HASHMAP_KEY)) {
-    		doctor = (Doctor)model.get(ActionController.ENTITY_HASHMAP_KEY);
+    		u =(User)model.get(ActionController.ENTITY_HASHMAP_KEY);
     	}
+    	
     
     %>
-	<title>Προφίλ γιατρού</title>
+	<title>Τα ραντεβού μου</title>
 
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -50,11 +56,13 @@
 			<!-- Main jumbotron for a primary marketing message or call to action -->
 			<div class="jumbotron row">
 				<div class="col-md-6">
-					<h2><%=doctor.getUser().getFirst_name()!=null?doctor.getUser().getFirst_name():""%>&nbsp;<%=doctor.getUser().getLast_name()!=null?doctor.getUser().getLast_name():""%></h2>
+					<h2>Τα ραντεβού σας είναι τα εξής:</h2>
 					<h4>
+					    <% for (Appointment appointment : u.getAppointments()) { %>
 						<ul>
-						<% for (Specialty specialty : doctor.getSpecialties()) { %>
-							<li><%=specialty.getSpecialty_name() %></li>
+						     <li><%=appointment.getDoctor().getUser().getFirst_name()!=null?appointment.getDoctor().getUser().getFirst_name():""%>&nbsp;<%appointment.getDoctor().getUser().getLast_name()!=null?appointment.getDoctor().getUser().getLast_name():"" %></li>
+						     <li><%=appointment.getAppointment_date_time()!=null?appointment.getAppointment_date_time()%>
+						     <li><%=appointment.getMedical_examination()!=null?appointment.getMedical_examination():"" %>
 						<% } %>
 						</ul>
 					</h4>
@@ -105,9 +113,9 @@
 			
 			<div class="row">
 			
-			<% if(doctor.getAppointments().size()==0) { %>
+			<% if(u.getAppointments().size()==0) { %>
 				<div class="col-md-12 text-center">
-					Δεν βρεθηκαν σχόλια για το γιατρό!!!
+					Δεν έχετε κλήσει κάποιο ραντεβού
 				
 			<% } else { %>
 				
