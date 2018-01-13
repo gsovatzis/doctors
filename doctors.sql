@@ -106,10 +106,10 @@ INSERT INTO specialties (specialty_name) VALUES ('Παιδίατρος');
 INSERT INTO Users (address,city_id, email, first_name, last_name, mobile, pass)
 VALUES ('Σπύρου Πάτση 59', 
 		(SELECT city_id FROM Cities WHERE city_name='Αθήνα'),
-		'gsovatzis@gmail.com',
-		'ΓΙΩΡΓΟΣ',
-		'ΣΟΒΑΤΖΗΣ',
-		'6934887117',
+		'test@gmail.com',
+		'ΑΛΕΚΟΣ',
+		'ΠΑΠΑΔΟΠΟΥΛΟΣ',
+		'6972217143',
 		'1234');
 
 /* INSERT SOME SAMPLE DOCTORS */
