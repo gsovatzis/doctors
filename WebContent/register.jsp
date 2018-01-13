@@ -77,7 +77,7 @@
 			
 				<div class="col-md-12">
 				
-					<form action="Register" method="post">
+					<form action="<%=ActionController.getFinalUrl("Register") %>" method="post">
 					  <div class="form-group row">
 						<div class="col-md-2">
 							<label for="firstname" class="col-sm-3 col-form-label">Όνομα</label>

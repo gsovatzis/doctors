@@ -36,6 +36,8 @@ public abstract class ActionController extends HttpServlet {
 	public static final String CITY = "city";
 	public static final String RATING = "rating";
 	
+	public static String paramServlet = "";
+	
 	protected String returnUrl="";
 	protected String message="";	// The action message to be returned to the page (it can be an error, or info message)
 	protected HashMap<String, Object> model = new HashMap<String, Object>();
@@ -65,7 +67,7 @@ public abstract class ActionController extends HttpServlet {
 		return "";
 	}
 	
-	
+		
 	public abstract String execute() throws ServletException, IOException;	// Every application action must implement the execute method!
 	
 	public abstract String validate(HttpServletRequest req); // Every application action must implement the validate method!
@@ -88,6 +90,8 @@ public abstract class ActionController extends HttpServlet {
 		this.resp = resp;
 		this.session = req.getSession();
 		this.application = getServletContext();
+		
+		paramServlet = application.getInitParameter("servlet");
 		
 		reloadRequestValues();	// If we come from a previous action, chain the message and model
 		
@@ -181,6 +185,29 @@ public abstract class ActionController extends HttpServlet {
 		
 		RequestDispatcher dispatcher = application.getRequestDispatcher(url);
 		dispatcher.forward(req, resp);
+	}
+	
+	public static String getFinalUrl(String url) {
+		return getFinalUrl(url, false);
+	}
+	
+	public static String getFinalUrl(String url, boolean fromController) {
+		
+		boolean hasServlet = false;
+		hasServlet = Boolean.parseBoolean(paramServlet);
+		
+		if(url.toLowerCase().contains("jsp"))
+			return url;
+		else {
+			if(hasServlet)
+				return "servlet/" + url;
+			else
+				if(fromController)
+					return "/"+ url;
+				else
+					return url;
+		}
+		
 	}
 
 }

@@ -36,7 +36,7 @@ public class RateAppointmentsController extends ActionController implements IVal
 		}
 		
 		this.message = "Τα σχόλια σας υποβλήθηκαν επιτυχώς!";
-		return "/Index";
+		return getFinalUrl("Index",true);
 	}
 
 	@Override

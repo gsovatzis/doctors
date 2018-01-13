@@ -22,6 +22,11 @@
 		<param-name>dbpass</param-name>
 		<param-value>jim</param-value>
 	</context-param>
+	
+	<context-param>
+		<param-name>servlet</param-name>
+		<param-value>false</param-value>
+	</context-param>
 
 	<servlet>
 		<servlet-name>IndexController</servlet-name>

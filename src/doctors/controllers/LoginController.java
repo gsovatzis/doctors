@@ -26,7 +26,8 @@ public class LoginController extends ActionController implements IValidatable {
 	    		if(entity.getPassword().equals(getStringField("password"))) {
 	    			// THIS SETS A GLOBAL "user" SESSION VARIABLE FOR ALL PAGES
 	    			req.getSession().setAttribute(ActionController.USER_SESSION_KEY, entity);
-	    			return "/Index";
+	    			// return "/Index";
+	    			return getFinalUrl("Index",true);
 	    		} else {
 	    			message = "Λάθος στοιχεία! Δοκιμάστε ξανά...";
 	    		}

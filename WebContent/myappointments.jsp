@@ -125,7 +125,7 @@
 						</div>
 						
 					</div>
-					<form action="RateAppointments" method="post">
+					<form action="<%=ActionController.getFinalUrl("RateAppointments") %> " method="post">
 						<% for (Appointment appointment : u.getAppointments()) { %>
 							<div class="row form-group">
 								<div class="col-md-2">

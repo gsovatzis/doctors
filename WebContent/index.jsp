@@ -101,7 +101,7 @@
 			
 				<div class="col-md-12">
 				
-					<form action="SearchDoctors" method="post">
+					<form action="<%=ActionController.getFinalUrl("SearchDoctors") %>" method="post">
 						  <div class="form-group row">
 							<div class="col-md-4"><label for="doctorname" class="col-form-label">Όνομα ή επώνυμο γιατρού</label></div>
 							<div class="col-md-3"><label for="specialty" class="col-form-label">Ειδικότητα γιατρού</label></div>
@@ -207,7 +207,7 @@
 							<% } %>
 						</div>
 						<div class="col-md-2">
-							<a href="GetAppointment?doctorid=<%=doctor.getDoctor_id()%>" class="btn btn-warning">Κλείστε ραντεβού</a>
+							<a href="<%=ActionController.getFinalUrl("GetAppointment") %>?doctorid=<%=doctor.getDoctor_id()%>" class="btn btn-warning">Κλείστε ραντεβού</a>
 						</div>
 					</div>
 					<br/>

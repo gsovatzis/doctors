@@ -28,12 +28,13 @@ public class RegisterController extends ActionController implements IValidatable
 			return "/GotoRegister";
 		} 
 		
-		return "/Index";	// If everything goes OK, go to index.jsp page
+		//return "/Index";	// If everything goes OK, go to index.jsp page
+		return getFinalUrl("Index",true);
 	}
 
 	@Override
 	public String validate(HttpServletRequest req) {
-		this.returnUrl = "/GotoRegister";
+		this.returnUrl = getFinalUrl("GotoRegister",true);
 		
 		String errorMsg = "";
 		

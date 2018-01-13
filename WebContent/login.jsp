@@ -59,7 +59,7 @@
 				<div class="alert alert-danger text-center" role="alert"><%=message%></div>
 			<% } %>
 
-			  <form class="form-signin" method="post" action="Login">
+			  <form class="form-signin" method="post" action="<%=ActionController.getFinalUrl("Login") %>">
 				<!-- h2 class="form-signin-heading">Please sign in</h2> -->
 			
 				<input type="email" id="email" name="email" class="form-control" placeholder="Email διεύθυνση" 

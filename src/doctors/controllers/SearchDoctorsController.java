@@ -32,7 +32,7 @@ public class SearchDoctorsController extends ActionController {
 		} catch (InvalidFieldException e) {
 			// If problem, return to index with the error message
 			this.message = e.getMessage();
-			return "/Index";
+			return getFinalUrl("Index",true);
 		}
 
 		// Να καλέσει στο DoctorsDAO τη μέθοδο SearchDoctors

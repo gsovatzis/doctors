@@ -39,7 +39,7 @@ public class BookAppointmentController extends ActionController implements IVali
 				
 		// Άν το ραντεβού κλειστεί κανονικά, θα γυρίσουμε στην index με ένα μήνυμα
 		this.message = "Το ραντεβού σας κλείστηκε με επιτυχία!";
-		return "/Index";
+		return getFinalUrl("Index",true);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class BookAppointmentController extends ActionController implements IVali
 		// We must have the following request parameters:
 		// doctorid, examination, date, time
 		
-		this.returnUrl = "/GetAppointment?doctorid=";
+		this.returnUrl = getFinalUrl("GetAppointment",true)+ "/?doctorid=";
 		
 		int doctorid=0;
 		
@@ -83,10 +83,10 @@ public class BookAppointmentController extends ActionController implements IVali
 			newAppointment.setAppointment_date_time(cal.getTime());
 			
 		} catch(ParseException ex) {
-			this.returnUrl = "/GetAppointment?doctorid" + doctorid;
+			this.returnUrl = getFinalUrl("GetAppointment",true)+ "/?doctorid=";
 			return "Δεν δώσατε την ημερομηνία στη μορφή ΗΗ/ΜΜ/ΕΕΕΕ";
 		} catch(InvalidFieldException ex) {
-			this.returnUrl = "/GetAppointment?doctorid" + doctorid;
+			this.returnUrl = getFinalUrl("GetAppointment",true)+ "/?doctorid=";
 			return ex.getMessage();
 		} catch (UnsupportedEncodingException e) {
 			this.returnUrl = "/error.jsp";

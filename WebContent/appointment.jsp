@@ -84,7 +84,7 @@
 			
 				<div class="col-md-12">
 				
-					<form action="BookAppointment" method="post">
+					<form action="<%=ActionController.getFinalUrl("BookAppointment") %>" method="post">
 					  <input type="hidden" name="doctorid" value="<%=doctor.getDoctor_id()%>" >
 					  <div class="form-group row">
 						<div class="col-md-2">

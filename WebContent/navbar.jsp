@@ -26,10 +26,10 @@
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="index.jsp">Αρχική</a></li>
-				<li><a href="GotoRegister">Εγγραφή</a></li>					
+				<li><a href="<%=ActionController.getFinalUrl("GotoRegister") %>">Εγγραφή</a></li>					
 				<li><a href="login.jsp">Είσοδος</a></li>
 				<% if(loggedInUser!=null) { %>	
-				<li><a href="GotoRateAppointments">Αξιολόγηση των ραντεβού μου</a></li>
+				<li><a href="<%=ActionController.getFinalUrl("GotoRateAppointments") %>">Αξιολόγηση των ραντεβού μου</a></li>
 				<% } %>					
 			</ul>
 			<% if(loggedInUser!=null) { %>		
@@ -39,7 +39,7 @@
 							<i class="glyphicon glyphicon-user"></i>&nbsp;<%=loggedInUser.getFirst_name() %> <%=loggedInUser.getLast_name() %><span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
-		                  <li><a href="Logout"><i class="glyphicon glyphicon-log-out"></i>&nbsp;Έξοδος</a></li>
+		                  <li><a href="<%=ActionController.getFinalUrl("Logout") %>"><i class="glyphicon glyphicon-log-out"></i>&nbsp;Έξοδος</a></li>
 		                </ul>
 	                </li>
 				</ul>

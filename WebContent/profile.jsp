@@ -154,7 +154,7 @@
 					<div class="col-md-9"></div>
 					<div class="col-md-3">
 						<div class="form-check form-check-inline">
-						  <a href="GetAppointment?doctorid=<%=doctor.getDoctor_id()%>" class="btn btn-warning">Κλείσιμο ραντεβού</a>
+						  <a href="<%=ActionController.getFinalUrl("GetAppointment") %>?doctorid=<%=doctor.getDoctor_id()%>" class="btn btn-warning">Κλείσιμο ραντεβού</a>
 						</div>
 					</div>
 				  </div>

@@ -16,8 +16,8 @@ public class LogoutController extends ActionController {
 		// Redirect to index
 		session.invalidate();
 		
-		return "/Index";	// This is the page where we will be transfered after logout
-
+		//return "/Index";	// This is the page where we will be transfered after logout
+		return getFinalUrl("Index",true);
 	}
 
 	@Override
