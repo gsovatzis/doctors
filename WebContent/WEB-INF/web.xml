@@ -124,13 +124,13 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>RateAppointment</servlet-name>
-		<servlet-class>doctors.controllers.RateAppointmentController</servlet-class>
+		<servlet-name>RateAppointments</servlet-name>
+		<servlet-class>doctors.controllers.RateAppointmentsController</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>RateAppointment</servlet-name>
-		<url-pattern>/RateAppointment</url-pattern>
+		<servlet-name>RateAppointments</servlet-name>
+		<url-pattern>/RateAppointments</url-pattern>
 	</servlet-mapping>
 	
 	<listener>
@@ -140,7 +140,7 @@
 	</listener>
 	
 	<session-config>
-  		<session-timeout>10</session-timeout>
+  		<session-timeout>20</session-timeout>
 	</session-config>
 
 </web-app>

@@ -3,8 +3,11 @@ package doctors.daos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.SmartTransformerFactoryImpl;
 
 import doctors.exceptions.DBManagerException;
 import doctors.framework.DBHandler;
@@ -18,6 +21,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 	protected final String createAppointment = "INSERT INTO Appointments (user_id, doctor_id, appointment_date_time, medical_examination, user_comments, rating) VALUES (?,?,?,?,?,?)";
 	protected final String getAllAppointments = "SELECT * FROM Appointments";
 	protected final String getById = "SELECT appointment_id,user_id,doctor_id,appointment_date_time,medical_examination,user_comments,rating FROM Appointments WHERE appointment_id = ?;";
+	protected final String updateAppointment = "UPDATE Appointments SET user_comments = ?, rating = ? WHERE appointment_id=?";
 	
 	public AppointmentsDAO() throws DBManagerException {
 		super(DBManager.getInstance().getConnection());	// Inject the Connection dependency to the DAO on initialization
@@ -30,7 +34,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 			stmt = conn.prepareStatement(createAppointment);
 			stmt.setInt(1,entity.getUser().getUser_id());
 			stmt.setInt(2, entity.getDoctor().getDoctor_id());
-			stmt.setDate(3, new java.sql.Date(entity.getAppointment_date_time().getTime()));
+			stmt.setTimestamp(3, new java.sql.Timestamp(entity.getAppointment_date_time().getTime()));
 			stmt.setString(4,entity.getMedical_examination());
 			stmt.setString(5, entity.getUser_comments());
 			stmt.setInt(6,entity.getRatings());
@@ -127,7 +131,19 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 	
 	@Override
 	public void Update(Appointment entity) throws SQLException {
-		// TODO Auto-generated method stub
+		PreparedStatement stmt = null;
+		try {
+			stmt = conn.prepareStatement(updateAppointment);
+			stmt.setString(1,entity.getUser_comments());
+			stmt.setInt(2, entity.getRatings());
+			stmt.setInt(3, entity.getAppointment_id());
+			stmt.executeUpdate();
+		}catch(SQLException ex) {
+			throw ex;
+		
+		}finally {
+			stmt.close();
+		}
 		
 	}
 
@@ -177,7 +193,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 		Appointment appointment = new Appointment();
 		try {
 			appointment.setAppointment_id(rst.getInt("Appointment_id"));
-			appointment.setAppointment_date_time(new Date(rst.getDate("appointment_date_time").getTime()));
+			appointment.setAppointment_date_time(new Date(rst.getTimestamp("appointment_date_time").getTime()));
 			appointment.setMedical_examination(rst.getString("medical_examination"));
             
 			// Όταν έχουμε ένα νέο ραντεβού που δεν έχει βαθμολογηθεί ακόμη, τα σχόλια είναι NULL
@@ -186,14 +202,16 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
             
             appointment.setRating(rst.getInt("rating"));
             
+            //Also populate appointment's Doctor object
+	            DoctorsDAO dd = new DoctorsDAO();
+	            appointment.setDoctor(dd.GetById(rst.getInt("doctor_id"),false));
+            
             if(loadForeign == true) {
                    //Also populate appointment's User object 
                    UsersDAO ud = new UsersDAO();
                    appointment.setUser(ud.GetById(rst.getInt("user_id"),false));
                    
-                   //Also populate appointment's Doctor object
-                   DoctorsDAO dd = new DoctorsDAO();
-                   appointment.setDoctor(dd.GetById(rst.getInt("doctor_id"),false));
+                   
             }
             
        }catch(Exception ex) {

@@ -20,12 +20,12 @@ public class SessionCounter implements HttpSessionListener {
 	  if(activeSessions > 0)
 		  activeSessions--;
 	  else {
-		try {
-			DBManager.getInstance().closeConnection();
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
+//		try {
+//			DBManager.getInstance().closeConnection();
+//		} catch (SQLException e) {
+//			
+//			e.printStackTrace();
+//		}
 	  }
   }
 

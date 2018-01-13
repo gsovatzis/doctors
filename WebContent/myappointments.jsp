@@ -56,43 +56,30 @@
 			<!-- Main jumbotron for a primary marketing message or call to action -->
 			<div class="jumbotron row">
 				<div class="col-md-6">
-					<h2>Τα ραντεβού σας είναι τα εξής:</h2>
+					<h2>Το προφίλ σας:</h2>
 					<h4>
-					    <% for (Appointment appointment : u.getAppointments()) { %>
-						<ul>
-						     <li><%=appointment.getDoctor().getUser().getFirst_name()!=null?appointment.getDoctor().getUser().getFirst_name():""%>&nbsp;<%appointment.getDoctor().getUser().getLast_name()!=null?appointment.getDoctor().getUser().getLast_name():"" %></li>
-						     <li><%=appointment.getAppointment_date_time()!=null?appointment.getAppointment_date_time()%>
-						     <li><%=appointment.getMedical_examination()!=null?appointment.getMedical_examination():"" %>
-						<% } %>
-						</ul>
+					    <%=u.getFirst_name() %>&nbsp;<%=u.getLast_name() %>
 					</h4>
 					<hr/>
 					<p>
 						<span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;
-						<%=doctor!=null?doctor.getUser().getAddress():""%>
-					</p>
-					<hr/>
-					<p>
-						
-						<% for(Working_Hour wh : doctor.getWorking_hours()) { %>
-									<span class="glyphicon glyphicon-time"></span>&nbsp;&nbsp;<%=wh.getWorkDayName(wh.getWork_day())%>:&nbsp;<%=wh.getWorkingHour(wh.getFrom_hour()) %>&nbsp;-&nbsp;<%=wh.getWorkingHour(wh.getTo_hour()) %><br/>
-								<% } %>
+						<%=u!=null?u.getAddress():""%>
 					</p>
 					<hr/>
 					<p>
 						<span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp;
-						<%=doctor.getUser().getLand_line()!=null?doctor.getUser().getLand_line():"-" %>
+						<%=u.getLand_line()!=null?u.getLand_line():"-" %>
 					<p>
 						<span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;
-						<%=doctor.getUser().getMobile()!=null?doctor.getUser().getMobile():"-" %>
+						<%=u.getMobile()!=null?u.getMobile():"-" %>
 					</p>
 					<p>
 						<span class="glyphicon glyphicon-print"></span>&nbsp;&nbsp;
-						<%=doctor.getUser().getFax()!=null?doctor.getUser().getFax():"-" %>
+						<%=u.getFax()!=null?u.getFax():"-" %>
 					</p>
 					<p>
 						<span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;
-						<a href="mailto:<%=doctor.getUser().getEmail()!=null?doctor.getUser().getEmail():"" %>"><%=doctor.getUser().getEmail()!=null?doctor.getUser().getEmail():"" %></a>
+						<a href="mailto:<%=u.getEmail()!=null?u.getEmail():"" %>"><%=u.getEmail()!=null?u.getEmail():"" %></a>
 					</p>
 				</div>
 				<div class="col-md-6">
@@ -106,71 +93,89 @@
 
 			<!-- Page Title -->
 			<div class="page-header">
-				<h4></h4>
-					
-				
+				<h4>Αξιολογήστε τα ραντεβού σας...</h4>
 			</div>
+			
+			
 			
 			<div class="row">
 			
 			<% if(u.getAppointments().size()==0) { %>
 				<div class="col-md-12 text-center">
-					Δεν έχετε κλήσει κάποιο ραντεβού
+					Δεν έχετε κλείσει κάποιο ραντεβού
 				
 			<% } else { %>
 				
 					<!-- START COMMENTS -->
 					<div class="row">
+						<div class="col-md-2">
+							<h4>Γιατρός</h4>
+						</div>
+						<div class="col-md-1">
+							<h4>Ημερομηνία ραντεβού</h4>
+						</div>
+						<div class="col-md-2">
+							<h4>Εξέταση που έγινε</h4>
+						</div>
 						<div class="col-md-6">
 							<h4>Σχόλιο</h4>
 						</div>
-						<div class="col-md-3">
-							<h4>Ημερομηνία υποβολής</h4>
+						<div class="col-md-1">
+							<h4>Βαθμός</h4>
 						</div>
-						<div class="col-md-3">
-							<h4>Βαθμολογία</h4>
-						</div>
+						
 					</div>
-					<% for (Appointment appointment : doctor.getAppointments()) { %>
-						<div class="row">
-							<div class="col-md-6">
-								<%=appointment.getUser_comments()!=null?appointment.getUser_comments():"Δεν έγινε σχόλιο για αυτό το ραντεβού..." %>
+					<form action="RateAppointments" method="post">
+						<% for (Appointment appointment : u.getAppointments()) { %>
+							<div class="row form-group">
+								<div class="col-md-2">
+									<%=appointment.getDoctor()!=null?appointment.getDoctor().getUser().getFirst_name() + " " + appointment.getDoctor().getUser().getLast_name():"" %>
+								</div>
+								<div class="col-md-1">
+									<% DateFormat df = new SimpleDateFormat("EEEE, dd/MM/yyyy, HH:mm");
+										String appointmentDate = df.format(appointment.getAppointment_date_time());
+									%>
+									<%=appointmentDate %>
+								</div>
+								<div class="col-md-2">
+									<%=appointment.getMedical_examination()!=null?appointment.getMedical_examination():" - " %>
+								</div>
+								<div class="col-md-6">
+									<input type="text" name="comments_<%=appointment.getAppointment_id()%>" class="form-control"
+										value="<%=appointment.getUser_comments()!=null?appointment.getUser_comments():"" %>"
+										placeholder="Δεν έγινε σχόλιο για αυτό το ραντεβού..."
+									/>
+								</div>
+								<div class="col-md-1">
+									<select class="form-control" name="rating_<%=appointment.getAppointment_id()%>">
+									  <option value="0" <%=appointment.getRatings()==0?"selected":"" %>>Επιλέξτε Βαθμολογία...</option>
+									  <% for(int i=1;i<=5;i++) { %>
+									  	<option <%=appointment.getRatings()==i?"selected":"" %> value="<%=i%>"><%=i%></option>
+									  <% } %>
+									</select>
+								</div>
+								
 							</div>
-							<div class="col-md-3">
-								<% DateFormat df = new SimpleDateFormat("EEEE, dd/MM/yyyy, hh:mm");
-									String appointmentDate = df.format(appointment.getAppointment_date_time());
-								%>
-								<%=appointmentDate %>
-							</div>
-							<div class="col-md-3">
-								<% for(int i=1;i<=appointment.getRatings();i++) { %>
-									<span class="glyphicon glyphicon-star"></span>&nbsp;
-								<% } %>
-							</div>
-						</div>
-					<br/>
-					<% } %>
-					
+						<br/>
+						<% } %>
+						<% if(u.getAppointments().size()>0) { %>
+							<div class="row">
+								<div class="col-md-9"></div>
+								<div class="col-md-3">
+									<div class="form-check form-check-inline">
+									  <button type="submit" class="btn btn-info">Υποβάλλετε τις αξιολογήσεις σας...</a>
+									</div>
+								</div>
+						     </div>
+					     <% } %>
+					</form>
 					<!-- END COMMENTS -->
 			<% } %>
 				
-					
-				
 					<hr/>
-					
-				  <div class="row">
-					<div class="col-md-9"></div>
-					<div class="col-md-3">
-						<div class="form-check form-check-inline">
-						  <a href="GetAppointment?doctorid=<%=doctor.getDoctor_id()%>" class="btn btn-warning">Κλείσιμο ραντεβού</a>
-						</div>
-					</div>
-				  </div>
 				<br/>
 				</div>
-			
 			</div>
-			
 			
 		</div>
 		<!-- /container -->

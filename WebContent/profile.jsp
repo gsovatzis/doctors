@@ -129,7 +129,7 @@
 								<%=appointment.getUser_comments()!=null?appointment.getUser_comments():"Δεν έγινε σχόλιο για αυτό το ραντεβού..." %>
 							</div>
 							<div class="col-md-3">
-								<% DateFormat df = new SimpleDateFormat("EEEE, dd/MM/yyyy, hh:mm");
+								<% DateFormat df = new SimpleDateFormat("EEEE, dd/MM/yyyy, HH:mm");
 									String appointmentDate = df.format(appointment.getAppointment_date_time());
 								%>
 								<%=appointmentDate %>
