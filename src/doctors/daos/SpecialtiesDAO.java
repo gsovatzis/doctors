@@ -33,7 +33,7 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 			
 			throw ex;
 		}finally {
-			stmt.close();
+			if(stmt!=null) stmt.close();
 		}
     }		
 		
@@ -64,7 +64,7 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 			throw ex;
 		}finally {
 			
-			stmt.close();
+			if(stmt!=null) stmt.close();
 		}
 		return specialties;
 	}
@@ -90,8 +90,8 @@ public class SpecialtiesDAO extends DBHandler<Specialty> {
 			throw ex;
 		}finally {
 			
-			rst.close();
-			stmt.close();
+			if(rst!=null) rst.close();
+			if(stmt!=null) stmt.close();
 		}
 		return specialties;
 	}

@@ -76,7 +76,7 @@ public class UsersDAO extends DBHandler<User> {
 		} catch(SQLException ex) {
 			throw ex;
 		} finally {
-			stmt.close();
+			if(stmt!=null) stmt.close();
 		}
 	}
 
@@ -96,8 +96,8 @@ public class UsersDAO extends DBHandler<User> {
 		}catch(SQLException ex) {
 			throw ex;
 		}finally {
-			r.close();
-			stmt.close();
+			if(r!=null) r.close();
+			if(stmt!=null) stmt.close();
 		}
 		
 		return users;
@@ -147,8 +147,8 @@ public class UsersDAO extends DBHandler<User> {
 			throw ex;
 		} finally {
 			// Close query and result set
-			findUserStmt.close();
-			rst.close();
+			if(findUserStmt!=null) findUserStmt.close();
+			if(rst!=null) rst.close();
 		}
 
 		return user;

@@ -43,7 +43,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 			throw ex;
 		
 		}finally {
-			stmt.close();
+			if(stmt!=null) stmt.close();
 		}
 		
 	}
@@ -69,8 +69,8 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 			throw ex;
 		
 		}finally {
-			rst.close();
-			stmt.close();
+			if(rst!=null) rst.close();
+			if(stmt!=null) stmt.close();
 		}
 		
 		return appointments;
@@ -94,8 +94,8 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 			
 			throw ex;
 		}finally {
-			rst.close();
-			smt.close();
+			if(rst!=null) rst.close();
+			if(smt!=null) smt.close();
 		}
 		return Appointments;
 	}
@@ -121,8 +121,8 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 			throw ex;
 	    }
 		finally {
-			rst.close();
-			smt.close();
+			if(rst!=null) rst.close();
+			if(smt!=null) smt.close();
 		
 		}
 		return Appointments;
@@ -142,7 +142,7 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 			throw ex;
 		
 		}finally {
-			stmt.close();
+			if(stmt!=null) stmt.close();
 		}
 		
 	}
@@ -181,8 +181,8 @@ public class AppointmentsDAO extends DBHandler<Appointment> {
 	   }
 	    finally {
 	    	
-	    	rst.close();
-	    	stmt.close();
+	    	if(rst!=null) rst.close();
+	    	if(stmt!=null) stmt.close();
 	    }
 		
 		return appointment;

@@ -86,8 +86,8 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 		 } catch(SQLException ex) {
 			 throw ex;
 		 } finally {
-			 rst.close();
-			 stmt.close();
+			 if(rst!=null) rst.close();
+			 if(stmt!=null) stmt.close();
 		 }
 		 
 		 
@@ -129,8 +129,8 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 		 } catch(SQLException ex) {
 			 throw ex;
 		 } finally {
-			 rst.close();
-			 stmt.close();
+			 if(rst!=null) rst.close();
+			 if(stmt!=null) stmt.close();
 		 }
 		 
 		 return 0;
@@ -152,8 +152,8 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 		}catch(SQLException ex) {
 			throw ex;
 		}finally {
-			rst.close();
-			stmt.close();
+			if(rst!=null) rst.close();
+			if(stmt!=null) stmt.close();
 		}
 		
 		return doctors;
@@ -243,8 +243,8 @@ public class DoctorsDAO extends DBHandler<Doctor>  {
 			
 			throw  ex;
 		}finally {
-			rst.close();
-			stmt.close();
+			if(rst!=null) rst.close();
+			if(stmt!=null) stmt.close();
 		}
 		return doctor;
 	}

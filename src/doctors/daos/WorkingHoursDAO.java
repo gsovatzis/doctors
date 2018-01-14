@@ -36,7 +36,7 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 			throw ex;
 		}finally {
 			
-			stmt.close();
+			if(stmt!=null) stmt.close();
 		}
 		
 	}
@@ -63,8 +63,8 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 			
 			throw ex;
 		}finally {
-			rst.close();
-			stmt.close();
+			if(rst!=null) rst.close();
+			if(stmt!=null) stmt.close();
 			
 		}
 				
@@ -93,8 +93,8 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 		   
 	   }finally {
 		   
-		   rst.close();
-		   stmt.close();
+		   if(rst!=null) rst.close();
+		   if(stmt!=null) stmt.close();
 	   }
 		return working_hours;
 	}
@@ -134,8 +134,8 @@ public class WorkingHoursDAO extends DBHandler<Working_Hour> {
 			
 			throw ex;
 		}finally {
-			rst.close();
-			stmt.close();
+			if(rst!=null) rst.close();
+			if(stmt!=null) stmt.close();
 		}
 		
 		return working_hour;
