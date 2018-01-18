@@ -24,7 +24,8 @@ public class GotoRateAppointmentsController extends ActionController implements 
 			u = ud.GetById(u.getUser_id());
 			this.model.put(ENTITY_HASHMAP_KEY, u);
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			this.ex=e;
 			return "/error.jsp";
 		}
 		

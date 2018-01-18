@@ -7,7 +7,7 @@
 	<welcome-file-list>
 		<welcome-file>Index</welcome-file>
 	</welcome-file-list>
-
+	<!-- 
 	<context-param>
 		<param-name>dburl</param-name>
 		<param-value>jdbc:mysql://localhost:3306/doctors?useUnicode=yes&amp;characterEncoding=UTF-8</param-value>
@@ -22,7 +22,23 @@
 		<param-name>dbpass</param-name>
 		<param-value>jim</param-value>
 	</context-param>
-	
+	 -->
+	 
+	<context-param>
+		<param-name>dburl</param-name>
+		<param-value>jdbc:mysql://195.251.249.131:3306/ismgroup74?useUnicode=yes&amp;characterEncoding=UTF-8</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>dbuser</param-name>
+		<param-value>ismgroup74</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>dbpass</param-name>
+		<param-value>0fz42d</param-value>
+	</context-param>
+	 
 	<context-param>
 		<param-name>servlet</param-name>
 		<param-value>false</param-value>

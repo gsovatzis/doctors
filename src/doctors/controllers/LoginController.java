@@ -60,6 +60,7 @@ public class LoginController extends ActionController implements IValidatable {
 			this.model.put(ActionController.ENTITY_HASHMAP_KEY, entity);
 			
 		} catch(Exception ex) {
+			this.ex=ex;
 			return ex.getMessage();
 		}
 		

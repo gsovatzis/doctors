@@ -27,11 +27,10 @@ public class GotoRegisterController extends ActionController {
 			// Put the cities arraylist to the model hashmap that will be forwarded with the request
 			this.model.put(ActionController.CITIES_ARRAY_LIST, cities);
 			
-		} catch (DBManagerException e) {
+		} catch (Exception e) {
+			this.ex=e;
 			return "/error.jsp";
-		} catch (SQLException e) {
-			return "/error.jsp";
-		}
+		} 
 		
 		return "/register.jsp";
 	}

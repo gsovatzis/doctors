@@ -34,13 +34,10 @@ public class GetAppointmentController extends ActionController implements IValid
 			
 			this.model.put(ActionController.ENTITY_HASHMAP_KEY, doctor);
 			
-		} catch (DBManagerException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
+			this.ex=e;
 			return "/error.jsp";
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			return "/error.jsp";
-		}
+		} 
 
 		return "/appointment.jsp";
 	}
@@ -54,7 +51,7 @@ public class GetAppointmentController extends ActionController implements IValid
 		try {
 			doctorId = getIntField("doctorid");
 		} catch (InvalidFieldException e) {
-			// TODO Auto-generated catch block
+			this.ex=e;
 			return e.getMessage();
 		}
 		

@@ -33,9 +33,8 @@ public class IndexController extends ActionController {
 			this.model.put(ActionController.CITIES_ARRAY_LIST, cities);
 			this.model.put(ActionController.SPECIALTIES_ARRAY_LIST, specialties);
 			
-		} catch (DBManagerException e) {
-			return "/error.jsp";
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			this.ex=e;
 			return "/error.jsp";
 		}
 		

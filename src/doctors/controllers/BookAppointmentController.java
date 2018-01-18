@@ -31,9 +31,8 @@ public class BookAppointmentController extends ActionController implements IVali
 		try {
 			AppointmentsDAO ad = new AppointmentsDAO();
 			ad.Create(newAppointment);
-		} catch (DBManagerException e) {
-			return "/error.jsp";
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			this.ex = e;
 			return "/error.jsp";
 		}
 				
@@ -57,7 +56,9 @@ public class BookAppointmentController extends ActionController implements IVali
 		try {
 			doctorid=getIntField("doctorid");
 		} catch(InvalidFieldException ex) {
+			this.ex=ex;
 			this.returnUrl = "/error.jsp";
+			return ex.getMessage();
 		}
 		
 		try {
@@ -89,9 +90,11 @@ public class BookAppointmentController extends ActionController implements IVali
 			this.returnUrl = getFinalUrl("GetAppointment",true)+ "/?doctorid=";
 			return ex.getMessage();
 		} catch (UnsupportedEncodingException e) {
+			this.ex = e;
 			this.returnUrl = "/error.jsp";
 			return e.getMessage();
 		} catch (ServletException e) {
+			this.ex = e;
 			this.returnUrl = "/error.jsp";
 			return e.getMessage();
 		}

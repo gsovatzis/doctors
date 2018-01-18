@@ -1,6 +1,13 @@
+<%@page import="doctors.framework.ActionController"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page isErrorPage="true" %>
+
+<% 
+	Exception ex=null;
+	if(request.getAttribute(ActionController.EXCEPTION)!=null)
+		ex = (Exception)request.getAttribute(ActionController.EXCEPTION);
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +53,15 @@
 			</div>
 			
 					
-			<div class="alert alert-danger text-center" role="alert"><%=exception%></div>
+			<div class="alert alert-danger text-center" role="alert">
+				<% if(ex!=null) { 
+					ex.printStackTrace(new java.io.PrintWriter(out));
+				} else {
+					out.print("To σφάλμα είναι κενό (null)");
+				}
+				 %>
+			
+			</div>
 			
 			  
 

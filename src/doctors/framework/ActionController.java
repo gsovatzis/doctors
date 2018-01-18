@@ -26,6 +26,8 @@ public abstract class ActionController extends HttpServlet {
 	public static final String MODEL_REQUEST_KEY = "model";
 	public static final String MESSAGE_REQUEST_KEY = "message";
 	
+	public static final String EXCEPTION = "exception";
+	
 	// Entities to be transferred with the request (inside the model hashmap -> those are the hashmap keys)
 	public static final String ENTITY_HASHMAP_KEY = "entity";
 	public static final String CITIES_ARRAY_LIST = "cities";
@@ -40,6 +42,7 @@ public abstract class ActionController extends HttpServlet {
 	
 	protected String returnUrl="";
 	protected String message="";	// The action message to be returned to the page (it can be an error, or info message)
+	protected Exception ex = null;	// The exception to be transferred to error.jsp
 	protected HashMap<String, Object> model = new HashMap<String, Object>();
 	
 	protected HttpServletRequest req;
@@ -95,7 +98,13 @@ public abstract class ActionController extends HttpServlet {
 		
 		reloadRequestValues();	// If we come from a previous action, chain the message and model
 		
-		connectDb();	// Connect to the database -> TODO: If error on connection, redirect to error Page
+		// Connect to the database
+		String connResult = connectDb();
+		/* if(!connResult.isEmpty()) {
+			// In case of DB connection error, show error jsp page
+			showPage("/error.jsp", connResult, null);
+			return;
+		} */
 		
 		if(this instanceof IAuthorizable) {
 			if(!authorized()) {	// Check if user is authorized (logged-in)
@@ -117,6 +126,7 @@ public abstract class ActionController extends HttpServlet {
 			}
 		} else {
 			showPage(execute(), message, model);	 // If no validation is required, just execute the specified action
+			
 		}
 		
 				
@@ -180,6 +190,7 @@ public abstract class ActionController extends HttpServlet {
 		// This method forwards the request to the specified page, including message and model!
 		req.setAttribute(MESSAGE_REQUEST_KEY, message);
 		req.setAttribute(MODEL_REQUEST_KEY, model);
+		req.setAttribute(EXCEPTION, this.ex);
 		
 		this.message = null;	// Clean message on current controller
 		

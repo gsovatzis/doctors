@@ -31,7 +31,7 @@ public class RateAppointmentsController extends ActionController implements IVal
 			}
 			
 		} catch(Exception ex) {
-			this.message = ex.getMessage();
+			this.ex=ex;
 			return "/error.jsp";
 		}
 		
@@ -54,6 +54,7 @@ public class RateAppointmentsController extends ActionController implements IVal
 			}
 			
 		} catch (Exception e) {
+			this.ex=e;
 			this.returnUrl = "/error.jsp";
 			return e.getMessage();
 		}

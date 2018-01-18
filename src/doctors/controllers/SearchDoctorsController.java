@@ -41,9 +41,8 @@ public class SearchDoctorsController extends ActionController {
 		try {
 			DoctorsDAO dd = new DoctorsDAO();
 			searchResults = dd.SearchDoctors(doctorname,specialty,city,rating);
-		} catch (SQLException e) {
-			return "/error.jsp";
-		} catch (DBManagerException e) {
+		} catch (Exception e) {
+			this.ex=e;
 			return "/error.jsp";
 		}
 		

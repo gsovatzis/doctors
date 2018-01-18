@@ -22,7 +22,7 @@ public class RegisterController extends ActionController implements IValidatable
 		try {
 			UsersDAO ud = new UsersDAO();
 			ud.Create(userToBeRegistered);
-		} catch (SQLException ex) {
+		} catch (Exception ex) {
 			// If any exception, show register.jsp including the error
 			this.message = ex.getMessage();
 			return "/GotoRegister";

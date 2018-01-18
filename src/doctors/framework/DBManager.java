@@ -10,6 +10,10 @@ public class DBManager {
 	
 	private Connection conn = null;
 
+	private DBManager() {
+		// Cannot directly instansiate this class
+	}
+	
 	// SINGLETON PATTERN
 	public static DBManager getInstance() {
 		if (instance==null) {
