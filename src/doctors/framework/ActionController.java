@@ -50,24 +50,21 @@ public abstract class ActionController extends HttpServlet {
 	protected HttpSession session;
 	protected ServletContext application;
 	
-	protected String connectDb() {
+	protected void connectDb() throws SQLException {
+		
+		// Get connection configuration from web.xml
+		String dbURL = application.getInitParameter("dburl");
+		String dbUser = application.getInitParameter("dbuser");
+		String dbPass = application.getInitParameter("dbpass");
 		
 		if(DBManager.getInstance().getConnection()==null) {
-			try {
-				
-				// Get connection configuration from web.xml
-				String dbURL = application.getInitParameter("dburl");
-				String dbUser = application.getInitParameter("dbuser");
-				String dbPass = application.getInitParameter("dbpass");
-				
+			DBManager.getInstance().openConnection(dbURL, dbUser, dbPass);
+		} else {
+			if(DBManager.getInstance().getConnection().isClosed()) {
 				DBManager.getInstance().openConnection(dbURL, dbUser, dbPass);
-				return "";
-			} catch (SQLException ex) {
-				return ex.getMessage();
 			}
 		}
 		
-		return "";
 	}
 	
 		
@@ -99,12 +96,13 @@ public abstract class ActionController extends HttpServlet {
 		reloadRequestValues();	// If we come from a previous action, chain the message and model
 		
 		// Connect to the database
-		String connResult = connectDb();
-		/* if(!connResult.isEmpty()) {
-			// In case of DB connection error, show error jsp page
-			showPage("/error.jsp", connResult, null);
-			return;
-		} */
+		try {
+			connectDb();
+		} catch (SQLException e) {
+			this.ex=e;
+			showPage("/error.jsp", e.getMessage(), null);
+		}
+		
 		
 		if(this instanceof IAuthorizable) {
 			if(!authorized()) {	// Check if user is authorized (logged-in)
